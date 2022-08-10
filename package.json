@@ -1,6 +1,7 @@
 {
   "name": "zkgaming-toolkit",
   "packageManager": "yarn@3.2.2",
+  "type": "module",
   "author": "Kryha",
   "description": "Toolkit for game development on the Aleo platform",
   "version": "0.0.1",
