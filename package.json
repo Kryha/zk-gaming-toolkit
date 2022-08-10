@@ -1,0 +1,12 @@
+{
+  "name": "zkgaming-toolkit",
+  "packageManager": "yarn@3.2.2",
+  "author": "Kryha",
+  "description": "Toolkit for game development on the Aleo platform",
+  "version": "0.0.1",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://Kryha-io@dev.azure.com/Kryha-io/Aleo/_git/zkgaming-toolkit"
+  }
+}
