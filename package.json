@@ -1,0 +1,24 @@
+{
+  "name": "zkgaming-toolkit",
+  "packageManager": "yarn@3.2.2",
+  "author": "Kryha",
+  "description": "Toolkit for game development on the Aleo platform",
+  "version": "0.0.1",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://Kryha-io@dev.azure.com/Kryha-io/Aleo/_git/zkgaming-toolkit"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "yarn build && node build/tests/index.js"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/parser": "^5.33.0",
+    "eslint": "^8.21.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "typescript": "^4.7.4"
+  }
+}
