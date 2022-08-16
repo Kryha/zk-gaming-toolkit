@@ -13,8 +13,7 @@
     "module": "CommonJS",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
     "outDir": "build"
   },
-  "include": ["src", "tests"]
+  "include": ["src"]
 }
