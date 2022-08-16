@@ -5,11 +5,16 @@
   "description": "Toolkit for game development on the Aleo platform",
   "version": "0.0.1",
   "license": "UNLICENSED",
+  "files": [
+    "build"
+  ],
+  "main": "build/src/index.js",
   "repository": {
     "type": "git",
     "url": "https://Kryha-io@dev.azure.com/Kryha-io/Aleo/_git/zkgaming-toolkit"
   },
   "scripts": {
+    "clean": "rm -rf build/",
     "build": "tsc",
     "test": "yarn build && node build/tests/index.js"
   },
