@@ -1,4 +1,4 @@
-// The program input for contracts/src/main.leo
+// The program input for powerups/src/main.leo
 [main]
 a: u32 = 1;
 b: u32 = 2;

@@ -16,8 +16,7 @@
   "scripts": {
     "clean": "rm -rf build/",
     "build": "tsc",
-    "test": "jest",
-    "jest-init": "jest --init"
+    "test": "jest"
   },
   "devDependencies": {
     "@types/jest": "^28.1.7",

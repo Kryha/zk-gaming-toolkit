@@ -1,5 +1,1 @@
-export const lib = {
-  foo: () => {
-    return "foo";
-  },
-};
+export * from "./library";

@@ -1,7 +1,7 @@
 [project]
-name = "contracts"
+name = "powerups"
 version = "0.1.0"
-description = "The contracts package"
+description = "The powerups package"
 license = "MIT"
 
 [remote]

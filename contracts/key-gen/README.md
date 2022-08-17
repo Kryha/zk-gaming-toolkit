@@ -1,4 +1,4 @@
-# contracts
+# key-gen
 
 ## Build Guide
 
