@@ -1,4 +1,4 @@
-// The program state for contracts/src/main.leo
+// The program state for dice/src/main.leo
 [[public]]
 
 [state]
