@@ -71,11 +71,13 @@ export const leoCli = {
   dice: {
     run: () => run("dice"),
     write: (a: number, b: number) => write("dice", generateDefaultInputs(a, b), defaultRegister),
+
     readOutput: async () => {
       const outputs = await readOutput("dice");
       if (!outputs.length) throw new Error("No outputs found.");
       return Number(outputs[0]);
     },
+
     execute: async (a: number, b: number) => {
       await leoCli.dice.write(a, b);
       await leoCli.dice.run();
@@ -85,57 +87,65 @@ export const leoCli = {
   keyGen: {
     run: () => run("key-gen"),
     write: (a: number, b: number) => write("key-gen", generateDefaultInputs(a, b), defaultRegister),
+
     readOutput: async () => {
       const outputs = await readOutput("key-gen");
       if (!outputs.length) throw new Error("No outputs found.");
       return Number(outputs[0]);
     },
+
     execute: async (a: number, b: number) => {
-      await leoCli.dice.write(a, b);
-      await leoCli.dice.run();
-      return leoCli.dice.readOutput();
+      await leoCli.keyGen.write(a, b);
+      await leoCli.keyGen.run();
+      return leoCli.keyGen.readOutput();
     },
   },
   powerups: {
     run: () => run("powerups"),
     write: (a: number, b: number) => write("powerups", generateDefaultInputs(a, b), defaultRegister),
+
     readOutput: async () => {
       const outputs = await readOutput("powerups");
       if (!outputs.length) throw new Error("No outputs found.");
       return Number(outputs[0]);
     },
+
     execute: async (a: number, b: number) => {
-      await leoCli.dice.write(a, b);
-      await leoCli.dice.run();
-      return leoCli.dice.readOutput();
+      await leoCli.powerups.write(a, b);
+      await leoCli.powerups.run();
+      return leoCli.powerups.readOutput();
     },
   },
   proofGen: {
     run: () => run("proof-gen"),
     write: (a: number, b: number) => write("proof-gen", generateDefaultInputs(a, b), defaultRegister),
+
     readOutput: async () => {
       const outputs = await readOutput("proof-gen");
       if (!outputs.length) throw new Error("No outputs found.");
       return Number(outputs[0]);
     },
+
     execute: async (a: number, b: number) => {
-      await leoCli.dice.write(a, b);
-      await leoCli.dice.run();
-      return leoCli.dice.readOutput();
+      await leoCli.proofGen.write(a, b);
+      await leoCli.proofGen.run();
+      return leoCli.proofGen.readOutput();
     },
   },
   random: {
     run: () => run("random"),
     write: (a: number, b: number) => write("random", generateDefaultInputs(a, b), defaultRegister),
+
     readOutput: async () => {
       const outputs = await readOutput("random");
       if (!outputs.length) throw new Error("No outputs found.");
       return Number(outputs[0]);
     },
+
     execute: async (a: number, b: number) => {
-      await leoCli.dice.write(a, b);
-      await leoCli.dice.run();
-      return leoCli.dice.readOutput();
+      await leoCli.random.write(a, b);
+      await leoCli.random.run();
+      return leoCli.random.readOutput();
     },
   },
 };
