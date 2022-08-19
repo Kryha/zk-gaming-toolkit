@@ -67,7 +67,7 @@ const generateDefaultInputs = (a: number, b: number) => [
 const defaultRegister = [{ type: "u32", value: "0" }];
 
 // TODO: redefine "write" functions after contracts real implementation
-export const leoCli = {
+export const leoExec = {
   dice: {
     run: () => run("dice"),
     write: (a: number, b: number) => write("dice", generateDefaultInputs(a, b), defaultRegister),
@@ -79,9 +79,9 @@ export const leoCli = {
     },
 
     execute: async (a: number, b: number) => {
-      await leoCli.dice.write(a, b);
-      await leoCli.dice.run();
-      return leoCli.dice.readOutput();
+      await leoExec.dice.write(a, b);
+      await leoExec.dice.run();
+      return leoExec.dice.readOutput();
     },
   },
   keyGen: {
@@ -95,9 +95,9 @@ export const leoCli = {
     },
 
     execute: async (a: number, b: number) => {
-      await leoCli.keyGen.write(a, b);
-      await leoCli.keyGen.run();
-      return leoCli.keyGen.readOutput();
+      await leoExec.keyGen.write(a, b);
+      await leoExec.keyGen.run();
+      return leoExec.keyGen.readOutput();
     },
   },
   powerups: {
@@ -111,9 +111,9 @@ export const leoCli = {
     },
 
     execute: async (a: number, b: number) => {
-      await leoCli.powerups.write(a, b);
-      await leoCli.powerups.run();
-      return leoCli.powerups.readOutput();
+      await leoExec.powerups.write(a, b);
+      await leoExec.powerups.run();
+      return leoExec.powerups.readOutput();
     },
   },
   proofGen: {
@@ -127,9 +127,9 @@ export const leoCli = {
     },
 
     execute: async (a: number, b: number) => {
-      await leoCli.proofGen.write(a, b);
-      await leoCli.proofGen.run();
-      return leoCli.proofGen.readOutput();
+      await leoExec.proofGen.write(a, b);
+      await leoExec.proofGen.run();
+      return leoExec.proofGen.readOutput();
     },
   },
   random: {
@@ -143,9 +143,9 @@ export const leoCli = {
     },
 
     execute: async (a: number, b: number) => {
-      await leoCli.random.write(a, b);
-      await leoCli.random.run();
-      return leoCli.random.readOutput();
+      await leoExec.random.write(a, b);
+      await leoExec.random.run();
+      return leoExec.random.readOutput();
     },
   },
 };
