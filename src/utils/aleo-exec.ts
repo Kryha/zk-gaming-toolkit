@@ -34,24 +34,29 @@ const parseU32 = (value: string) => {
 const createAccount = async () => {
   const { stdout } = await execute(`cd ${contractPath} && aleo account new`);
 
-  const PRIVATE_KEY = "Private Key";
-  const VIEW_KEY = "View Key";
+  const PRIVATE_KEY = "Private";
+  const VIEW_KEY = "View";
   const ADDRESS = "Address";
 
   const parsed = stdout.split("\n").reduce(
     (accountInfo, line) => {
       const trimmedLine = line.trim();
-      if (trimmedLine.startsWith(PRIVATE_KEY)) {
-        const [, , , privateKey] = trimmedLine.split(" ");
-        return { ...accountInfo, privateKey };
-      } else if (trimmedLine.startsWith(VIEW_KEY)) {
-        const [, , , viewKey] = trimmedLine.split(" ");
-        return { ...accountInfo, viewKey };
-      } else if (trimmedLine.startsWith(ADDRESS)) {
-        const [, , address] = trimmedLine.split(" ");
-        return { ...accountInfo, address };
-      } else {
-        return accountInfo;
+
+      const lineArr = trimmedLine.split(" ");
+
+      switch (lineArr[0]) {
+        case PRIVATE_KEY: {
+          return { ...accountInfo, privateKey: lineArr[3] };
+        }
+        case VIEW_KEY: {
+          return { ...accountInfo, viewKey: lineArr[3] };
+        }
+        case ADDRESS: {
+          return { ...accountInfo, address: lineArr[2] };
+        }
+        default: {
+          return accountInfo;
+        }
       }
     },
     { privateKey: "", viewKey: "", address: "" }
