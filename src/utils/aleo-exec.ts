@@ -31,44 +31,44 @@ const parseU32 = (value: string) => {
   return Number(parsed);
 };
 
+const throwDice = async (a: number, b: number) => {
+  const { stdout } = await execute(`cd ${contractPath} && aleo run throwDice ${a}u32 ${b}u32`);
+  const [output] = parseOutput(stdout);
+  const parsed = parseU32(output);
+  return parsed;
+};
+
+const generateKey = async (a: number, b: number) => {
+  const { stdout } = await execute(`cd ${contractPath} && aleo run generateKey ${a}u32 ${b}u32`);
+  const [output] = parseOutput(stdout);
+  const parsed = parseU32(output);
+  return parsed;
+};
+
+const generateProof = async (a: number, b: number) => {
+  const { stdout } = await execute(`cd ${contractPath} && aleo run generateProof ${a}u32 ${b}u32`);
+  const [output] = parseOutput(stdout);
+  const parsed = parseU32(output);
+  return parsed;
+};
+
+const random = async (a: number, b: number) => {
+  const { stdout } = await execute(`cd ${contractPath} && aleo run random ${a}u32 ${b}u32`);
+  const [output] = parseOutput(stdout);
+  const parsed = parseU32(output);
+  return parsed;
+};
+
+const powerup = async (a: number, b: number) => {
+  const { stdout } = await execute(`cd ${contractPath} && aleo run powerup ${a}u32 ${b}u32`);
+  const [output] = parseOutput(stdout);
+  const parsed = parseU32(output);
+  return parsed;
+};
+
 export const aleoExec = {
   build: () => execute(`cd ${contractPath} && aleo build`),
 
   // TODO: redefine functions after contracts real implementation
-  call: {
-    throwDice: async (a: number, b: number) => {
-      const { stdout } = await execute(`cd ${contractPath} && aleo run throwDice ${a}u32 ${b}u32`);
-      const [output] = parseOutput(stdout);
-      const parsed = parseU32(output);
-      return parsed;
-    },
-
-    generateKey: async (a: number, b: number) => {
-      const { stdout } = await execute(`cd ${contractPath} && aleo run generateKey ${a}u32 ${b}u32`);
-      const [output] = parseOutput(stdout);
-      const parsed = parseU32(output);
-      return parsed;
-    },
-
-    generateProof: async (a: number, b: number) => {
-      const { stdout } = await execute(`cd ${contractPath} && aleo run generateProof ${a}u32 ${b}u32`);
-      const [output] = parseOutput(stdout);
-      const parsed = parseU32(output);
-      return parsed;
-    },
-
-    random: async (a: number, b: number) => {
-      const { stdout } = await execute(`cd ${contractPath} && aleo run random ${a}u32 ${b}u32`);
-      const [output] = parseOutput(stdout);
-      const parsed = parseU32(output);
-      return parsed;
-    },
-
-    powerup: async (a: number, b: number) => {
-      const { stdout } = await execute(`cd ${contractPath} && aleo run powerup ${a}u32 ${b}u32`);
-      const [output] = parseOutput(stdout);
-      const parsed = parseU32(output);
-      return parsed;
-    },
-  },
+  call: { throwDice, generateKey, generateProof, random, powerup },
 };
