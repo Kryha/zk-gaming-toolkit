@@ -31,6 +31,35 @@ const parseU32 = (value: string) => {
   return Number(parsed);
 };
 
+const createAccount = async () => {
+  const { stdout } = await execute(`cd ${contractPath} && aleo account new`);
+
+  const PRIVATE_KEY = "Private Key";
+  const VIEW_KEY = "View Key";
+  const ADDRESS = "Address";
+
+  const parsed = stdout.split("\n").reduce(
+    (accountInfo, line) => {
+      const trimmedLine = line.trim();
+      if (trimmedLine.startsWith(PRIVATE_KEY)) {
+        const [, , , privateKey] = trimmedLine.split(" ");
+        return { ...accountInfo, privateKey };
+      } else if (trimmedLine.startsWith(VIEW_KEY)) {
+        const [, , , viewKey] = trimmedLine.split(" ");
+        return { ...accountInfo, viewKey };
+      } else if (trimmedLine.startsWith(ADDRESS)) {
+        const [, , address] = trimmedLine.split(" ");
+        return { ...accountInfo, address };
+      } else {
+        return accountInfo;
+      }
+    },
+    { privateKey: "", viewKey: "", address: "" }
+  );
+
+  return parsed;
+};
+
 const throwDice = async (a: number, b: number) => {
   const { stdout } = await execute(`cd ${contractPath} && aleo run throwDice ${a}u32 ${b}u32`);
   const [output] = parseOutput(stdout);
@@ -68,6 +97,7 @@ const powerup = async (a: number, b: number) => {
 
 export const aleoExec = {
   build: () => execute(`cd ${contractPath} && aleo build`),
+  createAccount,
 
   // TODO: redefine functions after contracts real implementation
   call: { throwDice, generateKey, generateProof, random, powerup },
