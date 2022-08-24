@@ -16,6 +16,10 @@ test("Account creation", async () => {
   expect(res.privateKey).toMatch(new RegExp(`^${PRIVATE_KEY}?`));
   expect(res.viewKey).toMatch(new RegExp(`^${VIEW_KEY}?`));
   expect(res.address).toMatch(new RegExp(`^${ADDRESS}?`));
+
+  expect(res.privateKey).toHaveLength(59);
+  expect(res.viewKey).toHaveLength(53);
+  expect(res.address).toHaveLength(63);
 });
 
 test("Dice throw", async () => {
