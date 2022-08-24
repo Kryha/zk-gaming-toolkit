@@ -16,6 +16,7 @@
   "scripts": {
     "clean": "rm -rf build/",
     "build": "yarn clean && tsc",
+    "start": "node build/src/index.js",
     "test": "jest"
   },
   "devDependencies": {
