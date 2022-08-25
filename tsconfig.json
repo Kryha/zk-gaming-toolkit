@@ -13,7 +13,9 @@
     "module": "CommonJS",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
-    "outDir": "build"
+    "outDir": "build",
+    "declaration": true,
+    "inlineSourceMap": true
   },
   "include": ["src"]
 }

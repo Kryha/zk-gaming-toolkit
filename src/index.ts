@@ -1,3 +1,5 @@
+import "source-map-support/register";
+
 import { aleoExec } from "./utils";
 
 const init = async () => {
