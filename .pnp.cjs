@@ -36,6 +36,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/cookie-parser", "npm:1.4.3"],\
             ["@types/cors", "npm:2.8.12"],\
             ["@types/express", "npm:4.17.13"],\
+            ["@types/express-serve-static-core", "npm:4.17.30"],\
             ["@types/jest", "npm:28.1.7"],\
             ["@types/morgan", "npm:1.9.3"],\
             ["@types/node", "npm:18.7.6"],\
@@ -48,6 +49,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-config-prettier", "virtual:6c3b36071652785c5a532dec39806508f26e71dc457812cbb146bf2c9636d66c52bf2a5b49c105137df6a9905328fa112b9231045ce4a9e53aef89af25eb0896#npm:8.5.0"],\
             ["eslint-plugin-import", "virtual:6c3b36071652785c5a532dec39806508f26e71dc457812cbb146bf2c9636d66c52bf2a5b49c105137df6a9905328fa112b9231045ce4a9e53aef89af25eb0896#npm:2.26.0"],\
             ["express", "npm:4.18.1"],\
+            ["express-async-handler", "npm:1.2.0"],\
             ["helmet", "npm:5.1.1"],\
             ["jest", "virtual:6c3b36071652785c5a532dec39806508f26e71dc457812cbb146bf2c9636d66c52bf2a5b49c105137df6a9905328fa112b9231045ce4a9e53aef89af25eb0896#npm:28.1.3"],\
             ["morgan", "npm:1.10.0"],\
@@ -3503,6 +3505,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["type-is", "npm:1.6.18"],\
             ["utils-merge", "npm:1.0.1"],\
             ["vary", "npm:1.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["express-async-handler", [\
+        ["npm:1.2.0", {\
+          "packageLocation": "./.yarn/cache/express-async-handler-npm-1.2.0-475fa8a2fc-ab9ebba8b8.zip/node_modules/express-async-handler/",\
+          "packageDependencies": [\
+            ["express-async-handler", "npm:1.2.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -7252,6 +7263,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/cookie-parser", "npm:1.4.3"],\
             ["@types/cors", "npm:2.8.12"],\
             ["@types/express", "npm:4.17.13"],\
+            ["@types/express-serve-static-core", "npm:4.17.30"],\
             ["@types/jest", "npm:28.1.7"],\
             ["@types/morgan", "npm:1.9.3"],\
             ["@types/node", "npm:18.7.6"],\
@@ -7264,6 +7276,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-config-prettier", "virtual:6c3b36071652785c5a532dec39806508f26e71dc457812cbb146bf2c9636d66c52bf2a5b49c105137df6a9905328fa112b9231045ce4a9e53aef89af25eb0896#npm:8.5.0"],\
             ["eslint-plugin-import", "virtual:6c3b36071652785c5a532dec39806508f26e71dc457812cbb146bf2c9636d66c52bf2a5b49c105137df6a9905328fa112b9231045ce4a9e53aef89af25eb0896#npm:2.26.0"],\
             ["express", "npm:4.18.1"],\
+            ["express-async-handler", "npm:1.2.0"],\
             ["helmet", "npm:5.1.1"],\
             ["jest", "virtual:6c3b36071652785c5a532dec39806508f26e71dc457812cbb146bf2c9636d66c52bf2a5b49c105137df6a9905328fa112b9231045ce4a9e53aef89af25eb0896#npm:28.1.3"],\
             ["morgan", "npm:1.10.0"],\

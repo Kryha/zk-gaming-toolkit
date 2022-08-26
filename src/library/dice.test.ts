@@ -1,5 +1,5 @@
 import { dice } from "./dice";
 
-test("Dice foo", () => {
-  expect(dice.foo()).toBe("dice");
+test("Dice foo", async () => {
+  expect(await dice.roll()).toBe("dice");
 });

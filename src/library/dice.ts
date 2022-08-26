@@ -1,5 +1,6 @@
 export const dice = {
-  foo: () => {
+  // TODO: implement function
+  roll: async () => {
     return "dice";
   },
 };

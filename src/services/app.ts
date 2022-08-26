@@ -5,8 +5,8 @@ import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
 
-import { PORT, CORS_ORIGINS } from "../constants";
-import { router } from "../routes";
+import { PORT, CORS_ORIGINS, NODE_ENV } from "../constants";
+import { router } from "../api";
 import { logger } from "../utils";
 
 export const app = express();
@@ -62,7 +62,7 @@ export const initExpressApp = () => {
       origin: function (origin, callback) {
         // allow requests with no origin
         // (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
+        if (!origin || NODE_ENV === "development") return callback(null, true);
         return callback(null, CORS_ORIGINS);
       },
       credentials: true,

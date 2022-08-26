@@ -23,7 +23,7 @@ const startup = async (): Promise<void> => {
   process.on("SIGTERM", shutdown);
   process.on("SIGINT", shutdown);
 
-  logger.info("🔨 Building aleo program...");
+  logger.info("🔨 Building Aleo program...");
   await aleoExec.build();
   logger.info("🏰 Aleo program successfully built!");
 

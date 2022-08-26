@@ -1,5 +1,6 @@
 export const keyGen = {
-  foo: () => {
+  // TODO: implement function
+  generate: async () => {
     return "keyGen";
   },
 };

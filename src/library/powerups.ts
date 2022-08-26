@@ -1,5 +1,6 @@
 export const powerups = {
-  foo: () => {
+  // TODO: implement function
+  use: async () => {
     return "powerups";
   },
 };

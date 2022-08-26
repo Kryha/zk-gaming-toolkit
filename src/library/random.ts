@@ -1,5 +1,6 @@
 export const random = {
-  foo: () => {
+  // TODO: implement function
+  generate: async () => {
     return "random";
   },
 };
