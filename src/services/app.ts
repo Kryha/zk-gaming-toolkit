@@ -43,7 +43,7 @@ export const initExpressApp = () => {
     }
   );
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  morgan.token("body", (req: any) => `${JSON.stringify(req.body)}`);
+  morgan.token("body", (req: any) => JSON.stringify(req.body));
   const httpLogger = morgan(":method :url :status :remote-addr :response-time-short :body", {
     stream: {
       write: (message: string): void => {
