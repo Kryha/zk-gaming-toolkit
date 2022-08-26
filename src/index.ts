@@ -8,10 +8,10 @@ import { aleoExec, logger } from "./utils";
 
 const server = createServer(app);
 
-const shutdown = async () => {
+const shutdown = () => {
   logger.info(`🛑 Stopping server [${NODE_ENV}] . . .`);
 
-  server.close(async (error) => {
+  server.close((error) => {
     if (error) return logger.warn("🧨 Failed closing HTTP service:", error);
 
     logger.info("👋 Stopped server");
