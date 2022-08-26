@@ -5,8 +5,7 @@
     "useDefineForClassFields": true,
     "lib": ["ESNext", "DOM"],
     "allowJs": false,
-    "skipLibCheck": true,
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -15,7 +14,7 @@
     "resolveJsonModule": true,
     "outDir": "build",
     "declaration": true,
-    "inlineSourceMap": true
+    "sourceMap": true
   },
   "include": ["src"]
 }
