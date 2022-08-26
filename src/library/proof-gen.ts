@@ -1,5 +1,6 @@
 export const proofGen = {
-  foo: () => {
+  // TODO: implement function
+  generate: async () => {
     return "proofGen";
   },
 };
