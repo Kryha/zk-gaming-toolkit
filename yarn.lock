@@ -5851,5 +5851,25 @@ __metadata:
     ts-node: ^10.9.1
     typescript: ^4.7.4
     winston: ^3.8.1
+    zod: ^3.18.0
+    zod-express-middleware: ^1.4.0
   languageName: unknown
   linkType: soft
+
+"zod-express-middleware@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "zod-express-middleware@npm:1.4.0"
+  peerDependencies:
+    "@types/express": ^4.17.12
+    express: ^4.17.1
+    zod: ^3.2.0
+  checksum: cbce7e548b94834ffb47f8ff3a52dc5f81514f760c5aed562b2915ee6187c3bb5933bbc498ad2477cb302ab8944440b92436ecfe73d3f7e5890dbcea2ce3f51c
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.18.0":
+  version: 3.18.0
+  resolution: "zod@npm:3.18.0"
+  checksum: 86a9a9928f4b40a07020d4b9832842fa4a70050c2d7bd1b2866bc1acfd734aa53a40f87a99a4312a637341a608b0105770c7a1f83b56df78e97691b4f5badcd8
+  languageName: node
+  linkType: hard
