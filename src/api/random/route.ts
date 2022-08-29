@@ -7,5 +7,4 @@ import { GenerateBody } from "./schemas";
 
 export const router = Router();
 
-// TODO: add validator
 router.post("/generate", validateRequest({ body: GenerateBody }), asyncHandler(randomController.generate));

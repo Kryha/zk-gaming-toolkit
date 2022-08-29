@@ -7,5 +7,4 @@ import { RollBody } from "./schemas";
 
 export const router = Router();
 
-// TODO: add validator
 router.post("/roll", validateRequest({ body: RollBody }), asyncHandler(diceController.roll));
