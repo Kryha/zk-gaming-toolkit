@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+
 import { random } from "../../library";
 
 interface RandomController {
@@ -6,8 +7,8 @@ interface RandomController {
 }
 
 export const randomController: RandomController = {
-  generate: async (_req, res) => {
-    const value = await random.generate();
+  generate: async (req, res) => {
+    const value = await random.generate(req.body.min, req.body.max);
     res.send({ value });
   },
 };
