@@ -32,6 +32,11 @@ COPY tsconfig.json ./tsconfig.json
 COPY contracts/ ./contracts/
 COPY src/ ./src/
 
+RUN rm -rf contracts/gamingTk/build/
+# initial call to random is needed so it downloads a bunch of useful packages
+# TODO: seems like files are still being downloaded every time and calls to the API are failing, find a better solution for this issue
+RUN cd contracts/gamingTk/ && aleo build && aleo run random 2u32 3u32
+
 RUN yarn
 RUN yarn build
 
