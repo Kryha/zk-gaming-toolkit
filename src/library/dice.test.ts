@@ -1,5 +1,7 @@
 import { dice } from "./dice";
 
-test("Dice foo", () => {
-  expect(dice.foo()).toBe("dice");
+jest.setTimeout(60000);
+
+test("Dice foo", async () => {
+  expect(await dice.roll(2)).toBe(5);
 });

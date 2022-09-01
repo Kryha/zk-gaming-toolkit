@@ -1,5 +1,7 @@
 import { proofGen } from "./proof-gen";
 
-test("Proof generation foo", () => {
-  expect(proofGen.foo()).toBe("proofGen");
+jest.setTimeout(60000);
+
+test("Proof generation foo", async () => {
+  expect(await proofGen.generate()).toBe(5);
 });

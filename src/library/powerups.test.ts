@@ -1,5 +1,7 @@
 import { powerups } from "./powerups";
 
-test("Powerups foo", () => {
-  expect(powerups.foo()).toBe("powerups");
+jest.setTimeout(60000);
+
+test("Powerups foo", async () => {
+  expect(await powerups.use()).toBe(5);
 });

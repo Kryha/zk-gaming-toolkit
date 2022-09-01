@@ -1,5 +1,7 @@
 import { keyGen } from "./key-gen";
 
-test("Key generation foo", () => {
-  expect(keyGen.foo()).toBe("keyGen");
+jest.setTimeout(60000);
+
+test("Key generation foo", async () => {
+  expect(await keyGen.generate()).toBe(5);
 });
