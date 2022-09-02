@@ -1,8 +1,8 @@
 import { Router } from "express";
 import asyncHandler from "express-async-handler";
 
-import { keyGenController } from "./controller";
+import { accountController } from "./controller";
 
 export const router = Router();
 
-router.post("/generate", asyncHandler(keyGenController.generate));
+router.get("/create", asyncHandler(accountController.create));

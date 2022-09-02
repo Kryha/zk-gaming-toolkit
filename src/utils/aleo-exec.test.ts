@@ -30,10 +30,6 @@ test("Proof generation", async () => {
   expect(await aleoExec.call.generateProof(2, 3)).toBe(5);
 });
 
-test("Key generation", async () => {
-  expect(await aleoExec.call.generateKey(2, 3)).toBe(5);
-});
-
 test("Random number generation", async () => {
   expect(await aleoExec.call.random(2, 3)).toBe(5);
 });
