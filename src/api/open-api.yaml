@@ -1,0 +1,85 @@
+openapi: 3.0.0
+info:
+    version: "0.1"
+    title: "ZK-Gaming-Toolkit-API"
+    license:
+        name: MIT
+servers:
+    - url: "localhost:5001"
+paths:
+    /account/create:
+        get:
+            summary: "Account Create"
+            operationId: accountCreate
+            tags:
+                - account
+            responses:
+                "200":
+                    description: "Returns an aleo address, private & view keys"
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Account"
+                default:
+                    description: Unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+    /dice/roll:
+        post:
+            summary: "Dice Roll"
+            operationId: diceRoll
+            tags:
+                - dice
+            responses:
+                "200":
+                    description: "Returns an array of rolled values for each die"
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/RolledValues"
+                default:
+                    description: Unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+components:
+    schemas:
+        Account:
+            type: object
+            required:
+                - address
+                - privateKey
+                - viewKey
+            properties:
+                address:
+                    type: string
+                privateKey:
+                    type: string
+                viewKey:
+                    type: string
+        RolledValues:
+            type: array
+            items: {
+                type: integer
+            }
+        Error:
+            type: object
+            required:
+                - code
+                - message
+            properties:
+                code:
+                    type: integer
+                    format: int32
+                message:
+                    type: string
+    securitySchemes:
+        ApiKey:
+            type: apiKey
+            name: api_key
+            in: header
+security:
+    - ApiKey: []
