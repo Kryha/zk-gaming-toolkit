@@ -9,8 +9,8 @@ ENV PATH="$PATH:/root/.cargo/bin"
 
 RUN rustup update
 
-RUN git clone https://github.com/AleoHQ/aleo.git
-RUN cd aleo && cargo install --path .
+RUN git clone https://github.com/AleoHQ/leo
+RUN cd leo && cargo install --path .
 
 WORKDIR /usr/main/
 
@@ -29,13 +29,14 @@ COPY .eslintrc.json ./.eslintrc.json
 
 COPY tsconfig.json ./tsconfig.json
 
-COPY contracts/ ./contracts/
+COPY aleo-resources/ /root/.aleo/resources/
+COPY leocontracts/ ./leocontracts/
 COPY src/ ./src/
 
-RUN rm -rf contracts/gamingTk/build/
-# initial call to random is needed so it downloads a bunch of useful packages
-# TODO: seems like files are still being downloaded every time and calls to the API are failing, find a better solution for this issue
-RUN cd contracts/gamingTk/ && aleo build && aleo run random 2u32 3u32
+RUN rm -rf leocontracts/build/
+RUN rm -rf leocontracts/inputs/
+RUN rm -rf leocontracts/outputs/
+RUN cd leocontracts && leo build
 
 RUN yarn
 RUN yarn build

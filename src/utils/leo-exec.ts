@@ -68,7 +68,5 @@ const powerups = async (a: number, b: number) => {
 
 // TODO: redefine functions after contracts real implementation
 export const leoExec = {
-  build: () => execute(`cd ${contractPath} && leo build`),
-
   call: { throwDice, generateKey, generateProof, random, powerups },
 };
