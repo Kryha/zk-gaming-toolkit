@@ -29,9 +29,11 @@ COPY .eslintrc.json ./.eslintrc.json
 
 COPY tsconfig.json ./tsconfig.json
 
-COPY aleo-resources/ /root/.aleo/resources/
 COPY leocontracts/ ./leocontracts/
 COPY src/ ./src/
+
+COPY resources.tar.gz /root/.aleo/resources.tar.gz
+RUN tar -xzvf /root/.aleo/resources.tar.gz -C /root/.aleo/
 
 RUN rm -rf leocontracts/build/
 RUN rm -rf leocontracts/inputs/
