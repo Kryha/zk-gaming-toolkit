@@ -38,13 +38,6 @@ const throwDice = async (a: number, b: number) => {
   return parsed;
 };
 
-const generateKey = async (a: number, b: number) => {
-  const { stdout } = await execute(`cd ${contractPath} && leo run generate_key ${a}u32 ${b}u32`);
-  const [output] = parseOutput(stdout);
-  const parsed = parseU32(output);
-  return parsed;
-};
-
 const generateProof = async (a: number, b: number) => {
   const { stdout } = await execute(`cd ${contractPath} && leo run generate_proof ${a}u32 ${b}u32`);
   const [output] = parseOutput(stdout);
@@ -68,5 +61,5 @@ const powerups = async (a: number, b: number) => {
 
 // TODO: redefine functions after contracts real implementation
 export const leoExec = {
-  call: { throwDice, generateKey, generateProof, random, powerups },
+  call: { throwDice, generateProof, random, powerups },
 };

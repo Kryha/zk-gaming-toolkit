@@ -5,4 +5,4 @@ import { accountController } from "./controller";
 
 export const router = Router();
 
-router.get("/create", asyncHandler(accountController.create));
+router.post("/create", asyncHandler(accountController.create));

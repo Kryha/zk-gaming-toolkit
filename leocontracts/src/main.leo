@@ -11,12 +11,6 @@ function random(public a: u32, b: u32) -> u32 {
 }
 
 @program
-function generate_key(public a: u32, b: u32) -> u32 {
-    let c: u32 = a + b;
-    return c;
-}
-
-@program
 function generate_proof(public a: u32, b: u32) -> u32 {
     let c: u32 = a + b;
     return c;
