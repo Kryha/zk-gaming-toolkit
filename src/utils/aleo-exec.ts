@@ -72,13 +72,6 @@ const throwDice = async (a: number, b: number) => {
   return parsed;
 };
 
-const generateKey = async (a: number, b: number) => {
-  const { stdout } = await execute(`cd ${contractPath} && aleo run generateKey ${a}u32 ${b}u32`);
-  const [output] = parseOutput(stdout);
-  const parsed = parseU32(output);
-  return parsed;
-};
-
 const generateProof = async (a: number, b: number) => {
   const { stdout } = await execute(`cd ${contractPath} && aleo run generateProof ${a}u32 ${b}u32`);
   const [output] = parseOutput(stdout);
@@ -105,5 +98,5 @@ export const aleoExec = {
   createAccount,
 
   // TODO: redefine functions after contracts real implementation
-  call: { throwDice, generateKey, generateProof, random, powerup },
+  call: { throwDice, generateProof, random, powerup },
 };
