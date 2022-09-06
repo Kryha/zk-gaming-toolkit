@@ -9,6 +9,9 @@ ENV PATH="$PATH:/root/.cargo/bin"
 
 RUN rustup update
 
+RUN git clone https://github.com/AleoHQ/aleo
+RUN cd aleo && cargo install --path .
+
 RUN git clone https://github.com/AleoHQ/leo
 RUN cd leo && cargo install --path .
 
