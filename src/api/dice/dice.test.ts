@@ -2,7 +2,7 @@ import request from "supertest";
 
 import { BASE_URL } from "../../constants";
 
-jest.setTimeout(60000);
+jest.setTimeout(600000);
 
 describe("POST /dice/roll", () => {
   const route = "/dice/roll";

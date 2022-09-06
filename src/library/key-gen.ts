@@ -1,9 +1,9 @@
-import { aleoExec } from "../utils";
+import { leoExec } from "../utils";
 
 export const keyGen = {
   // TODO: implement function
   generate: async () => {
-    const res = await aleoExec.call.generateKey(2, 3);
+    const res = leoExec.call.generateKey(2, 3);
     return res;
   },
 };

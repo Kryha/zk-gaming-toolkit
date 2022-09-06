@@ -1,8 +1,0 @@
-[project]
-name = "dice"
-version = "0.1.0"
-description = "The dice package"
-license = "MIT"
-
-[remote]
-author = "[AUTHOR]" # Add your Aleo Package Manager username or team name.

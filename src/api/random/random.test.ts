@@ -2,7 +2,7 @@ import request from "supertest";
 
 import { BASE_URL } from "../../constants";
 
-jest.setTimeout(60000);
+jest.setTimeout(6000000);
 
 describe("POST /random/generate", () => {
   const route = "/random/generate";

@@ -1,6 +1,6 @@
 import { aleoExec } from "./aleo-exec";
 
-jest.setTimeout(60000);
+jest.setTimeout(600000);
 
 beforeAll(async () => {
   await aleoExec.build();
