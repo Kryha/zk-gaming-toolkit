@@ -1,9 +1,9 @@
-import { aleoExec } from "../utils";
+import { leoExec } from "../utils";
 
 export const random = {
   // TODO: implement function
   generate: async (min: number, max: number) => {
-    const res = aleoExec.call.random(min, max);
+    const res = leoExec.call.random(min, max);
     return res;
   },
 };

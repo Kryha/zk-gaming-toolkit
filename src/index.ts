@@ -4,7 +4,7 @@ import { createServer } from "http";
 
 import { NODE_ENV, PORT } from "./constants";
 import { app, initExpressApp } from "./services";
-import { aleoExec, logger } from "./utils";
+import { logger } from "./utils";
 
 const server = createServer(app);
 
@@ -22,10 +22,6 @@ const shutdown = () => {
 const startup = async (): Promise<void> => {
   process.on("SIGTERM", shutdown);
   process.on("SIGINT", shutdown);
-
-  logger.info("🔨 Building Aleo program...");
-  await aleoExec.build();
-  logger.info("🏰 Aleo program successfully built!");
 
   logger.info("🪄  Initialising Express App...");
   initExpressApp();

@@ -1,10 +1,6 @@
 import { aleoExec } from "./aleo-exec";
 
-jest.setTimeout(60000);
-
-beforeAll(async () => {
-  await aleoExec.build();
-});
+jest.setTimeout(600000);
 
 test("Account creation", async () => {
   const PRIVATE_KEY = "APrivateKey1";
@@ -20,20 +16,4 @@ test("Account creation", async () => {
   expect(res.privateKey).toHaveLength(59);
   expect(res.viewKey).toHaveLength(53);
   expect(res.address).toHaveLength(63);
-});
-
-test("Dice throw", async () => {
-  expect(await aleoExec.call.throwDice(2, 3)).toBe(5);
-});
-
-test("Proof generation", async () => {
-  expect(await aleoExec.call.generateProof(2, 3)).toBe(5);
-});
-
-test("Random number generation", async () => {
-  expect(await aleoExec.call.random(2, 3)).toBe(5);
-});
-
-test("Powerups", async () => {
-  expect(await aleoExec.call.powerup(2, 3)).toBe(5);
 });
