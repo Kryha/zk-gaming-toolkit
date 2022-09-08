@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zk-tk
+spec:
+  selector:
+    matchLabels:
+      app: zk-tk
+  template:
+    spec:
+      containers:
+        - name: zk-tk
+          image: "localhost:5000/aleo/zk-tk:latest"
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace

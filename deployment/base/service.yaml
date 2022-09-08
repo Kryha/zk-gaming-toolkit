@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zk-tk
+  labels:
+    app: zk-tk
+spec:
+  type: ClusterIP
+  selector:
+    app: zk-tk
+  ports:
+    - port: 5001
+      targetPort: 5001
+      protocol: TCP
+      name: api
