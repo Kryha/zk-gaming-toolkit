@@ -4,11 +4,16 @@ metadata:
   name: zk-gaming-tk
   annotations:
     kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     nginx.ingress.kubernetes.io/proxy-body-size: 200m
 spec:
+  tls:
+    - secretName: zk-gaming-tk.staging.kryha.dev
+      hosts:
+        - zk-gaming-tk.staging.kryha.dev
   rules:
-    - host: zk-gaming-tk.localhost
+    - host: zk-gaming-tk.staging.kryha.dev
       http:
         paths:
           - path: "/(.*)"
