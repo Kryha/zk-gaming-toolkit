@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: zk-tk
+  name: zk-gaming-tk
 spec:
   selector:
     matchLabels:
-      app: zk-tk
+      app: zk-gaming-tk
   template:
     metadata:
       labels:
-        app: zk-tk
+        app: zk-gaming-tk
     spec:
       containers:
-        - name: zk-tk
+        - name: zk-gaming-tk
           imagePullPolicy: Always
           resources:
             requests:

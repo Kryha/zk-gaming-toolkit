@@ -1,7 +1,7 @@
 apiVersion: skaffold/v2beta27
 kind: Config
 metadata:
-  name: zk-tk
+  name: zk-gaming-tk
 build:
   tagPolicy:
     sha256: {}
@@ -9,11 +9,11 @@ build:
     concurrency: 0
     push: true
   artifacts:
-    - image: localhost:5000/aleo/zk-tk
+    - image: localhost:5000/aleo/zk-gaming-tk
       docker:
         dockerfile: Dockerfile
 deploy:
   kustomize:
     paths:
       - ./deployment/local
-    defaultNamespace: zk-tk-local
+    defaultNamespace: zk-gaming-tk-local

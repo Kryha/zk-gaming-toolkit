@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: zk-tk
+  name: zk-gaming-tk
   labels:
-    app: zk-tk
+    app: zk-gaming-tk
 spec:
   type: ClusterIP
   selector:
-    app: zk-tk
+    app: zk-gaming-tk
   ports:
     - port: 5001
       targetPort: 5001

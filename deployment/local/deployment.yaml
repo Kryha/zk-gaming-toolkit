@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: zk-tk
+  name: zk-gaming-tk
 spec:
   selector:
     matchLabels:
-      app: zk-tk
+      app: zk-gaming-tk
   template:
     spec:
       containers:
-        - name: zk-tk
-          image: "localhost:5000/aleo/zk-tk:latest"
+        - name: zk-gaming-tk
+          image: "localhost:5000/aleo/zk-gaming-tk:latest"
           env:
             - name: POD_NAMESPACE
               valueFrom:
