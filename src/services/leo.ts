@@ -60,6 +60,6 @@ const powerups = async (a: number, b: number) => {
 };
 
 // TODO: redefine functions after contracts real implementation
-export const leoExec = {
+export const leoService = {
   call: { throwDice, generateProof, random, powerups },
 };

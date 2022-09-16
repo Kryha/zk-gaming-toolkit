@@ -1,4 +1,4 @@
-import { aleoExec } from "./aleo-exec";
+import { aleoService } from "./aleo";
 
 jest.setTimeout(600000);
 
@@ -7,7 +7,7 @@ test("Account creation", async () => {
   const VIEW_KEY = "AViewKey1";
   const ADDRESS = "aleo1";
 
-  const res = await aleoExec.createAccount();
+  const res = await aleoService.createAccount();
 
   expect(res.privateKey).toMatch(new RegExp(`^${PRIVATE_KEY}?`));
   expect(res.viewKey).toMatch(new RegExp(`^${VIEW_KEY}?`));

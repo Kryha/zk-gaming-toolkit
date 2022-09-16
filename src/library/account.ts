@@ -1,9 +1,9 @@
-import { aleoExec } from "../utils";
+import { aleoService } from "../services";
 
 export const account = {
   // TODO: store account information somewhere
   create: async () => {
-    const res = await aleoExec.createAccount();
+    const res = await aleoService.createAccount();
     return res;
   },
 };
