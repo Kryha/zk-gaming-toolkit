@@ -1,9 +1,9 @@
-import { leoExec } from "../utils";
+import { leoService } from "../services";
 
 export const proofGen = {
   // TODO: implement function
   generate: async () => {
-    const res = await leoExec.call.generateProof(2, 3);
+    const res = await leoService.call.generateProof(2, 3);
     return res;
   },
 };
