@@ -41,7 +41,8 @@ RUN tar -xzvf /root/.aleo/resources.tar.gz -C /root/.aleo/
 RUN rm -rf leocontracts/build/
 RUN rm -rf leocontracts/inputs/
 RUN rm -rf leocontracts/outputs/
-RUN cd leocontracts && leo build
+# TODO: uncomment the following line once we update the contracts
+# RUN cd leocontracts && leo build
 
 RUN yarn
 RUN yarn build
