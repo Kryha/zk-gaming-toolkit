@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2beta27
+apiVersion: skaffold/v3
 kind: Config
 metadata:
   name: zk-gaming-tk
@@ -12,8 +12,9 @@ build:
     - image: localhost:5000/aleo/zk-gaming-tk
       docker:
         dockerfile: Dockerfile
-deploy:
+manifests:
   kustomize:
     paths:
       - ./deployment/local
-    defaultNamespace: zk-gaming-tk-local
+deploy:
+  kubectl: {}
