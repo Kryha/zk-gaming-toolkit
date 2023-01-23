@@ -1,10 +1,10 @@
 import { Router } from "express";
 import asyncHandler from "express-async-handler";
-import { validateRequest } from "zod-express-middleware";
 
+import { validate } from "../middlewares";
 import { randomController } from "./controller";
-import { GenerateBody } from "./schemas";
+import { schemas } from "./schemas";
 
 export const router = Router();
 
-router.post("/generate", validateRequest({ body: GenerateBody }), asyncHandler(randomController.generate));
+router.post("/generate", validate({ body: schemas.body.generate }), asyncHandler(randomController.generate));

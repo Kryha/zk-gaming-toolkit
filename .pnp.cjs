@@ -60,8 +60,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-node", "virtual:6c3b36071652785c5a532dec39806508f26e71dc457812cbb146bf2c9636d66c52bf2a5b49c105137df6a9905328fa112b9231045ce4a9e53aef89af25eb0896#npm:10.9.1"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=f456af"],\
             ["winston", "npm:3.8.1"],\
-            ["zod", "npm:3.18.0"],\
-            ["zod-express-middleware", "virtual:6c3b36071652785c5a532dec39806508f26e71dc457812cbb146bf2c9636d66c52bf2a5b49c105137df6a9905328fa112b9231045ce4a9e53aef89af25eb0896#npm:1.4.0"]\
+            ["zod", "npm:3.18.0"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -7483,8 +7482,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-node", "virtual:6c3b36071652785c5a532dec39806508f26e71dc457812cbb146bf2c9636d66c52bf2a5b49c105137df6a9905328fa112b9231045ce4a9e53aef89af25eb0896#npm:10.9.1"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=f456af"],\
             ["winston", "npm:3.8.1"],\
-            ["zod", "npm:3.18.0"],\
-            ["zod-express-middleware", "virtual:6c3b36071652785c5a532dec39806508f26e71dc457812cbb146bf2c9636d66c52bf2a5b49c105137df6a9905328fa112b9231045ce4a9e53aef89af25eb0896#npm:1.4.0"]\
+            ["zod", "npm:3.18.0"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -7494,32 +7492,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/zod-npm-3.18.0-011758f603-86a9a9928f.zip/node_modules/zod/",\
           "packageDependencies": [\
             ["zod", "npm:3.18.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["zod-express-middleware", [\
-        ["npm:1.4.0", {\
-          "packageLocation": "./.yarn/cache/zod-express-middleware-npm-1.4.0-951b3b605a-cbce7e548b.zip/node_modules/zod-express-middleware/",\
-          "packageDependencies": [\
-            ["zod-express-middleware", "npm:1.4.0"]\
-          ],\
-          "linkType": "SOFT"\
-        }],\
-        ["virtual:6c3b36071652785c5a532dec39806508f26e71dc457812cbb146bf2c9636d66c52bf2a5b49c105137df6a9905328fa112b9231045ce4a9e53aef89af25eb0896#npm:1.4.0", {\
-          "packageLocation": "./.yarn/__virtual__/zod-express-middleware-virtual-7a36a65bad/0/cache/zod-express-middleware-npm-1.4.0-951b3b605a-cbce7e548b.zip/node_modules/zod-express-middleware/",\
-          "packageDependencies": [\
-            ["zod-express-middleware", "virtual:6c3b36071652785c5a532dec39806508f26e71dc457812cbb146bf2c9636d66c52bf2a5b49c105137df6a9905328fa112b9231045ce4a9e53aef89af25eb0896#npm:1.4.0"],\
-            ["@types/express", "npm:4.17.13"],\
-            ["@types/zod", null],\
-            ["express", "npm:4.18.1"],\
-            ["zod", "npm:3.18.0"]\
-          ],\
-          "packagePeers": [\
-            "@types/express",\
-            "@types/zod",\
-            "express",\
-            "zod"\
           ],\
           "linkType": "HARD"\
         }]\

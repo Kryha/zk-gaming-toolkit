@@ -1,0 +1,49 @@
+// The program input for dice/src/main.leo
+[create_dice]
+owner: address = aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30;
+match_id: field = 1232645117386081880141384189810367033551field;
+dice_amount: u32 = 2u32;
+
+[increment_dice_amount]
+dice: Dice = Dice {
+  owner: aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30,
+  gates: 0u64,
+  match_id: 1232645117386081880141384189810367033551field,
+  face_amount: 6u8,
+  dice_amount: 2u32,
+  _nonce: 1323450485807227633491366157428111506683947033444154737457888904676343676647group
+};
+
+// Valid Decrement
+[decrement_dice_amount]
+dice: Dice = Dice {
+  owner: aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30,
+  gates: 0u64,
+  match_id: 1232645117386081880141384189810367033551field,
+  face_amount: 6u8,
+  dice_amount: 2u32,
+  _nonce: 1323450485807227633491366157428111506683947033444154737457888904676343676647group
+};
+
+// Invalid decrement test input should not fail anyway
+// [decrement_dice_amount]
+// dice: Dice = Dice {
+//   owner: aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30,
+//   gates: 0u64,
+//   match_id: 12345678998765432123456789098765field,
+//   face_amount: 6u8,
+//   dice_amount: 0u32,
+//   _nonce: 2760984465508430100199670814022794994254314883618827971579209777995316753880group
+// };
+
+
+
+[burn_dice]
+dice: Dice = Dice {
+  owner: aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30,
+  gates: 0u64,
+  match_id: 1232645117386081880141384189810367033551field,
+  face_amount: 6u8,
+  dice_amount: 2u32,
+  _nonce: 1323450485807227633491366157428111506683947033444154737457888904676343676647group
+};

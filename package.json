@@ -16,8 +16,8 @@
   "scripts": {
     "clean": "rm -rf build/",
     "build": "yarn clean && tsc",
-    "start": "yarn build && node --enable-source-maps build/src/index.js",
-    "test": "jest"
+    "start": "yarn build && NODE_PATH=. node --enable-source-maps build/src/index.js",
+    "test": "NODE_PATH=. jest"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.3",
@@ -49,7 +49,6 @@
     "morgan": "^1.10.0",
     "source-map-support": "^0.5.21",
     "winston": "^3.8.1",
-    "zod": "^3.18.0",
-    "zod-express-middleware": "^1.4.0"
+    "zod": "^3.18.0"
   }
 }

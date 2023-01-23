@@ -1,0 +1,25 @@
+// The program input for match_settings/src/main.leo
+[create_match]
+owner: address = aleo1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329;
+match_id: field = 12345678998765432123456789098765field;
+settings: Settings = Settings {
+    player_amount: 7u8,
+    dice_per_player: 5u8, 
+    initial_power_up_amount: 3u8,
+    max_power_up_amount: 5u8,
+    heal_power_up_amount: 3u8,
+    stage_number_divisor: 5u8,
+    draw_round_offset: 0u8,
+};
+power_ups: PowerUpProbabilityList = PowerUpProbabilityList {
+    pu_1: 25u8,
+    pu_2: 25u8,
+    pu_3: 25u8,
+    pu_4: 25u8,
+    pu_5: 0u8,
+    pu_6: 0u8,
+    pu_7: 0u8,
+    pu_8: 0u8,
+    pu_9: 0u8,
+};
+

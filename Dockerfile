@@ -10,11 +10,12 @@ ENV PATH="$PATH:/root/.cargo/bin"
 RUN rustup update
 
 RUN git clone https://github.com/AleoHQ/aleo
+RUN cd aleo && git checkout 883c4371573a50f2d1517223e6c742a5843db503
 RUN cd aleo && cargo install --path .
 
-# TODO: uncomment after we start using leo again
-# RUN git clone https://github.com/AleoHQ/leo
-# RUN cd leo && cargo install --path .
+RUN git clone https://github.com/AleoHQ/leo
+RUN cd leo && git checkout 9c83e833f32268fe5d07cadacb15a0f785db44c1
+RUN cd leo && cargo install --path .
 
 WORKDIR /usr/main/
 
@@ -33,17 +34,20 @@ COPY .eslintrc.json ./.eslintrc.json
 
 COPY tsconfig.json ./tsconfig.json
 
-COPY leocontracts/ ./leocontracts/
+COPY contracts/ ./contracts/
 COPY src/ ./src/
 
 COPY resources.tar.gz /root/.aleo/resources.tar.gz
 RUN tar -xzvf /root/.aleo/resources.tar.gz -C /root/.aleo/
 
-RUN rm -rf leocontracts/build/
-RUN rm -rf leocontracts/inputs/
-RUN rm -rf leocontracts/outputs/
-# TODO: uncomment the following line once we update the contracts
-# RUN cd leocontracts && leo build
+RUN rm -rf contracts/**/build/
+RUN rm -rf contracts/**/outputs/
+RUN rm -rf contracts/**/inputs/
+
+RUN cd contracts/boloney_match && leo build
+RUN cd contracts/boloney_match_summary && leo build
+RUN cd contracts/dice && leo build
+RUN cd contracts/power_up && leo build
 
 RUN yarn
 RUN yarn build

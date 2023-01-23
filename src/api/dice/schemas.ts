@@ -1,5 +1,22 @@
 import { z } from "zod";
 
-export const RollBody = z.object({
-  diceAmount: z.number().min(1).max(5),
-});
+import { diceSchema, leoAddressSchema, uuidSchema } from "../../types";
+
+export const schemas = {
+  body: {
+    create: z.object({
+      owner: leoAddressSchema,
+      matchId: uuidSchema,
+      diceAmount: z.number().min(1),
+    }),
+    burn: z.object({
+      dice: diceSchema,
+    }),
+    increment: z.object({
+      dice: diceSchema,
+    }),
+    decrement: z.object({
+      dice: diceSchema,
+    }),
+  },
+};

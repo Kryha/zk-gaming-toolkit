@@ -37,4 +37,4 @@ const createAccount = async () => {
   return parsed;
 };
 
-export const aleoService = { createAccount };
+export const aleo = { createAccount };
