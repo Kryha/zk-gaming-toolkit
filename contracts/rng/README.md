@@ -1,4 +1,4 @@
-# power_up.aleo
+# rng.aleo
 
 ## Build Guide
 
@@ -9,7 +9,6 @@ leo build
 
 ## Tests
 ```
-leo run create_power_up
-leo run burn_power_up
-leo run transfer_power_up
+leo run get_random_number
+leo run create_hash_chain_record
 ```

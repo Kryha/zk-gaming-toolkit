@@ -7,4 +7,9 @@ import { schemas } from "./schemas";
 
 export const router = Router();
 
-router.post("/generate", validate({ body: schemas.body.generate }), asyncHandler(randomController.generate));
+router.post("/number", validate({ body: schemas.body.generateNumber }), asyncHandler(randomController.generateNumber));
+router.post(
+  "/hash-chain-record",
+  validate({ body: schemas.body.generateHashChainRecord }),
+  asyncHandler(randomController.generateHashChainRecord)
+);

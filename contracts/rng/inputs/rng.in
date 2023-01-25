@@ -1,0 +1,9 @@
+// The program input for rng/src/main.leo
+[get_random_number]
+seed: u64 = 8900911306653247496u64;
+min: u64 = 1u64;
+max: u64 = 6u64;
+
+[create_hash_chain_record]
+owner: address = aleo1ujwpr6tmmep26ayx6qaqy44h2d3zfwyh6k989dsnaqm4pkntzgysqyvrkd;
+seed: u64 = 42u64;

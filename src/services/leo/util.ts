@@ -20,6 +20,11 @@ import {
   PowerUpProbability,
   powerUpSchema,
   Ranking,
+  hashChainSchema,
+  HashChainRecord,
+  hashChainRecordLeoSchema,
+  hashChainRecordSchema,
+  randomNumberSchema,
 } from "../../types";
 import { decodeId } from "../../utils";
 
@@ -36,6 +41,11 @@ const address = (value: string): string => replaceValue(value);
 
 const field = (value: string): bigint => {
   const parsed = BigInt(replaceValue(value, "field"));
+  return parsed;
+};
+
+const fieldToString = (value: string): string => {
+  const parsed = replaceValue(value, "field");
   return parsed;
 };
 
@@ -205,4 +215,30 @@ const powerUp = (cmdOutput: string): PowerUp => {
   return powerUpSchema.parse(res);
 };
 
-export const parseOutput = { address, field, u8, u32, u64, match, matchSummary, dice, powerUp };
+export const randomNumber = (cmdOutput: string): number => {
+  const record = parseRecord(cmdOutput);
+  const parsed = randomNumberSchema.parse(record);
+
+  const res = u64(parsed.random_number);
+
+  return res;
+};
+
+const hashChainRecord = (cmdOutput: string): HashChainRecord => {
+  const record = parseRecord(cmdOutput);
+  const parsed = hashChainRecordLeoSchema.parse(record);
+
+  const hashChain = Object.values(parsed.hash_chain).map((hash: string) => fieldToString(hash));
+
+  const res: HashChainRecord = {
+    owner: address(parsed.owner),
+    gates: u64(parsed.gates),
+    seed: u64(parsed.seed),
+    hashChain: hashChainSchema.parse(hashChain),
+    _nonce: replaceValue(parsed._nonce),
+  };
+
+  return hashChainRecordSchema.parse(res);
+};
+
+export const parseOutput = { address, field, u8, u32, u64, match, matchSummary, dice, powerUp, hashChainRecord, randomNumber };

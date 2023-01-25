@@ -4,21 +4,43 @@ import { BASE_URL } from "../../constants";
 
 jest.setTimeout(6000000);
 
-describe("POST /random/generate", () => {
-  const route = "/random/generate";
+describe("POST /random/number", () => {
+  const route = "/random/number";
 
   it("should return 400 when req body is empty", async () => {
     const res = await request(BASE_URL).post(route);
+
     expect(res.statusCode).toBe(400);
   });
 
   it("should return 400 when max < min", async () => {
-    const res = await request(BASE_URL).post(route).send({ min: 3, max: 2 });
+    const res = await request(BASE_URL).post(route).send({ seed: 42, min: 3, max: 2 });
+
     expect(res.statusCode).toBe(400);
   });
 
   it("should return 200", async () => {
-    const res = await request(BASE_URL).post(route).send({ min: 0, max: 7 });
+    const res = await request(BASE_URL).post(route).send({ seed: 42, min: 1, max: 9 });
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.error).toBeUndefined();
+  });
+});
+
+describe("POST /random/hash-chain-record", () => {
+  const route = "/random/hash-chain-record";
+
+  it("should return 400 when req body is empty", async () => {
+    const res = await request(BASE_URL).post(route);
+
+    expect(res.statusCode).toBe(400);
+  });
+
+  it("should return 200", async () => {
+    const res = await request(BASE_URL)
+      .post(route)
+      .send({ owner: "aleo1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329", seed: 42 });
+
     expect(res.statusCode).toBe(200);
     expect(res.body.error).toBeUndefined();
   });

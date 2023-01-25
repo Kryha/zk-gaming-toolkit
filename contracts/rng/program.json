@@ -1,0 +1,10 @@
+{
+  "program": "rng.aleo",
+  "version": "0.0.1",
+  "description": "",
+  "development": {
+    "private_key": "APrivateKey1zkpA5PGcA56qdTjCJdUkcChDNQh2iUsN147nMMENT2YxHtN",
+    "address": "aleo1ujwpr6tmmep26ayx6qaqy44h2d3zfwyh6k989dsnaqm4pkntzgysqyvrkd"
+  },
+  "license": "MIT"
+}

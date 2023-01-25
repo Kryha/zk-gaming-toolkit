@@ -1,13 +1,21 @@
 import { RequestHandler } from "express";
 
+import { leo } from "../../services";
+
 interface RandomController {
-  generate: RequestHandler;
+  generateNumber: RequestHandler;
+  generateHashChainRecord: RequestHandler;
 }
 
 export const randomController: RandomController = {
-  generate: async (req, res) => {
-    // TODO: implement service function
-    // const value = await random.generate(req.body.min, req.body.max);
-    res.send({ value: 6 });
+  generateNumber: async (req, res) => {
+    const { seed, min, max } = req.body;
+    const value = await leo.rng.getRandomNumber(seed, min, max);
+    res.send({ value });
+  },
+  generateHashChainRecord: async (req, res) => {
+    const { owner, seed } = req.body;
+    const value = await leo.rng.getHashChainRecord(owner, seed);
+    res.send({ value });
   },
 };
