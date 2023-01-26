@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { leoAddressSchema, powerUpIdSchema, powerUpSchema, uuidSchema } from "../../types";
+import { diceDataSchema, leoAddressSchema, powerUpIdSchema, powerUpSchema, uuidSchema } from "../../types";
 
 export const schemas = {
   body: {
@@ -15,6 +15,10 @@ export const schemas = {
     transfer: z.object({
       receiver: leoAddressSchema,
       powerUp: powerUpSchema,
+    }),
+    useBirdsEye: z.object({
+      powerUp: powerUpSchema,
+      diceData: diceDataSchema,
     }),
   },
 };

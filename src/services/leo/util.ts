@@ -24,7 +24,12 @@ import {
   HashChainRecord,
   hashChainRecordLeoSchema,
   hashChainRecordSchema,
+  randomNumberSchemaLeo,
   randomNumberSchema,
+  RandomNumber,
+  sumSchemaLeo,
+  sumSchema,
+  Sum,
 } from "../../types";
 import { decodeId } from "../../utils";
 
@@ -67,7 +72,7 @@ const u64 = (value: string): number => {
   return parsed;
 };
 
-const parseRecord = (cmdOutput: string): unknown => {
+const parseCmdOutput = (cmdOutput: string): unknown => {
   const lines = cmdOutput.split("\n");
 
   let res: unknown = {};
@@ -100,7 +105,7 @@ const parseRecord = (cmdOutput: string): unknown => {
 };
 
 const match = (cmdOutput: string): Match => {
-  const record = parseRecord(cmdOutput);
+  const record = parseCmdOutput(cmdOutput);
 
   const parsed = matchLeoSchema.parse(record);
   const { settings, power_ups } = parsed;
@@ -139,7 +144,7 @@ const match = (cmdOutput: string): Match => {
 };
 
 const matchSummary = (cmdOutput: string): MatchSummary => {
-  const record = parseRecord(cmdOutput);
+  const record = parseCmdOutput(cmdOutput);
 
   const parsed = matchSummaryLeoSchema.parse(record);
 
@@ -177,7 +182,7 @@ const matchSummary = (cmdOutput: string): MatchSummary => {
 };
 
 const dice = (cmdOutput: string): Dice => {
-  const record = parseRecord(cmdOutput);
+  const record = parseCmdOutput(cmdOutput);
 
   const parsed = diceLeoSchema.parse(record);
 
@@ -197,7 +202,7 @@ const dice = (cmdOutput: string): Dice => {
 };
 
 const powerUp = (cmdOutput: string): PowerUp => {
-  const record = parseRecord(cmdOutput);
+  const record = parseCmdOutput(cmdOutput);
 
   const parsed = powerUpLeoSchema.parse(record);
 
@@ -215,17 +220,16 @@ const powerUp = (cmdOutput: string): PowerUp => {
   return powerUpSchema.parse(res);
 };
 
-export const randomNumber = (cmdOutput: string): number => {
-  const record = parseRecord(cmdOutput);
-  const parsed = randomNumberSchema.parse(record);
+export const randomNumber = (cmdOutput: string): RandomNumber => {
+  const parsedOutput = parseCmdOutput(cmdOutput);
+  const parsed = randomNumberSchemaLeo.parse(parsedOutput);
+  const res = { randomNumber: u64(parsed.random_number) };
 
-  const res = u64(parsed.random_number);
-
-  return res;
+  return randomNumberSchema.parse(res);
 };
 
 const hashChainRecord = (cmdOutput: string): HashChainRecord => {
-  const record = parseRecord(cmdOutput);
+  const record = parseCmdOutput(cmdOutput);
   const parsed = hashChainRecordLeoSchema.parse(record);
 
   const hashChain = Object.values(parsed.hash_chain).map((hash: string) => fieldToString(hash));
@@ -241,4 +245,15 @@ const hashChainRecord = (cmdOutput: string): HashChainRecord => {
   return hashChainRecordSchema.parse(res);
 };
 
-export const parseOutput = { address, field, u8, u32, u64, match, matchSummary, dice, powerUp, hashChainRecord, randomNumber };
+export const sum = (cmdOutput: string): Sum => {
+  const parsedOutput = parseCmdOutput(cmdOutput);
+  const parsed = sumSchemaLeo.parse(parsedOutput);
+
+  const res = {
+    sum: u8(parsed.sum),
+  };
+
+  return sumSchema.parse(res);
+};
+
+export const parseOutput = { address, field, u8, u32, u64, match, matchSummary, dice, powerUp, hashChainRecord, randomNumber, sum };

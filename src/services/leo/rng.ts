@@ -1,12 +1,12 @@
 import { join } from "path";
 
-import { LeoAddress, leoAddressSchema, HashChainRecord } from "../../types";
+import { LeoAddress, leoAddressSchema, HashChainRecord, RandomNumber } from "../../types";
 import { leoParse } from "../../utils";
 import { contractsPath, execute, parseOutput } from "./util";
 
 const rngPath = join(contractsPath, "rng");
 
-const getRandomNumber = async (seed: number, min: number, max: number): Promise<number> => {
+const getRandomNumber = async (seed: number, min: number, max: number): Promise<RandomNumber> => {
   const initialSeed = leoParse.u64(seed);
   const minAmount = leoParse.u64(min);
   const maxAmount = leoParse.u64(max);

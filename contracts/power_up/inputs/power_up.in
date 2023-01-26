@@ -22,3 +22,23 @@ power_up: PowerUp = PowerUp {
   power_up_id: 1u8,
   _nonce: 4393085214842307962009839145934641063703150241291667000462643412531900836455group
 };
+
+[use_birds_eye]
+power_up: PowerUp = PowerUp {
+  owner: aleo1p4ye54p6n5cfdyzmy6fcs583mmwrghdxl8upeuew4w8uqmhqdqxq3e4tfl,
+  gates: 0u64,
+  match_id: 1232645117386081880141384189810367033551field,
+  power_up_id: 2u8,
+  _nonce: 4393085214842307962009839145934641063703150241291667000462643412531900836455group};
+dice_data: DiceData = DiceData {
+    dice_1: 1u8,
+    dice_2: 3u8,
+    dice_3: 4u8,
+    dice_4: 5u8,
+    dice_5: 6u8,
+    dice_6: 0u8,
+    dice_7: 0u8,
+    dice_8: 0u8,
+    dice_9: 0u8,
+    dice_10: 0u8,
+};

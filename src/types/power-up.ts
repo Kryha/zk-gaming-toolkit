@@ -45,3 +45,41 @@ export const powerUpSchema = z.object({
   _nonce: leoGroupSchema,
 });
 export type PowerUp = z.infer<typeof powerUpSchema>;
+
+export const diceDataSchema = z.object({
+  dice_1: z.number(),
+  dice_2: z.number(),
+  dice_3: z.number(),
+  dice_4: z.number(),
+  dice_5: z.number(),
+  dice_6: z.number(),
+  dice_7: z.number(),
+  dice_8: z.number(),
+  dice_9: z.number(),
+  dice_10: z.number(),
+});
+export type DiceData = z.infer<typeof diceDataSchema>;
+
+export const diceDataLeoSchema = z.object({
+  dice_1: leoU8Schema,
+  dice_2: leoU8Schema,
+  dice_3: leoU8Schema,
+  dice_4: leoU8Schema,
+  dice_5: leoU8Schema,
+  dice_6: leoU8Schema,
+  dice_7: leoU8Schema,
+  dice_8: leoU8Schema,
+  dice_9: leoU8Schema,
+  dice_10: leoU8Schema,
+});
+export type DiceDataLeo = z.infer<typeof diceDataLeoSchema>;
+
+export const sumSchemaLeo = z.object({
+  sum: leoU8Schema,
+});
+export type SumLeo = z.infer<typeof sumSchemaLeo>;
+
+export const sumSchema = z.object({
+  sum: z.number(),
+});
+export type Sum = z.infer<typeof sumSchema>;

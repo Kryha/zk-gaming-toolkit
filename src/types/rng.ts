@@ -2,10 +2,15 @@ import { z } from "zod";
 
 import { leoAddressSchema, leoFieldSchema, leoU64Schema, leoGroupSchema } from "./leo";
 
-export const randomNumberSchema = z.object({
+export const randomNumberSchemaLeo = z.object({
   random_number: leoU64Schema,
 });
-export type randomNumber = z.infer<typeof randomNumberSchema>;
+export type randomNumberLeo = z.infer<typeof randomNumberSchemaLeo>;
+
+export const randomNumberSchema = z.object({
+  randomNumber: z.number(),
+});
+export type RandomNumber = z.infer<typeof randomNumberSchema>;
 
 const hashChainLeoSchema = z.object({
   hash_1: leoFieldSchema,

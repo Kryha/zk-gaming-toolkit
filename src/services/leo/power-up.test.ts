@@ -2,7 +2,7 @@ import { powerUpIdSchema, powerUpSchema } from "../../types";
 import { powerUp } from "./power-up";
 
 jest.setTimeout(600000);
-
+// TODO base mocked Records to a constant so we can easily reuse and update
 describe("Power-up service", () => {
   const createBody = {
     owner: "aleo1p4ye54p6n5cfdyzmy6fcs583mmwrghdxl8upeuew4w8uqmhqdqxq3e4tfl",
@@ -59,5 +59,37 @@ describe("Power-up service", () => {
 
     expect(res._nonce).toBeDefined();
     expect(toTest).toStrictEqual({ ...expected, owner: receiver });
+  });
+});
+
+describe("PowerUp: 2 - Bird's Eye", () => {
+  const birdsEyeBody = {
+    powerUp: {
+      owner: "aleo1p4ye54p6n5cfdyzmy6fcs583mmwrghdxl8upeuew4w8uqmhqdqxq3e4tfl",
+      gates: 0,
+      powerUpId: "2",
+      matchId: "4978abfd-96d0-4971-a1a8-aca1ab8070cf",
+      _nonce: "4393085214842307962009839145934641063703150241291667000462643412531900836455group",
+    },
+    diceData: {
+      dice_1: 1,
+      dice_2: 3,
+      dice_3: 4,
+      dice_4: 5,
+      dice_5: 6,
+      dice_6: 0,
+      dice_7: 0,
+      dice_8: 0,
+      dice_9: 0,
+      dice_10: 0,
+    },
+  };
+
+  it("Should consume the Record and sum up all the given dice data", async () => {
+    const { powerUp: payload, diceData } = birdsEyeBody;
+
+    const res = await powerUp.useBirdsEye(powerUpSchema.parse(payload), diceData);
+
+    expect(res.sum).toBe(19);
   });
 });

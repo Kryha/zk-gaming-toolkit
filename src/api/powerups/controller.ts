@@ -7,6 +7,7 @@ interface PowerUpsController {
   create: RequestHandler;
   burn: RequestHandler;
   transfer: RequestHandler;
+  useBirdsEye: RequestHandler;
 }
 
 export const powerUpsController: PowerUpsController = {
@@ -24,5 +25,10 @@ export const powerUpsController: PowerUpsController = {
     const { receiver, powerUp } = req.body;
     const updatedPowerUp = await leo.powerUp.transferPowerUp(receiver, powerUp);
     res.send({ powerUp: updatedPowerUp });
+  },
+  useBirdsEye: async (req, res) => {
+    const { powerUp, diceData } = req.body;
+    const value = await leo.powerUp.useBirdsEye(powerUp, diceData);
+    res.send({ value });
   },
 };

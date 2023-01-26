@@ -1,5 +1,7 @@
 import {
   Dice,
+  DiceData,
+  DiceDataLeo,
   DiceLeo,
   diceLeoSchema,
   LeoField,
@@ -144,6 +146,30 @@ const dice = (payload: Dice): DiceLeo => {
   return diceLeoSchema.parse(res);
 };
 
+const diceData = (diceData: DiceData): DiceDataLeo => {
+  const diceDataLeo = {
+    dice_1: "",
+    dice_2: "",
+    dice_3: "",
+    dice_4: "",
+    dice_5: "",
+    dice_6: "",
+    dice_7: "",
+    dice_8: "",
+    dice_9: "",
+    dice_10: "",
+  };
+
+  const diceDataList = Object.values(diceData).map((diceValue) => u8(diceValue));
+
+  diceDataList.forEach((value, i) => {
+    const key = `dice_${i + 1}` as keyof DiceDataLeo;
+    diceDataLeo[key] = value;
+  });
+
+  return diceDataLeo;
+};
+
 const powerUp = (payload: PowerUp): PowerUpLeo => {
   const encodedId = encodeId(payload.matchId);
 
@@ -171,5 +197,6 @@ export const leoParse = {
   stringifyLeoCmdParam,
   ranking,
   dice,
+  diceData,
   powerUp,
 };

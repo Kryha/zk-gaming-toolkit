@@ -12,3 +12,6 @@ router.post("/create", validate({ body: schemas.body.create }), asyncHandler(pow
 router.post("/burn", validate({ body: schemas.body.burn }), asyncHandler(powerUpsController.burn));
 
 router.post("/transfer", validate({ body: schemas.body.transfer }), asyncHandler(powerUpsController.transfer));
+
+// TODO make dinamic value for picking up PowerUp Ids
+router.post("/2", validate({ body: schemas.body.useBirdsEye }), asyncHandler(powerUpsController.useBirdsEye));

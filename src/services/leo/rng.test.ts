@@ -15,8 +15,8 @@ describe("RNG Service", () => {
 
     const res = await rng.getRandomNumber(seed, min, max);
 
-    expect(res).toBeGreaterThanOrEqual(min);
-    expect(res).toBeLessThanOrEqual(max);
+    expect(res.randomNumber).toBeGreaterThanOrEqual(min);
+    expect(res.randomNumber).toBeLessThanOrEqual(max);
   });
 
   const hashChainBody = {
