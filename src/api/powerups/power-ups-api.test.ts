@@ -39,6 +39,6 @@ describe("POST /power-ups/2", () => {
 
     expect(res.statusCode).toBe(200);
     expect(res.body.error).toBeUndefined();
-    expect(res.body.value.sum).toBe(19);
+    expect(res.body.sum).toBe(19);
   });
 });

@@ -29,6 +29,6 @@ export const powerUpsController: PowerUpsController = {
   useBirdsEye: async (req, res) => {
     const { powerUp, diceData } = req.body;
     const value = await leo.powerUp.useBirdsEye(powerUp, diceData);
-    res.send({ value });
+    res.send(value);
   },
 };

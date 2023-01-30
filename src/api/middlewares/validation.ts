@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import { ZodTypeAny } from "zod";
+import { logger } from "../../utils";
 
 interface ValidateSchemas {
   body?: ZodTypeAny;
@@ -15,6 +16,7 @@ export const validate =
       await Promise.all(promises);
       next();
     } catch (error) {
+      logger.error("Validation error:", error);
       res.status(400).send(error);
     }
   };
