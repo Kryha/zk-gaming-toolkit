@@ -1,7 +1,7 @@
 FROM node:16-bullseye as build
 
 RUN apt update
-RUN apt install git make g++ pkg-config openssl libssl-dev
+RUN apt install -y git make g++ pkg-config openssl libssl-dev
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
