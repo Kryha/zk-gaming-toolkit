@@ -7,6 +7,8 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
 ENV PATH="$PATH:/root/.cargo/bin"
 
+# TODO: separate images
+
 RUN rustup update
 
 RUN git clone https://github.com/AleoHQ/aleo
