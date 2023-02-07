@@ -9,7 +9,13 @@ build:
     concurrency: 0
     push: true
   artifacts:
+    - image: localhost:5000/aleo/zk-gaming-aleo
+      docker:
+        dockerfile: Dockerfile.aleo
     - image: localhost:5000/aleo/zk-gaming-tk
+      requires:
+        - image: localhost:5000/aleo/zk-gaming-aleo
+          alias: ZK_GAMING_ALEO
       docker:
         dockerfile: Dockerfile
 manifests:
