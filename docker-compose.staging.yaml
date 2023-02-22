@@ -1,0 +1,37 @@
+version: "2"
+
+services:
+  toolkit:
+    image: ${IMAGE}
+    restart: always
+    depends_on:
+      - nginx-proxy
+      - nginx-proxy-acme
+    environment:
+      - VIRTUAL_HOST=${TK_HOST}
+      - LETSENCRYPT_HOST=${TK_HOST}
+
+  nginx-proxy-acme:
+    image: nginxproxy/acme-companion
+    restart: always
+    depends_on:
+      - nginx-proxy
+    volumes_from:
+      - nginx-proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - $HOME/acme:/etc/acme.sh
+    environment:
+      - DEFAULT_EMAIL=${TLS_EMAIL}
+
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - $HOME/certs:/etc/nginx/certs:ro
+      - $HOME/vhost:/etc/nginx/vhost.d
+      - $HOME/html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
