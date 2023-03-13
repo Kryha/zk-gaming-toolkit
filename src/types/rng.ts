@@ -3,11 +3,15 @@ import { z } from "zod";
 import { leoAddressSchema, leoFieldSchema, leoU64Schema, leoGroupSchema } from "./leo";
 
 export const randomNumberSchemaLeo = z.object({
+  owner: leoAddressSchema,
+  gates: leoU64Schema,
   random_number: leoU64Schema,
 });
 export type randomNumberLeo = z.infer<typeof randomNumberSchemaLeo>;
 
 export const randomNumberSchema = z.object({
+  owner: leoAddressSchema,
+  gates: z.number(),
   randomNumber: z.number(),
 });
 export type RandomNumber = z.infer<typeof randomNumberSchema>;

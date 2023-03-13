@@ -223,7 +223,12 @@ const powerUp = (cmdOutput: string): PowerUp => {
 export const randomNumber = (cmdOutput: string): RandomNumber => {
   const parsedOutput = parseCmdOutput(cmdOutput);
   const parsed = randomNumberSchemaLeo.parse(parsedOutput);
-  const res = { randomNumber: u64(parsed.random_number) };
+
+  const res: RandomNumber = {
+    owner: address(parsed.owner),
+    gates: u64(parsed.gates),
+    randomNumber: u64(parsed.random_number),
+  };
 
   return randomNumberSchema.parse(res);
 };

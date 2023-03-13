@@ -62,7 +62,7 @@ program power_up.aleo {
     transition use_birds_eye(power_up: PowerUp, dice_data: DiceData) -> Sum {
         assert_eq(power_up.power_up_id, 2u8);
         
-        const total: u8 = dice_data.dice_1 + 
+        let total: u8 = dice_data.dice_1 + 
                         dice_data.dice_2 + 
                         dice_data.dice_3 + 
                         dice_data.dice_4 + 

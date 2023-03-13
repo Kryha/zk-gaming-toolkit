@@ -1,10 +1,12 @@
 import { z } from "zod";
+
 import { leoAddressSchema } from "../../types";
 
 export const schemas = {
   body: {
     generateNumber: z
       .object({
+        owner: leoAddressSchema,
         seed: z.number(),
         min: z.number(),
         max: z.number(),

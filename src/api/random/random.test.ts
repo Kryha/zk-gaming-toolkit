@@ -14,13 +14,17 @@ describe("POST /random/number", () => {
   });
 
   it("should return 400 when max < min", async () => {
-    const res = await request(BASE_URL).post(route).send({ seed: 42, min: 3, max: 2 });
+    const res = await request(BASE_URL)
+      .post(route)
+      .send({ owner: "aleo1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329", seed: 42, min: 3, max: 2 });
 
     expect(res.statusCode).toBe(400);
   });
 
   it("should return 200 with the correct value", async () => {
-    const res = await request(BASE_URL).post(route).send({ seed: 42, min: 1, max: 100 });
+    const res = await request(BASE_URL)
+      .post(route)
+      .send({ owner: "aleo1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329", seed: 42, min: 1, max: 100 });
 
     expect(res.statusCode).toBe(200);
     expect(res.body.error).toBeUndefined();

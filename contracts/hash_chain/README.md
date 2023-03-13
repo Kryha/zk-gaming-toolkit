@@ -1,4 +1,4 @@
-# rng.aleo
+# hash_chain.aleo
 
 ## Build Guide
 
@@ -11,5 +11,5 @@ leo build
 ## Tests
 
 ```bash
-leo run get_random_number
+leo run create_hash_chain_record
 ```
