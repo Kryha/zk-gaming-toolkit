@@ -31,7 +31,7 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - $HOME/certs:/etc/nginx/certs:ro
+      - $HOME/certs:/etc/nginx/certs
       - $HOME/vhost:/etc/nginx/vhost.d
       - $HOME/html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro

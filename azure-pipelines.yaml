@@ -117,11 +117,11 @@ stages:
 
           - script: |
               gcloud compute ssh "$(vmInstance)" --command " \
-              mkdir -p .docker && \
-              mkdir -p certs && \
-              mkdir -p vhosts && \
-              mkdir -p html && \
-              mkdir -p acme"
+              mkdir -p .docker -m 777 && \
+              mkdir -p certs -m 777 && \
+              mkdir -p vhost -m 777 && \
+              mkdir -p html -m 777 && \
+              mkdir -p acme -m 777"
             displayName: Prepare staging directories and files
           - script: gcloud compute scp "$(containerKeyFile.secureFilePath)" "$(vmInstance):~/.docker/.gcr_credentials.json"
             displayName: Copy Google Container Registry credentials
