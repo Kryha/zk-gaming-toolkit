@@ -1,0 +1,23 @@
+FROM node:16-bullseye as build
+
+RUN apt update
+RUN apt install -y git make g++ pkg-config openssl libssl-dev clang
+
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+ENV PATH="$PATH:/root/.cargo/bin"
+
+RUN rustup update
+
+RUN git clone https://github.com/AleoHQ/leo
+# latest commit that works properly with our codebase
+RUN cd leo && git checkout f30080f6478cbbfa7ea78d58baee0e76061e45ae
+RUN cd leo && cargo install --path .
+
+RUN git clone https://github.com/AleoHQ/snarkOS
+# latest commit that works properly with our codebase
+RUN cd snarkOS && git checkout 2825df689df54996c49abfc4eed11bfc3d95d860
+RUN cd snarkOS && cargo install --path .
+
+COPY resources.tar.gz /root/.aleo/resources.tar.gz
+RUN tar -xzvf /root/.aleo/resources.tar.gz -C /root/.aleo/

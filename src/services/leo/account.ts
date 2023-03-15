@@ -3,8 +3,8 @@ import { exec } from "child_process";
 
 const execute = promisify(exec);
 
-const createAccount = async () => {
-  const { stdout } = await execute("aleo account new");
+export const create = async () => {
+  const { stdout } = await execute("snarkos account new");
 
   const PRIVATE_KEY = "Private";
   const VIEW_KEY = "View";
@@ -37,4 +37,4 @@ const createAccount = async () => {
   return parsed;
 };
 
-export const aleo = { createAccount };
+export const account = { create };

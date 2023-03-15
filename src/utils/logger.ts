@@ -1,8 +1,8 @@
 import { createLogger, format, transports } from "winston";
 
-import { NODE_ENV } from "../constants";
+import { env } from "../constants";
 
-const logLevel = NODE_ENV === "production" ? "http" : "debug";
+const logLevel = env.NODE_ENV === "production" ? "http" : "debug";
 
 export const logger = createLogger({
   level: logLevel,

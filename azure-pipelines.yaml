@@ -15,7 +15,7 @@ variables:
   - name: dockerRepository
     value: $(vmProject)/aleo/zk-gaming-tk
   - name: aleoDockerRepository
-    value: $(vmProject)/aleo/zk-gaming-aleo
+    value: $(vmProject)/aleo/zk-gaming-snarkos
   - name: imageUrl
     value: $(dockerRegistryUrl)/$(dockerRepository)
   - name: aleoImageUrl

@@ -19,17 +19,19 @@ COPY .eslintrc.json ./.eslintrc.json
 
 COPY tsconfig.json ./tsconfig.json
 
-COPY contracts/ ./contracts/
 COPY src/ ./src/
 
-RUN rm -rf contracts/**/outputs/
-RUN rm -rf contracts/**/inputs/
+# TODO: build and publish programs to snarkos
+# COPY contracts/ ./contracts/
 
-RUN cd contracts/boloney_match && leo build
-RUN cd contracts/boloney_match_summary && leo build
-RUN cd contracts/dice && leo build
-RUN cd contracts/power_up && leo build
-RUN cd contracts/rng && leo build
+# RUN rm -rf contracts/**/outputs/
+# RUN rm -rf contracts/**/inputs/
+
+# RUN cd contracts/boloney_match && leo build
+# RUN cd contracts/boloney_match_summary && leo build
+# RUN cd contracts/dice && leo build
+# RUN cd contracts/power_up && leo build
+# RUN cd contracts/rng && leo build
 
 RUN yarn
 RUN yarn build

@@ -32,7 +32,7 @@ stages:
               namespace: "zk-gaming-tk-staging"
               command: "login"
           - script: |
-              skaffold run --filename=skaffold.aleo.yaml
+              skaffold run --filename=skaffold.snarkos.yaml
             displayName: Build and push Aleo Docker images
             enabled: false
           - script: |

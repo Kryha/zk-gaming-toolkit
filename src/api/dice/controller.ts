@@ -12,23 +12,23 @@ interface DiceController {
 
 export const diceController: DiceController = {
   create: async (req, res) => {
-    const { owner, matchId, diceAmount } = req.body;
-    const dice = await leo.dice.createDice(owner, matchId, diceAmount);
+    const { owner, matchId, diceAmount, privateKey, viewKey } = req.body;
+    const dice = await leo.dice.createDice(privateKey, viewKey, owner, matchId, diceAmount);
     res.send({ dice });
   },
   burn: async (req, res) => {
-    const { dice } = req.body;
-    await leo.dice.burnDice(dice);
+    const { dice, privateKey, viewKey } = req.body;
+    await leo.dice.burnDice(privateKey, viewKey, dice);
     res.send(DELETE_PAYLOAD);
   },
   increment: async (req, res) => {
-    const { dice } = req.body;
-    const updatedDice = await leo.dice.incrementDiceAmount(dice);
+    const { dice, privateKey, viewKey } = req.body;
+    const updatedDice = await leo.dice.incrementDiceAmount(privateKey, viewKey, dice);
     res.send({ dice: updatedDice });
   },
   decrement: async (req, res) => {
-    const { dice } = req.body;
-    const updatedDice = await leo.dice.decrementDiceAmount(dice);
+    const { dice, privateKey, viewKey } = req.body;
+    const updatedDice = await leo.dice.decrementDiceAmount(privateKey, viewKey, dice);
     res.send({ dice: updatedDice });
   },
 };

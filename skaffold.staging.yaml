@@ -13,7 +13,7 @@ build:
       docker:
         dockerfile: Dockerfile
         buildArgs:
-          ZK_GAMING_ALEO: eu.gcr.io/web3-335312/aleo/zk-gaming-aleo:latest
+          ZK_GAMING_ALEO: eu.gcr.io/web3-335312/aleo/zk-gaming-snarkos:latest
 manifests:
   kustomize:
     paths:

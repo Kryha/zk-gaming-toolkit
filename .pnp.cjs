@@ -44,6 +44,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],\
             ["@typescript-eslint/eslint-plugin", "virtual:6c3b36071652785c5a532dec39806508f26e71dc457812cbb146bf2c9636d66c52bf2a5b49c105137df6a9905328fa112b9231045ce4a9e53aef89af25eb0896#npm:5.33.0"],\
             ["@typescript-eslint/parser", "virtual:6c3b36071652785c5a532dec39806508f26e71dc457812cbb146bf2c9636d66c52bf2a5b49c105137df6a9905328fa112b9231045ce4a9e53aef89af25eb0896#npm:5.33.0"],\
+            ["axios", "npm:1.3.4"],\
             ["cookie-parser", "npm:1.4.6"],\
             ["cors", "npm:2.8.5"],\
             ["eslint", "npm:8.21.0"],\
@@ -2194,6 +2195,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["axios", [\
+        ["npm:1.3.4", {\
+          "packageLocation": "./.yarn/cache/axios-npm-1.3.4-01ea685178-7440edefcf.zip/node_modules/axios/",\
+          "packageDependencies": [\
+            ["axios", "npm:1.3.4"],\
+            ["follow-redirects", "virtual:01ea6851789e289a01b796f810de178bac6d56a5415f6812163a8c36f06eaa64bb9993c92dc00329a5b2f936da5273a082f393404924adfde56b26b8e581ef5e#npm:1.15.2"],\
+            ["form-data", "npm:4.0.0"],\
+            ["proxy-from-env", "npm:1.1.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["babel-jest", [\
         ["npm:28.1.3", {\
           "packageLocation": "./.yarn/cache/babel-jest-npm-28.1.3-3bb56d0efd-57ccd2296e.zip/node_modules/babel-jest/",\
@@ -3785,6 +3798,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/fn.name-npm-1.1.0-b472333184-e357144f48.zip/node_modules/fn.name/",\
           "packageDependencies": [\
             ["fn.name", "npm:1.1.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["follow-redirects", [\
+        ["npm:1.15.2", {\
+          "packageLocation": "./.yarn/cache/follow-redirects-npm-1.15.2-1ec1dd82be-faa66059b6.zip/node_modules/follow-redirects/",\
+          "packageDependencies": [\
+            ["follow-redirects", "npm:1.15.2"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:01ea6851789e289a01b796f810de178bac6d56a5415f6812163a8c36f06eaa64bb9993c92dc00329a5b2f936da5273a082f393404924adfde56b26b8e581ef5e#npm:1.15.2", {\
+          "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-a4bd585993/0/cache/follow-redirects-npm-1.15.2-1ec1dd82be-faa66059b6.zip/node_modules/follow-redirects/",\
+          "packageDependencies": [\
+            ["follow-redirects", "virtual:01ea6851789e289a01b796f810de178bac6d56a5415f6812163a8c36f06eaa64bb9993c92dc00329a5b2f936da5273a082f393404924adfde56b26b8e581ef5e#npm:1.15.2"],\
+            ["@types/debug", null],\
+            ["debug", null]\
+          ],\
+          "packagePeers": [\
+            "@types/debug",\
+            "debug"\
           ],\
           "linkType": "HARD"\
         }]\
@@ -6170,6 +6205,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["proxy-from-env", [\
+        ["npm:1.1.0", {\
+          "packageLocation": "./.yarn/cache/proxy-from-env-npm-1.1.0-c13d07f26b-ed7fcc2ba0.zip/node_modules/proxy-from-env/",\
+          "packageDependencies": [\
+            ["proxy-from-env", "npm:1.1.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["punycode", [\
         ["npm:2.1.1", {\
           "packageLocation": "./.yarn/cache/punycode-npm-2.1.1-26eb3e15cf-823bf443c6.zip/node_modules/punycode/",\
@@ -7466,6 +7510,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],\
             ["@typescript-eslint/eslint-plugin", "virtual:6c3b36071652785c5a532dec39806508f26e71dc457812cbb146bf2c9636d66c52bf2a5b49c105137df6a9905328fa112b9231045ce4a9e53aef89af25eb0896#npm:5.33.0"],\
             ["@typescript-eslint/parser", "virtual:6c3b36071652785c5a532dec39806508f26e71dc457812cbb146bf2c9636d66c52bf2a5b49c105137df6a9905328fa112b9231045ce4a9e53aef89af25eb0896#npm:5.33.0"],\
+            ["axios", "npm:1.3.4"],\
             ["cookie-parser", "npm:1.4.6"],\
             ["cors", "npm:2.8.5"],\
             ["eslint", "npm:8.21.0"],\

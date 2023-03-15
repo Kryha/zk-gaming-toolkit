@@ -1,20 +1,30 @@
 import { join } from "path";
 
-import { HashChainRecord, LeoAddress, leoAddressSchema } from "../../types";
+import { env } from "../../constants";
+import { HashChainRecord, LeoAddress, leoAddressSchema, LeoPrivateKey, LeoViewKey } from "../../types";
 import { leoParse } from "../../utils";
-import { contractsPath, execute, parseOutput } from "./util";
+import { contractsPath, parseOutput, zkRun } from "./util";
 
 const contractPath = join(contractsPath, "hash_chain");
 
-const getHashChainRecord = async (owner: LeoAddress, seed: number): Promise<HashChainRecord> => {
+const appName = env.HASH_CHAIN;
+
+const getHashChainRecord = async (
+  privateKey: LeoPrivateKey,
+  viewKey: LeoViewKey,
+  owner: LeoAddress,
+  seed: number
+): Promise<HashChainRecord> => {
   leoAddressSchema.parse(owner); // Validate owner address
 
   const initialSeed = leoParse.u64(seed);
 
-  const cmd = `cd ${contractPath} && leo run create_hash_chain_record ${owner} ${initialSeed}`;
-  const { stdout } = await execute(cmd);
+  const transition = "create_hash_chain_record";
+  const params = [owner, initialSeed];
 
-  return parseOutput.hashChainRecord(stdout);
+  const record = await zkRun({ privateKey, viewKey, appName, contractPath, transition, params });
+
+  return parseOutput.hashChainRecord(record);
 };
 
 export const hashChain = { getHashChainRecord };

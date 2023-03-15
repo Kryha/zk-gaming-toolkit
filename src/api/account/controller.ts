@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 
-import { aleo } from "../../services";
+import { leo } from "../../services";
 
 interface AccoutController {
   create: RequestHandler;
@@ -8,7 +8,7 @@ interface AccoutController {
 
 export const accountController: AccoutController = {
   create: async (_req, res) => {
-    const newAccount = await aleo.createAccount();
+    const newAccount = await leo.account.create();
     res.send(newAccount);
   },
 };

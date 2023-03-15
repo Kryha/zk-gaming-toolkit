@@ -5,14 +5,14 @@ import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
 
-import { PORT, CORS_ORIGINS, NODE_ENV } from "../constants";
+import { env } from "../constants";
 import { router } from "../api";
 import { logger } from "../utils";
 
 export const app = express();
 
 export const initExpressApp = () => {
-  app.set("port", PORT);
+  app.set("port", env.PORT);
 
   app.use(helmet());
 
@@ -62,8 +62,8 @@ export const initExpressApp = () => {
       origin: function (origin, callback) {
         // allow requests with no origin
         // (like mobile apps or curl requests)
-        if (!origin || NODE_ENV === "development") return callback(null, true);
-        return callback(null, CORS_ORIGINS);
+        if (!origin || env.NODE_ENV === "development") return callback(null, true);
+        return callback(null, env.CORS_ORIGINS);
       },
       credentials: true,
     })

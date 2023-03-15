@@ -15,6 +15,15 @@ export const leoAddressSchema = z
   .or(z.string().startsWith("aleo1").endsWith(".public").length(70));
 export type LeoAddress = z.infer<typeof leoAddressSchema>;
 
+export const leoPrivateKeySchema = z.string().startsWith("APrivateKey1").length(59);
+export type LeoPrivateKey = z.infer<typeof leoPrivateKeySchema>;
+
+export const leoViewKeySchema = z.string().startsWith("AViewKey1").length(53);
+export type LeoViewKey = z.infer<typeof leoViewKeySchema>;
+
+export const leoTxIdSchema = z.string().startsWith("at1");
+export type LeoTxId = z.infer<typeof leoTxIdSchema>;
+
 export const leoFieldSchema = leoStringSchema("field");
 export type LeoField = z.infer<typeof leoFieldSchema>;
 
@@ -29,3 +38,21 @@ export type LeoU64 = z.infer<typeof leoU64Schema>;
 
 export const leoGroupSchema = leoStringSchema("group");
 export type LeoGroup = z.infer<typeof leoGroupSchema>;
+
+export const leoRecordSchema = z.string().startsWith("record1");
+export type LeoRecord = z.infer<typeof leoRecordSchema>;
+
+export const leoTxSchema = z.object({
+  execution: z.object({
+    transitions: z.array(
+      z.object({
+        outputs: z.array(
+          z.object({
+            value: z.string(),
+          })
+        ),
+      })
+    ),
+  }),
+});
+export type LeoTx = z.infer<typeof leoTxSchema>;

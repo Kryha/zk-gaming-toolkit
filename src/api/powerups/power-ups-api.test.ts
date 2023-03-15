@@ -7,6 +7,8 @@ jest.setTimeout(6000000);
 describe("POST /power-ups/2", () => {
   const route = "/power-ups/2";
   const birdsEyeBody = {
+    privateKey: "APrivateKey1zkp3WTnfDxUchbLeHqwGrgdkTNieykUP72UPNmv4uQngjwf",
+    viewKey: "AViewKey1fvqnzQ9nYfFMAkhjdcz5UEtDD1JjpbtG8kMXBLJKAHbd",
     powerUp: {
       owner: "aleo1p4ye54p6n5cfdyzmy6fcs583mmwrghdxl8upeuew4w8uqmhqdqxq3e4tfl",
       gates: 0,

@@ -5,11 +5,15 @@ jest.setTimeout(600000);
 describe("Dice service", () => {
   const createBody = {
     owner: "aleo1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329",
+    privateKey: "APrivateKey1zkp3WTnfDxUchbLeHqwGrgdkTNieykUP72UPNmv4uQngjwf",
+    viewKey: "AViewKey1fvqnzQ9nYfFMAkhjdcz5UEtDD1JjpbtG8kMXBLJKAHbd",
     matchId: "4978abfd-96d0-4971-a1a8-aca1ab8070cf",
     diceAmount: 3,
   };
 
   const burnBody = {
+    privateKey: "APrivateKey1zkp3WTnfDxUchbLeHqwGrgdkTNieykUP72UPNmv4uQngjwf",
+    viewKey: "AViewKey1fvqnzQ9nYfFMAkhjdcz5UEtDD1JjpbtG8kMXBLJKAHbd",
     dice: {
       owner: "aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30",
       gates: 0,
@@ -21,6 +25,8 @@ describe("Dice service", () => {
   };
 
   const incrementBody = {
+    privateKey: "APrivateKey1zkp3WTnfDxUchbLeHqwGrgdkTNieykUP72UPNmv4uQngjwf",
+    viewKey: "AViewKey1fvqnzQ9nYfFMAkhjdcz5UEtDD1JjpbtG8kMXBLJKAHbd",
     dice: {
       owner: "aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30",
       gates: 0,
@@ -32,6 +38,8 @@ describe("Dice service", () => {
   };
 
   const decrementBody = {
+    privateKey: "APrivateKey1zkp3WTnfDxUchbLeHqwGrgdkTNieykUP72UPNmv4uQngjwf",
+    viewKey: "AViewKey1fvqnzQ9nYfFMAkhjdcz5UEtDD1JjpbtG8kMXBLJKAHbd",
     dice: {
       owner: "aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30",
       gates: 0,
@@ -43,9 +51,9 @@ describe("Dice service", () => {
   };
 
   it("successfully creates dice", async () => {
-    const { owner, matchId, diceAmount } = createBody;
+    const { owner, matchId, diceAmount, privateKey, viewKey } = createBody;
 
-    const res = await dice.createDice(owner, matchId, diceAmount);
+    const res = await dice.createDice(privateKey, viewKey, owner, matchId, diceAmount);
 
     expect(res._nonce).toBeDefined();
     expect(res.gates).toBeDefined();
@@ -56,13 +64,15 @@ describe("Dice service", () => {
   });
 
   it("successfully burns dice", async () => {
-    await expect(dice.burnDice(burnBody.dice)).resolves.not.toThrow();
+    const { dice: payload, privateKey, viewKey } = burnBody;
+
+    await expect(dice.burnDice(privateKey, viewKey, payload)).resolves.not.toThrow();
   });
 
   it("successfully increments dice amount", async () => {
-    const { dice: payload } = incrementBody;
+    const { dice: payload, privateKey, viewKey } = incrementBody;
 
-    const res = await dice.incrementDiceAmount(payload);
+    const res = await dice.incrementDiceAmount(privateKey, viewKey, payload);
 
     const { _nonce: _, ...expected } = payload;
     const { _nonce, ...toTest } = res;
@@ -72,9 +82,9 @@ describe("Dice service", () => {
   });
 
   it("successfully decrements dice amount", async () => {
-    const { dice: payload } = decrementBody;
+    const { dice: payload, privateKey, viewKey } = decrementBody;
 
-    const res = await dice.decrementDiceAmount(payload);
+    const res = await dice.decrementDiceAmount(privateKey, viewKey, payload);
 
     const { _nonce: _, ...expected } = payload;
     const { _nonce, ...toTest } = res;

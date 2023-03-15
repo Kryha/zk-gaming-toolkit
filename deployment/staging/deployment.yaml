@@ -18,3 +18,5 @@ spec:
                   fieldPath: metadata.namespace
             - name: CORS_ORIGINS
               value: https://backend.liars-dice.staging.kryha.dev
+            - name: ZK_MODE
+              value: snarkos_broadcast

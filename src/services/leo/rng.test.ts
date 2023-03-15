@@ -5,6 +5,8 @@ jest.setTimeout(600000);
 
 describe("RNG Service", () => {
   const randomNumberBody = {
+    privateKey: "APrivateKey1zkp3WTnfDxUchbLeHqwGrgdkTNieykUP72UPNmv4uQngjwf",
+    viewKey: "AViewKey1fvqnzQ9nYfFMAkhjdcz5UEtDD1JjpbtG8kMXBLJKAHbd",
     owner: "aleo1p4ye54p6n5cfdyzmy6fcs583mmwrghdxl8upeuew4w8uqmhqdqxq3e4tfl",
     seed: 42,
     min: 1,
@@ -12,9 +14,9 @@ describe("RNG Service", () => {
   };
 
   it("generates a random number in given range", async () => {
-    const { seed, min, max, owner } = randomNumberBody;
+    const { seed, min, max, privateKey, viewKey, owner } = randomNumberBody;
 
-    const res = await rng.getRandomNumber(owner, seed, min, max);
+    const res = await rng.getRandomNumber(privateKey, viewKey, owner, seed, min, max);
 
     expect(res.randomNumber).toBeGreaterThanOrEqual(min);
     expect(res.randomNumber).toBeLessThanOrEqual(max);

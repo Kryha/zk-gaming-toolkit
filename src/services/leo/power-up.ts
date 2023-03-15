@@ -1,53 +1,76 @@
 import { join } from "path";
 
-import { DiceData, LeoAddress, leoAddressSchema, PowerUp, PowerUpId, Sum, UUID } from "../../types";
+import { env } from "../../constants";
+import { DiceData, LeoAddress, leoAddressSchema, LeoPrivateKey, LeoViewKey, PowerUp, PowerUpId, Sum, UUID } from "../../types";
 import { leoParse } from "../../utils";
-import { contractsPath, execute, parseOutput } from "./util";
+import { contractsPath, parseOutput, zkRun } from "./util";
 
-const powerUpPath = join(contractsPath, "power_up");
+const contractPath = join(contractsPath, "power_up");
 
-const createPowerUp = async (owner: LeoAddress, matchId: UUID, powerUpId: PowerUpId): Promise<PowerUp> => {
+const appName = env.POWER_UP;
+
+const createPowerUp = async (
+  privateKey: LeoPrivateKey,
+  viewKey: LeoViewKey,
+  owner: LeoAddress,
+  matchId: UUID,
+  powerUpId: PowerUpId
+): Promise<PowerUp> => {
   leoAddressSchema.parse(owner);
 
   const matchIdParam = leoParse.id(matchId);
   const powerUpIdParam = leoParse.u8(powerUpId);
 
-  const cmd = `cd ${powerUpPath} && leo run create_power_up ${owner} ${matchIdParam} ${powerUpIdParam}`;
-  const { stdout } = await execute(cmd);
-  return parseOutput.powerUp(stdout);
+  const transition = "create_power_up";
+  const params = [owner, matchIdParam, powerUpIdParam];
+
+  const record = await zkRun({ privateKey, viewKey, appName, contractPath, transition, params });
+
+  return parseOutput.powerUp(record);
 };
 
-const burnPowerUp = async (powerUp: PowerUp): Promise<void> => {
+const burnPowerUp = async (privateKey: LeoPrivateKey, viewKey: LeoViewKey, powerUp: PowerUp): Promise<void> => {
   const leoPowerUp = leoParse.powerUp(powerUp);
   const powerUpParam = leoParse.stringifyLeoCmdParam(leoPowerUp);
 
-  const cmd = `cd ${powerUpPath} && leo run burn_power_up ${powerUpParam}`;
-  await execute(cmd);
+  const transition = "burn_power_up";
+  const params = [powerUpParam];
+
+  await zkRun({ privateKey, viewKey, appName, contractPath, transition, params });
 };
 
-const transferPowerUp = async (receiver: LeoAddress, powerUp: PowerUp): Promise<PowerUp> => {
+const transferPowerUp = async (
+  privateKey: LeoPrivateKey,
+  viewKey: LeoViewKey,
+  receiver: LeoAddress,
+  powerUp: PowerUp
+): Promise<PowerUp> => {
   leoAddressSchema.parse(receiver);
 
   const leoPowerUp = leoParse.powerUp(powerUp);
   const powerUpParam = leoParse.stringifyLeoCmdParam(leoPowerUp);
 
-  const cmd = `cd ${powerUpPath} && leo run transfer_power_up ${receiver} ${powerUpParam}`;
-  const { stdout } = await execute(cmd);
-  return parseOutput.powerUp(stdout);
+  const transition = "transfer_power_up";
+  const params = [receiver, powerUpParam];
+
+  const record = await zkRun({ privateKey, viewKey, appName, contractPath, transition, params });
+
+  return parseOutput.powerUp(record);
 };
 
-// TODO: refactor parsers as functional chainable methods
-const useBirdsEye = async (powerUp: PowerUp, diceData: DiceData): Promise<Sum> => {
+const useBirdsEye = async (privateKey: LeoPrivateKey, viewKey: LeoViewKey, powerUp: PowerUp, diceData: DiceData): Promise<Sum> => {
   const leoPowerUp = leoParse.powerUp(powerUp);
   const powerUpParam = leoParse.stringifyLeoCmdParam(leoPowerUp);
 
   const leoDiceData = leoParse.diceData(diceData);
   const diceDataParam = leoParse.stringifyLeoCmdParam(leoDiceData);
 
-  const cmd = `cd ${powerUpPath} && leo run use_birds_eye ${powerUpParam} ${diceDataParam}`;
-  const { stdout } = await execute(cmd);
+  const transition = "use_birds_eye";
+  const params = [powerUpParam, diceDataParam];
 
-  return parseOutput.sum(stdout);
+  const record = await zkRun({ privateKey, viewKey, appName, contractPath, transition, params });
+
+  return parseOutput.sum(record);
 };
 
 export const powerUp = { createPowerUp, burnPowerUp, transferPowerUp, useBirdsEye };

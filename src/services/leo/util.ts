@@ -2,7 +2,7 @@ import { exec } from "child_process";
 import { join } from "path";
 import { promisify } from "util";
 
-import { NODE_PATH } from "../../constants";
+import { env } from "../../constants";
 import {
   Dice,
   diceLeoSchema,
@@ -30,12 +30,18 @@ import {
   sumSchemaLeo,
   sumSchema,
   Sum,
+  LeoTxId,
+  leoTxIdSchema,
+  LeoTx,
+  leoTxSchema,
+  LeoRecord,
+  LeoViewKey,
 } from "../../types";
-import { decodeId } from "../../utils";
+import { attemptFetch, decodeId } from "../../utils";
 
 export const execute = promisify(exec);
 
-export const contractsPath = join(NODE_PATH, "contracts");
+export const contractsPath = join(env.NODE_PATH, "contracts");
 
 const PRIVATE = ".private";
 const PUBLIC = ".public";
@@ -72,10 +78,10 @@ const u64 = (value: string): number => {
   return parsed;
 };
 
-const parseCmdOutput = (cmdOutput: string): unknown => {
+const parseCmdOutput = (cmdOutput: string): Record<string, unknown> => {
   const lines = cmdOutput.split("\n");
 
-  let res: unknown = {};
+  let res: Record<string, unknown> = {};
 
   let objectStarted = false;
   let objectFinished = false;
@@ -95,7 +101,7 @@ const parseCmdOutput = (cmdOutput: string): unknown => {
       }
       const trimmedLine = line.trim();
       toParse = toParse + trimmedLine;
-    } else if (line.includes("• {")) {
+    } else if (line.includes("• {") || line.startsWith("{")) {
       toParse = toParse + "{";
       objectStarted = true;
     }
@@ -104,9 +110,36 @@ const parseCmdOutput = (cmdOutput: string): unknown => {
   return res;
 };
 
-const match = (cmdOutput: string): Match => {
-  const record = parseCmdOutput(cmdOutput);
+const parseBroadcastOutput = (cmdOutput: string): LeoTxId => {
+  const lines = cmdOutput.split("\n");
+  const res = lines.find((line) => line.startsWith("at1"))?.trim();
 
+  return leoTxIdSchema.parse(res);
+};
+
+const parseDisplayOutput = (cmdOutput: string): Record<string, unknown> => {
+  const lines = cmdOutput.split("\n");
+
+  let objectStarted = false;
+  let toParse = "";
+
+  lines.forEach((line) => {
+    if (objectStarted) {
+      toParse = toParse + line;
+    } else if (line.startsWith("{")) {
+      objectStarted = true;
+      toParse = toParse + line;
+    }
+  });
+
+  return JSON.parse(toParse.trim());
+};
+
+const getTxResult = (tx: LeoTx): string | undefined => {
+  return tx.execution.transitions.at(0)?.outputs.at(0)?.value;
+};
+
+const match = (record: Record<string, unknown>): Match => {
   const parsed = matchLeoSchema.parse(record);
   const { settings, power_ups } = parsed;
 
@@ -143,9 +176,7 @@ const match = (cmdOutput: string): Match => {
   return matchSchema.parse(res);
 };
 
-const matchSummary = (cmdOutput: string): MatchSummary => {
-  const record = parseCmdOutput(cmdOutput);
-
+const matchSummary = (record: Record<string, unknown>): MatchSummary => {
   const parsed = matchSummaryLeoSchema.parse(record);
 
   const decodedId = decodeId(field(parsed.match_id));
@@ -181,9 +212,7 @@ const matchSummary = (cmdOutput: string): MatchSummary => {
   return matchSummarySchema.parse(res);
 };
 
-const dice = (cmdOutput: string): Dice => {
-  const record = parseCmdOutput(cmdOutput);
-
+const dice = (record: Record<string, unknown>): Dice => {
   const parsed = diceLeoSchema.parse(record);
 
   const decodedId = decodeId(field(parsed.match_id));
@@ -201,9 +230,7 @@ const dice = (cmdOutput: string): Dice => {
   return diceSchema.parse(res);
 };
 
-const powerUp = (cmdOutput: string): PowerUp => {
-  const record = parseCmdOutput(cmdOutput);
-
+const powerUp = (record: Record<string, unknown>): PowerUp => {
   const parsed = powerUpLeoSchema.parse(record);
 
   const decodedId = decodeId(field(parsed.match_id));
@@ -220,9 +247,8 @@ const powerUp = (cmdOutput: string): PowerUp => {
   return powerUpSchema.parse(res);
 };
 
-export const randomNumber = (cmdOutput: string): RandomNumber => {
-  const parsedOutput = parseCmdOutput(cmdOutput);
-  const parsed = randomNumberSchemaLeo.parse(parsedOutput);
+export const randomNumber = (record: Record<string, unknown>): RandomNumber => {
+  const parsed = randomNumberSchemaLeo.parse(record);
 
   const res: RandomNumber = {
     owner: address(parsed.owner),
@@ -233,8 +259,7 @@ export const randomNumber = (cmdOutput: string): RandomNumber => {
   return randomNumberSchema.parse(res);
 };
 
-const hashChainRecord = (cmdOutput: string): HashChainRecord => {
-  const record = parseCmdOutput(cmdOutput);
+const hashChainRecord = (record: Record<string, unknown>): HashChainRecord => {
   const parsed = hashChainRecordLeoSchema.parse(record);
 
   const hashChain = Object.values(parsed.hash_chain).map((hash: string) => fieldToString(hash));
@@ -250,9 +275,8 @@ const hashChainRecord = (cmdOutput: string): HashChainRecord => {
   return hashChainRecordSchema.parse(res);
 };
 
-export const sum = (cmdOutput: string): Sum => {
-  const parsedOutput = parseCmdOutput(cmdOutput);
-  const parsed = sumSchemaLeo.parse(parsedOutput);
+const sum = (record: Record<string, unknown>): Sum => {
+  const parsed = sumSchemaLeo.parse(record);
 
   const res = {
     sum: u8(parsed.sum),
@@ -262,3 +286,83 @@ export const sum = (cmdOutput: string): Sum => {
 };
 
 export const parseOutput = { address, field, u8, u32, u64, match, matchSummary, dice, powerUp, hashChainRecord, randomNumber, sum };
+
+// TODO: handle when cyphered text is not a record
+const decryptRecord = async (encryptedRecord: LeoRecord, viewKey: LeoViewKey): Promise<Record<string, unknown>> => {
+  const cmd = `snarkos developer decrypt -v ${viewKey} -c ${encryptedRecord}`;
+  const { stdout } = await execute(cmd);
+  const parsed = parseCmdOutput(stdout);
+
+  return parsed;
+};
+
+interface LeoRunParams {
+  contractPath: string;
+  params?: string[];
+  transition?: string;
+}
+
+const leoRun = async ({ contractPath, params = [], transition = "main" }: LeoRunParams): Promise<Record<string, unknown>> => {
+  const stringedParams = params.join(" ");
+  const cmd = `cd ${contractPath} && leo run ${transition} ${stringedParams}`;
+
+  const { stdout } = await execute(cmd);
+  const parsed = parseCmdOutput(stdout);
+
+  return parsed;
+};
+
+interface SnarkOsExecuteParams {
+  privateKey: string;
+  viewKey: string;
+  appName: string;
+  params?: string[];
+  transition?: string;
+}
+
+const snarkOsExecute = async ({
+  privateKey,
+  viewKey,
+  appName,
+  params = [],
+  transition = "main",
+}: SnarkOsExecuteParams): Promise<Record<string, unknown>> => {
+  const broadcastOrDisplay =
+    env.ZK_MODE === "snarkos_broadcast" ? '--broadcast "https://vm.aleo.org/api/testnet3/transaction/broadcast"' : "--display";
+
+  const stringedParams = params.join(" ");
+
+  const cmd = `snarkos developer execute ${appName}.aleo ${transition} ${stringedParams} --private-key ${privateKey} --query "https://vm.aleo.org/api" ${broadcastOrDisplay}`;
+  const { stdout } = await execute(cmd);
+
+  let tx: Record<string, unknown>;
+  if (env.ZK_MODE === "snarkos_broadcast") {
+    const txId = parseBroadcastOutput(stdout);
+
+    const res = await attemptFetch(`https://vm.aleo.org/api/testnet3/transaction/${txId}`);
+    tx = res.data;
+  } else {
+    tx = parseDisplayOutput(stdout);
+  }
+
+  const parsedTx = leoTxSchema.parse(tx);
+  const result = getTxResult(parsedTx);
+
+  // I know a ternary would be cool, but it creates some weird concurrency issues sometimes
+  let parsed = {};
+  if (result) {
+    parsed = await decryptRecord(result, viewKey);
+  }
+
+  return parsed;
+};
+
+type ExecuteZkLogicParams = LeoRunParams & SnarkOsExecuteParams;
+
+export const zkRun = (params: ExecuteZkLogicParams): Promise<Record<string, unknown>> => {
+  if (env.ZK_MODE === "leo") {
+    return leoRun(params);
+  } else {
+    return snarkOsExecute(params);
+  }
+};

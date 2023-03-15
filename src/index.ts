@@ -2,14 +2,14 @@ import "source-map-support/register";
 
 import { createServer } from "http";
 
-import { NODE_ENV, PORT } from "./constants";
+import { env } from "./constants";
 import { app, initExpressApp } from "./services";
 import { logger } from "./utils";
 
 const server = createServer(app);
 
 const shutdown = () => {
-  logger.info(`🛑 Stopping server [${NODE_ENV}] . . .`);
+  logger.info(`🛑 Stopping server [${env.NODE_ENV}] . . .`);
 
   server.close((error) => {
     if (error) return logger.warn("🧨 Failed closing HTTP service:", error);
@@ -26,8 +26,8 @@ const startup = async (): Promise<void> => {
   logger.info("🪄  Initialising Express App...");
   initExpressApp();
 
-  server.listen(PORT, () => {
-    logger.info(`🎧 HTTP service listening on port ${PORT}`);
+  server.listen(env.PORT, () => {
+    logger.info(`🎧 HTTP service listening on port ${env.PORT}`);
   });
 };
 
