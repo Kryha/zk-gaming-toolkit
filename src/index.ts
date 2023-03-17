@@ -24,6 +24,8 @@ const startup = async (): Promise<void> => {
   process.on("SIGINT", shutdown);
 
   logger.info("🪄  Initialising Express App...");
+  logger.info(`ZK Mode: ${env.ZK_MODE}`);
+
   initExpressApp();
 
   server.listen(env.PORT, () => {

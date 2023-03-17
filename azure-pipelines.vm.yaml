@@ -1,0 +1,145 @@
+trigger:
+  - develop
+
+pool:
+  vmImage: "ubuntu-latest"
+
+variables:
+  - group: GoogleCloudPlatform
+  - name: commitHash
+    value: $(Build.SourceVersion)
+  - name: dockerRegistry
+    value: $(DOCKER_REGISTRY)
+  - name: dockerRegistryUrl
+    value: $(DOCKER_REGISTRY_URL)
+  - name: dockerRepository
+    value: $(vmProject)/aleo/zk-gaming-tk
+  - name: aleoDockerRepository
+    value: $(vmProject)/aleo/zk-gaming-snarkos
+  - name: imageUrl
+    value: $(dockerRegistryUrl)/$(dockerRepository)
+  - name: aleoImageUrl
+    value: $(dockerRegistryUrl)/$(aleoDockerRepository)
+  - name: vmInstance
+    value: $(VM_INSTANCE)
+  - name: vmProject
+    value: $(VM_PROJECT)
+  - name: dnsProject
+    value: $(DNS_PROJECT)
+  - name: vmRegion
+    value: $(VM_REGION)
+  - name: vmZone
+    value: $(vmRegion)-b
+  - name: containerServiceAccountName
+    value: $(CONTAINER_SERVICE_ACCOUNT_NAME)
+  - name: computeServiceAccountName
+    value: $(COMPUTE_SERVICE_ACCOUNT_NAME)
+  - name: containerServiceAccountAddress
+    value: $(containerServiceAccountName)@$(vmProject).iam.gserviceaccount.com
+  - name: CLOUDSDK_CORE_DISABLE_PROMPTS
+    value: 1
+
+stages:
+  - stage: build
+    displayName: Build
+    dependsOn: []
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    jobs:
+      - job:
+        displayName: Build Docker images
+        steps:
+          - task: Docker@2
+            displayName: Login to Google Container Registry
+            inputs:
+              command: login
+              containerRegistry: $(dockerRegistry)
+          - task: DownloadSecureFile@1
+            name: containerKeyFile
+            displayName: Download Service Account Key
+            inputs:
+              secureFile: $(containerServiceAccountName).json
+              retryCount: "2"
+          - script: gcloud auth activate-service-account $(containerServiceAccountAddress) --key-file=$(containerKeyFile.secureFilePath)
+            displayName: Activate Service Account
+          - script: gcloud --quiet auth configure-docker $(dockerRegistryUrl)
+            displayName: Configure Docker Account
+          - task: Docker@2
+            displayName: Build toolkit image
+            inputs:
+              arguments: --build-arg ZK_GAMING_ALEO=$(aleoImageUrl):latest
+              command: build
+              repository: $(dockerRepository)
+              Dockerfile: Dockerfile
+              tags: |
+                $(commitHash)
+                latest
+          - task: Docker@2
+            displayName: Push toolkit image
+            inputs:
+              command: push
+              repository: $(dockerRepository)
+              Dockerfile: Dockerfile
+              tags: |
+                $(commitHash)
+                latest
+
+  - stage: deploy
+    displayName: Deploy
+    dependsOn:
+      - build
+    condition: succeeded()
+    jobs:
+      - job:
+        displayName: Deploy Docker containers
+        steps:
+          - task: DownloadSecureFile@1
+            displayName: Download Google Compute Engine key file
+            name: computeKeyFile
+            inputs:
+              secureFile: "$(computeServiceAccountName).json"
+              retryCount: "2"
+
+          - task: DownloadSecureFile@1
+            name: containerKeyFile
+            displayName: Download registry service account key
+            inputs:
+              secureFile: $(containerServiceAccountName).json
+              retryCount: "2"
+
+          - script: gcloud auth activate-service-account --key-file "$(computeKeyFile.secureFilePath)"
+            displayName: Login to Google Compute Engine
+          - script: gcloud config set project "$(vmProject)"
+            displayName: Configure Google Cloud CLI project
+          - script: gcloud config set compute/region "$(vmRegion)"
+            displayName: Configure Google Cloud CLI region
+          - script: gcloud config set compute/zone "$(vmZone)"
+            displayName: Configure Google Cloud CLI zone
+
+          - script: |
+              gcloud compute ssh "$(vmInstance)" --command " \
+              mkdir -p .docker -m 777 && \
+              mkdir -p certs -m 777 && \
+              mkdir -p vhost -m 777 && \
+              mkdir -p html -m 777 && \
+              mkdir -p acme -m 777"
+            displayName: Prepare staging directories and files
+          - script: gcloud compute scp "$(containerKeyFile.secureFilePath)" "$(vmInstance):~/.docker/.gcr_credentials.json"
+            displayName: Copy Google Container Registry credentials
+          - script: gcloud compute ssh "$(vmInstance)" --command "sudo groupadd docker --force && sudo usermod -aG docker \$USER"
+            displayName: Configure user for Docker
+          - script: gcloud compute ssh "$(vmInstance)" --command "cat ~/.docker/.gcr_credentials.json | docker login -u _json_key --password-stdin $(dockerRegistryUrl)"
+            displayName: Login to Google Container Registry
+
+          - script: |
+              echo "GCE_PROJECT=$(vmProject)" >> .env.staging && \
+              echo "DNS_GCE_PROJECT=$(dnsProject)" >> .env.staging && \
+              echo "IMAGE=$(imageUrl):latest" >> .env.staging
+            displayName: Prepare Docker image tags
+          - script: gcloud compute scp .env.staging "$(vmInstance):~/.env"
+            displayName: Copy staging environment variables
+          - script: gcloud compute scp docker-compose.staging.yaml "$(vmInstance):~/docker-compose.yaml"
+            displayName: Copy container configuration
+          - script: |
+              gcloud compute ssh "$(vmInstance)" --command "docker run --rm --workdir \$PWD --volume \$PWD:\$PWD --volume ~/.docker:/root/.docker --volume /var/run/docker.sock:/var/run/docker.sock docker/compose:1.26.0 pull --include-deps"
+              gcloud compute ssh "$(vmInstance)" --command "docker run --rm --workdir \$PWD --volume \$PWD:\$PWD --volume ~/.docker:/root/.docker --volume /var/run/docker.sock:/var/run/docker.sock docker/compose:1.26.0 up --detach"
+            displayName: Create and start containers
