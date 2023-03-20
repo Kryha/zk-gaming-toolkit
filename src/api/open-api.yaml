@@ -1,85 +1,958 @@
 openapi: 3.0.0
 info:
-    version: "0.1"
-    title: "ZK-Gaming-Toolkit-API"
-    license:
-        name: MIT
+  version: "0.1"
+  title: "ZK-Gaming-Toolkit-API"
+  contact:
+    name: "ZK-Gaming-Toolkit"
+    email: "boloney@kryha.io"
+    url: "https://github.com/Kryha/boloney"
 servers:
-    - url: "localhost:5001"
+  - url: "localhost:5001"
 paths:
-    /account/create:
-        get:
-            summary: "Account Create"
-            operationId: accountCreate
-            tags:
-                - account
-            responses:
-                "200":
-                    description: "Returns an aleo address, private & view keys"
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Account"
-                default:
-                    description: Unexpected error
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Error"
-    /dice/roll:
-        post:
-            summary: "Dice Roll"
-            operationId: diceRoll
-            tags:
-                - dice
-            responses:
-                "200":
-                    description: "Returns an array of rolled values for each die"
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/RolledValues"
-                default:
-                    description: Unexpected error
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Error"
+  /account/create:
+    get:
+      summary: "Account Create"
+      operationId: accountCreate
+      tags:
+        - account
+      responses:
+        "200":
+          description: "Returns an aleo address, private & view keys."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+              example:
+                address: "aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30"
+                privateKey: "APrivateKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+                viewKey: "AViewKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /boloney/create-match:
+    post:
+      summary: "Boloney Create Match"
+      operationId: boloneyCreateMatch
+      tags:
+        - boloney
+      requestBody:
+        description: "Match parameters"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BoloneyCreateMatchRequest"
+            example:
+              privateKey: "APrivateKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              viewKey: "AViewKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              owner: "aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30"
+              matchId: "4978abfd-96d0-4971-a1a8-aca1ab8070cf"
+              settings:
+                {
+                  playerAmount: 3,
+                  dice_per_player: 5,
+                  initial_power_up_amout: 3,
+                  max_power_up_amount: 5,
+                  heal_power_up_amount: 4,
+                  stage_number_divisor: 1,
+                  draw_round_offset: 3,
+                }
+              powerUps: { id: ["1", "2", "3"], probability: 0.3 }
+      responses:
+        "200":
+          description: "Returns a match record."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Match"
+              example:
+                owner: "aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30"
+                gates: 0
+                matchId: "4978abfd-96d0-4971-a1a8-aca1ab8070cf"
+                settings:
+                  {
+                    playerAmount: 3,
+                    dice_per_player: 5,
+                    initial_power_up_amout: 3,
+                    max_power_up_amount: 5,
+                    heal_power_up_amount: 4,
+                    stage_number_divisor: 1,
+                    draw_round_offset: 3,
+                  }
+                powerUps: { id: ["1", "2", "3"], probability: 0.3 }
+                _nonce: "4932sdfagroup"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /boloney/create-match-summary:
+    post:
+      summary: "Boloney Create Match Summary"
+      operationId: boloneyCreateMatchSummary
+      tags:
+        - boloney
+      requestBody:
+        description: "Match summary parameters"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BoloneyCreateMatchSummaryRequest"
+            example:
+              privateKey: "APrivateKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              viewKey: "AViewKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              owner: "aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30"
+              matchId: "4978abfd-96d0-4971-a1a8-aca1ab8070cf"
+              ranking: ["aleo1...", "aleo1...", "aleo1..."]
+      responses:
+        "200":
+          description: "Returns the match summary record."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MatchSummary"
+              example:
+                owner: "aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30"
+                gates: 0
+                matchId: "4978abfd-96d0-4971-a1a8-aca1ab8070cf"
+                ranking: ["aleo1...", "aleo1...", "aleo1..."]
+                _nonce: "4932sdfagroup"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /dice/create:
+    post:
+      summary: "Dice Create"
+      operationId: diceCreate
+      tags:
+        - dice
+      requestBody:
+        description: "Dice parameters"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DiceCreateRequest"
+            example:
+              privateKey: "APrivateKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              viewKey: "AViewKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              owner: "aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30"
+              matchId: "4978abfd-96d0-4971-a1a8-aca1ab8070cf"
+              diceAmount: 5
+      responses:
+        "200":
+          description: "Returns a dice record."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dice"
+              example:
+                owner: "aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30"
+                gates: 0
+                matchId: "4978abfd-96d0-4971-a1a8-aca1ab8070cf"
+                diceAmount: 5
+                faceAmount: 6
+                _nonce: "4932sdfagroup"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /dice/burn:
+    post:
+      summary: "Dice Burn"
+      operationId: diceBurn
+      tags:
+        - dice
+      requestBody:
+        description: "Dice burn parameters"
+        required: true
+        content:
+          application/json:
+            schema:
+              privateKey: { $ref: "#/components/schemas/LeoPrivateKey" }
+              viewKey: { $ref: "#/components/schemas/LeoViewKey" }
+              $ref: "#/components/schemas/Dice"
+            example:
+              privateKey: "APrivateKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              viewKey: "AViewKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              dice:
+                {
+                  owner: "aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30",
+                  gates: 0,
+                  matchId: "4978abfd-96d0-4971-a1a8-aca1ab8070cf",
+                  faceAmount: 6,
+                  diceAmount: 2,
+                  _nonce: "1323450485807227633491366157428111506683947033444154737457888904676343676647group",
+                }
+      responses:
+        "200":
+          description: "Returns a confirmation of the burned die."
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /dice/increment:
+    post:
+      summary: "Dice Increment"
+      operationId: diceIncrement
+      tags:
+        - dice
+      requestBody:
+        description: "Dice increment parameters"
+        required: true
+        content:
+          application/json:
+            schema:
+              privateKey: { $ref: "#/components/schemas/LeoPrivateKey" }
+              viewKey: { $ref: "#/components/schemas/LeoViewKey" }
+              $ref: "#/components/schemas/Dice"
+            example:
+              privateKey: "APrivateKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              viewKey: "AViewKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              dice:
+                {
+                  owner: "aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30",
+                  gates: 0,
+                  matchId: "4978abfd-96d0-4971-a1a8-aca1ab8070cf",
+                  faceAmount: 6,
+                  diceAmount: 2,
+                  _nonce: "1323450485807227633491366157428111506683947033444154737457888904676343676647group",
+                }
+      responses:
+        "200":
+          description: "Returns the updated dice record."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dice"
+              example:
+                owner: "aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30"
+                gates: 0
+                matchId: "4978abfd-96d0-4971-a1a8-aca1ab8070cf"
+                faceAmount: 6
+                diceAmount: 2
+                _nonce: "1323450485807227633491366157428111506683947033444154737457888904676343676647group"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /dice/decrement:
+    post:
+      summary: "Dice Decrement"
+      operationId: diceDecrement
+      tags:
+        - dice
+      requestBody:
+        description: "Dice decrement parameters"
+        required: true
+        content:
+          application/json:
+            schema:
+              privateKey: { $ref: "#/components/schemas/LeoPrivateKey" }
+              viewKey: { $ref: "#/components/schemas/LeoViewKey" }
+              $ref: "#/components/schemas/Dice"
+            example:
+              privateKey: "APrivateKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              viewKey: "AViewKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              dice:
+                {
+                  owner: "aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30",
+                  gates: 0,
+                  matchId: "4978abfd-96d0-4971-a1a8-aca1ab8070cf",
+                  faceAmount: 6,
+                  diceAmount: 2,
+                  _nonce: "1323450485807227633491366157428111506683947033444154737457888904676343676647group",
+                }
+      responses:
+        "200":
+          description: "Returns the updated dice record."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dice"
+              example:
+                owner: "aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30"
+                gates: 0
+                matchId: "4978abfd-96d0-4971-a1a8-aca1ab8070cf"
+                faceAmount: 6
+                diceAmount: 2
+                _nonce: "1323450485807227633491366157428111506683947033444154737457888904676343676647group"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /power-ups/create:
+    post:
+      summary: "powerUps Create"
+      operationId: powerUpsCreate
+      tags:
+        - powerUps
+      requestBody:
+        description: "Powerup parameters"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PowerUpsCreateRequest"
+            example:
+              privateKey: "APrivateKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              viewKey: "AViewKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              owner: "aleo1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              matchId: "407478c8-c320-11ed-afa1-0242ac120002"
+              powerUpId: "1"
+      responses:
+        "200":
+          description: "Returns a powerup record."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PowerUp"
+              example:
+                owner: "aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30"
+                gates: 0
+                matchId: "4978abfd-96d0-4971-a1a8-aca1ab8070cf"
+                powerUpId: "1"
+                _nonce: "1323450485807227633491366157428111506683947033444154737457888904676343676647group"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /power-ups/burn:
+    post:
+      summary: "powerUps Burn"
+      operationId: powerUpsBurn
+      tags:
+        - powerUps
+      requestBody:
+        description: "Power-up burn parameters"
+        required: true
+        content:
+          application/json:
+            schema:
+              privateKey: { $ref: "#/components/schemas/LeoPrivateKey" }
+              viewKey: { $ref: "#/components/schemas/LeoViewKey" }
+              $ref: "#/components/schemas/PowerUp"
+              example:
+                privateKey: "APrivateKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+                viewKey: "AViewKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+                powerUp:
+                  {
+                    owner: "aleo1p4ye54p6n5cfdyzmy6fcs583mmwrghdxl8upeuew4w8uqmhqdqxq3e4tfl",
+                    gates: 0,
+                    powerUpId: "2",
+                    matchId: "4978abfd-96d0-4971-a1a8-aca1ab8070cf",
+                    _nonce: "4393085214842307962009839145934641063703150241291667000462643412531900836455group",
+                  }
+      responses:
+        "200":
+          description: "Returns a confirmation of the burn"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /power-ups/transfer:
+    post:
+      summary: "powerUps Transfer"
+      operationId: powerUpsTransfer
+      tags:
+        - powerUps
+      requestBody:
+        description: "Power-up transfer parameters. Only the view key belongs to the receiver."
+        required: true
+        content:
+          application/json:
+            schema:
+              privateKey: { $ref: "#/components/schemas/LeoPrivateKey" }
+              viewKey: { $ref: "#/components/schemas/LeoViewKey" }
+              $ref: "#/components/schemas/PowerUpsTransferRequest"
+              example:
+                privateKey: "APrivateKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+                viewKey: "AViewKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+                receiver: "aleo1p4ye54p6n5cfdyzmy6fcs583mmwrghdxl8upeuew4w8"
+                powerUp:
+                  {
+                    owner: "aleo1p4ye54p6n5cfdyzmy6fcs583mmwrghdxl8upeuew4w8uqmhqdqxq3e4tfl",
+                    gates: 0,
+                    powerUpId: "2",
+                    matchId: "4978abfd-96d0-4971-a1a8-aca1ab8070cf",
+                    _nonce: "4393085214842307962009839145934641063703150241291667000462643412531900836455group",
+                  }
+      responses:
+        "200":
+          description: "Returns a copy of the updated record."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PowerUpJson"
+              example:
+                "powerUp":
+                  {
+                    owner: "aleo1p4ye54p6n5cfdyzmy6fcs583mmwrghdxl8upeuew4w8uqmhqdqxq3e4tfl",
+                    gates: 0,
+                    powerUpId: "2",
+                    matchId: "4978abfd-96d0-4971-a1a8-aca1ab8070cf",
+                    _nonce: "4393085214842307962009839145934641063703150241291667000462643412531900836455group",
+                  }
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /power-ups/2:
+    post:
+      summary: "Use Bird's Eye View Powerup"
+      operationId: powerUps2
+      tags:
+        - powerUps
+      requestBody:
+        description: "Bird's Eye View power-up parameters"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UseBirdsEyeViewRequest"
+            example:
+              powerUp:
+                {
+                  owner: "aleo1p4ye54p6n5cfdyzmy6fcs583mmwrghdxl8upeuew4w8uqmhqdqxq3e4tfl",
+                  gates: 0,
+                  powerUpId: "2",
+                  matchId: "4978abfd-96d0-4971-a1a8-aca1ab8070cf",
+                  _nonce: "4393085214842307962009839145934641063703150241291667000462643412531900836455group",
+                }
+              diceData: { dice_1: 1, dice_2: 3, dice_3: 4, dice_4: 5, dice_5: 6, dice_6: 0, dice_7: 0, dice_8: 0, dice_9: 0, dice_10: 0 }
+      responses:
+        "200":
+          description: "Returns the sum of the target's dice."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UseBirdsEyeViewResponse"
+              example:
+                sum: 15
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /random/number:
+    post:
+      summary: "Random Number"
+      operationId: randomNumber
+      tags:
+        - random
+      requestBody:
+        description: "Random number parameters"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RandomNumberRequest"
+            example:
+              privateKey: "APrivateKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              viewKey: "AViewKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              owner: "aleo1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              seed: 42
+              min: 1
+              max: 100
+      responses:
+        "200":
+          description: "Returns a random generated number"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RandomNumberResponse"
+              example:
+                owner: "aleo1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+                gates: 0
+                randomNumber: 42
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /random/hash-chain-record:
+    post:
+      summary: "Random Hash Chain Record"
+      operationId: randomHashChainRecord
+      tags:
+        - random
+      requestBody:
+        description: "Random hash chain record parameters"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RandomHashChainRecordRequest"
+            example:
+              privateKey: "APrivateKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              viewKey: "AViewKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              owner: "aleo1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+              seed: 42
+      responses:
+        "200":
+          description: "Returns a random generated hash chain record."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RandomHashChainRecordResponse"
+              example:
+                privateKey: "APrivateKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+                viewKey: "AViewKey1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+                owner: "aleo1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329"
+                seed: 42
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
-    schemas:
-        Account:
-            type: object
-            required:
-                - address
-                - privateKey
-                - viewKey
-            properties:
-                address:
-                    type: string
-                privateKey:
-                    type: string
-                viewKey:
-                    type: string
-        RolledValues:
-            type: array
-            items: {
-                type: integer
-            }
-        Error:
-            type: object
-            required:
-                - code
-                - message
-            properties:
-                code:
-                    type: integer
-                    format: int32
-                message:
-                    type: string
-    securitySchemes:
-        ApiKey:
-            type: apiKey
-            name: api_key
-            in: header
+  schemas:
+    Account:
+      type: object
+      required:
+        - address
+        - privateKey
+        - viewKey
+      properties:
+        address:
+          type: string
+        privateKey:
+          type: string
+        viewKey:
+          type: string
+    BoloneyCreateMatchRequest:
+      type: object
+      required:
+        - privateKey
+        - viewKey
+        - owner
+        - matchId
+        - settings
+        - powerUps
+      properties:
+        privateKey: { $ref: "#/components/schemas/LeoPrivateKey" }
+        viewKey: { $ref: "#/components/schemas/LeoViewKey" }
+        owner: { $ref: "#/components/schemas/LeoAddress" }
+        matchId:
+          type: string
+          format: UUID
+        settings: { $ref: "#/components/schemas/MatchSettings" }
+        powerUps: { $ref: "#/components/schemas/PowerUpProababilities" }
+    BoloneyCreateMatchSummaryRequest:
+      type: object
+      required:
+        - privateKey
+        - viewKey
+        - owner
+        - matchId
+        - ranking
+      properties:
+        privateKey: { $ref: "#/components/schemas/LeoPrivateKey" }
+        viewKey: { $ref: "#/components/schemas/LeoViewKey" }
+        owner: { $ref: "#/components/schemas/LeoAddress" }
+        matchId:
+          type: string
+          format: UUID
+        ranking:
+          type: array
+          items: { type: string }
+    DiceCreateRequest:
+      type: object
+      required:
+        - privateKey
+        - viewKey
+        - owner
+        - matchId
+        - diceAmount
+      properties:
+        privateKey: { $ref: "#/components/schemas/LeoPrivateKey" }
+        viewKey: { $ref: "#/components/schemas/LeoViewKey" }
+        owner: { $ref: "#/components/schemas/LeoAddress" }
+        matchId:
+          type: string
+          format: UUID
+        dice:
+          type: integer
+          format: int64
+    PowerUpsCreateRequest:
+      type: object
+      required:
+        - privateKey
+        - viewKey
+        - owner
+        - matchId
+        - powerUpId
+      properties:
+        privateKey: { $ref: "#/components/schemas/LeoPrivateKey" }
+        viewKey: { $ref: "#/components/schemas/LeoViewKey" }
+        owner: { $ref: "#/components/schemas/LeoAddress" }
+        matchId:
+          type: string
+          format: UUID
+        powerUpId: { $ref: "#/components/schemas/PowerUpId" }
+    PowerUpsTransferRequest:
+      type: object
+      required:
+        - receiver
+        - powerUp
+      properties:
+        receiver: { $ref: "#/components/schemas/LeoAddress" }
+        powerUp: { $ref: "#/components/schemas/PowerUp" }
+    UseBirdsEyeViewRequest:
+      type: object
+      required:
+        - privateKey
+        - viewKey
+        - powerUp
+        - diceData
+      properties:
+        privateKey: { $ref: "#/components/schemas/LeoPrivateKey" }
+        viewKey: { $ref: "#/components/schemas/LeoViewKey" }
+        powerUp: { $ref: "#/components/schemas/PowerUp" }
+        diceData: { $ref: "#/components/schemas/DiceData" }
+    UseBirdsEyeViewResponse:
+      type: object
+      required:
+        - sum
+      properties:
+        sum:
+          type: integer
+          format: int64
+    RandomNumberRequest:
+      type: object
+      required:
+        - privateKey
+        - viewKey
+        - owner
+        - seed
+        - min
+        - max
+      properties:
+        privateKey: { $ref: "#/components/schemas/LeoPrivateKey" }
+        viewKey: { $ref: "#/components/schemas/LeoViewKey" }
+        owner: { $ref: "#/components/schemas/LeoAddress" }
+        seed:
+          type: integer
+          format: int64
+        min:
+          type: integer
+          format: int64
+        max:
+          type: integer
+          format: int64
+    RandomNumberResponse:
+      type: object
+      required:
+        - owner
+        - gates
+        - randomNumber
+      properties:
+        owner: { $ref: "#/components/schemas/LeoAddress" }
+        gates:
+          type: integer
+          format: int64
+        randomNumber:
+          type: integer
+          format: int64
+
+    RandomHashChainRecordRequest:
+      type: object
+      required:
+        - privateKey
+        - viewKey
+        - owner
+        - seed
+      properties:
+        privateKey: { $ref: "#/components/schemas/LeoPrivateKey" }
+        viewKey: { $ref: "#/components/schemas/LeoViewKey" }
+        owner: { $ref: "#/components/schemas/LeoAddress" }
+        seed:
+          type: integer
+          format: int64
+    RandomHashChainRecordResponse:
+      type: object
+      required:
+        - owner
+        - gates
+        - _nonce
+        - seed
+        - hashChain
+      properties:
+        owner: { $ref: "#/components/schemas/LeoAddress" }
+        gates:
+          type: integer
+          format: int64
+        _nonce: { $ref: "#/components/schemas/LeoGroup" }
+        seed:
+          type: integer
+          format: int64
+        hashChainRecord:
+          type: array
+          items: { type: string }
+    Dice:
+      type: object
+      required:
+        - owner
+        - gates
+        - match_id
+        - face_amount
+        - dice_amount
+        - _nonce
+      properties:
+        owner: { $ref: "#/components/schemas/LeoAddress" }
+        gates:
+          type: number
+          format: int64
+        match_id:
+          type: string
+          format: UUID
+        face_amount:
+          type: integer
+          format: int64
+          minimum: 1
+        dice_amount:
+          type: integer
+          format: int64
+          minimum: 1
+        _nonce: { $ref: "#/components/schemas/LeoGroup" }
+    MatchSettings:
+      type: object
+      required:
+        - owner
+        - matchId
+        - settings
+      properties:
+        players:
+          type: integer
+          format: int64
+          minimum: 0
+        dicePerPlayer:
+          type: integer
+          format: int64
+          minimum: 0
+        initialPowerUpAmount:
+          type: integer
+          format: int64
+          minimum: 0
+        maxPowerUpAmount:
+          type: integer
+          format: int64
+          minimum: 0
+        healPowerUpAmount:
+          type: integer
+          format: int64
+          minimum: 0
+        stageNumberDivisor:
+          type: integer
+          format: int64
+          minimum: 0
+        drawRoundOffset:
+          type: integer
+          format: int64
+          minimum: 0
+    PowerUpProababilities:
+      type: object
+      required:
+        - id
+        - probability
+      properties:
+        id: { $ref: "#/components/schemas/PowerUpId" }
+        probability:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 100
+    PowerUpId:
+      type: string
+      enum: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    PowerUp:
+      type: object
+      required:
+        - owner
+        - gates
+        - matchId
+        - powerUpId
+        - _nonce
+      properties:
+        owner: { $ref: "#/components/schemas/LeoAddress" }
+        gates:
+          type: integer
+          format: int64
+        matchId:
+          type: string
+          format: UUID
+        powerUpId: { $ref: "#/components/schemas/PowerUpId" }
+        _nonce: { $ref: "#/components/schemas/LeoGroup" }
+    PowerUpJson:
+      type: object
+      required:
+        - powerUp
+      properties:
+        powerUp: { $ref: "#/components/schemas/PowerUp" }
+    Match:
+      type: object
+      required:
+        - owner
+        - gates
+        - matchId
+        - settings
+        - powerUps
+        - _nonce
+      properties:
+        owner: { $ref: "#/components/schemas/LeoAddress" }
+        gates:
+          type: integer
+          format: int64
+        matchId:
+          type: string
+          format: UUID
+        settings: { $ref: "#/components/schemas/MatchSettings" }
+        powerUps: { $ref: "#/components/schemas/PowerUpProababilities" }
+        _nonce: { $ref: "#/components/schemas/LeoGroup" }
+    MatchSummary:
+      type: object
+      required:
+        - owner
+        - gates
+        - matchId
+        - ranking
+        - _nonce
+      properties:
+        owner: { $ref: "#/components/schemas/LeoAddress" }
+        gates:
+          type: integer
+          format: int64
+        matchId:
+          type: string
+          format: UUID
+        ranking:
+          type: array
+          items: { type: string, format: UUID, minLength: 10, maxLength: 10 }
+        _nonce: { $ref: "#/components/schemas/LeoGroup" }
+    LeoGroup:
+      type: string
+      endsWith: "group"
+    LeoAddress:
+      oneOf:
+        - $ref: "#/components/schemas/LeoAddressPrivate"
+        - $ref: "#/components/schemas/LeoAddressPublic"
+    DiceData:
+      type: object
+      required:
+        - dice_1
+        - dice_2
+        - dice_3
+        - dice_4
+        - dice_5
+        - dice_6
+        - dice_7
+        - dice_8
+        - dice_9
+        - dice_10
+      properties:
+        dice_1:
+          type: integer
+          format: int64
+        dice_2:
+          type: integer
+          format: int64
+        dice_3:
+          type: integer
+          format: int64
+        dice_4:
+          type: integer
+          format: int64
+        dice_5:
+          type: integer
+          format: int64
+        dice_6:
+          type: integer
+          format: int64
+        dice_7:
+          type: integer
+          format: int64
+        dice_8:
+          type: integer
+          format: int64
+        dice_9:
+          type: integer
+          format: int64
+        dice_10:
+          type: integer
+          format: int64
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    LeoAddressPrivate:
+      type: string
+      startsWith: "aleo1"
+      endsWith: ".private"
+      minLength: 71
+      maxLength: 71
+    LeoAddressPublic:
+      type: string
+      startsWith: "aleo1"
+      endsWith: ".public"
+      minLength: 70
+      maxLength: 70
+    LeoPrivateKey:
+      type: string
+      startsWith: "APrivateKey1"
+      minLength: 59
+      maxLength: 59
+    LeoViewKey:
+      type: string
+      startsWith: "AViewKey1"
+      minLength: 53
+      maxLength: 53
+    LeoTxIdey:
+      type: string
+      startsWith: "at1"
+      minLength: 53
+      maxLength: 53
+    LeoRecordSchema:
+      type: string
+      startsWith: "record1"
+      minLength: 53
+      maxLength: 53
+  # Ramiro we don't have these, right?
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      name: api_key
+      in: header
 security:
-    - ApiKey: []
+  - ApiKey: []
