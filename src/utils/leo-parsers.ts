@@ -24,6 +24,7 @@ import {
   Ranking,
   RankingLeo,
 } from "../types";
+import { apiError } from "./error";
 import { encodeId } from "./id";
 
 const stringifyLeoCmdParam = (value: unknown): string => {
@@ -43,27 +44,27 @@ const field = (value: bigint): LeoField => {
 
 const id = (value: string): LeoField => {
   const encoded = encodeId(value);
-  if (!encoded) throw new Error("Leo ID parsing failed.");
+  if (!encoded) throw apiError("Leo ID parsing failed.");
   return field(encoded);
 };
 
 const u8 = (value: number | string): LeoU8 => {
   const numVal = Number(value);
-  if (isNaN(numVal)) throw new Error("u8 parsing failed");
+  if (isNaN(numVal)) throw apiError("u8 parsing failed");
   const parsed = numVal + "u8";
   return leoU8Schema.parse(parsed);
 };
 
 const u32 = (value: number | string): LeoU32 => {
   const numVal = Number(value);
-  if (isNaN(numVal)) throw new Error("u32 parsing failed");
+  if (isNaN(numVal)) throw apiError("u32 parsing failed");
   const parsed = numVal + "u32";
   return leoU32Schema.parse(parsed);
 };
 
 const u64 = (value: number | string): LeoU64 => {
   const numVal = Number(value);
-  if (isNaN(numVal)) throw new Error("u64 parsing failed");
+  if (isNaN(numVal)) throw apiError("u64 parsing failed");
   const parsed = numVal + "u64";
   return leoU64Schema.parse(parsed);
 };
@@ -121,7 +122,7 @@ const ranking = (leaderboard: Ranking): RankingLeo => {
     const key = ("p_" + place) as keyof RankingLeo;
     const parsedId = encodeId(playerId);
 
-    if (!parsedId) throw new Error("ID encoding error");
+    if (!parsedId) throw apiError("ID encoding error");
 
     res[key] = field(parsedId);
   });
@@ -132,7 +133,7 @@ const ranking = (leaderboard: Ranking): RankingLeo => {
 const dice = (payload: Dice): DiceLeo => {
   const encodedId = encodeId(payload.matchId);
 
-  if (!encodedId) throw new Error("ID encoding error");
+  if (!encodedId) throw apiError("ID encoding error");
 
   const res: DiceLeo = {
     _nonce: publicField(payload._nonce),
@@ -173,7 +174,7 @@ const diceData = (diceData: DiceData): DiceDataLeo => {
 const powerUp = (payload: PowerUp): PowerUpLeo => {
   const encodedId = encodeId(payload.matchId);
 
-  if (!encodedId) throw new Error("ID encoding error");
+  if (!encodedId) throw apiError("ID encoding error");
 
   const res: PowerUpLeo = {
     _nonce: publicField(payload._nonce),

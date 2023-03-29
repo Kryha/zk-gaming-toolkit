@@ -37,7 +37,7 @@ import {
   LeoRecord,
   LeoViewKey,
 } from "../../types";
-import { attemptFetch, decodeId } from "../../utils";
+import { apiError, attemptFetch, decodeId } from "../../utils";
 
 export const execute = promisify(exec);
 
@@ -60,21 +60,21 @@ const fieldToString = (value: string): string => {
   return parsed;
 };
 
-const u8 = (value: string): number => {
+export const u8 = (value: string): number => {
   const parsed = Number(replaceValue(value, "u8"));
-  if (isNaN(parsed)) throw new Error("u8 parsing failed");
+  if (isNaN(parsed)) throw apiError("u8 parsing failed");
   return parsed;
 };
 
 const u32 = (value: string): number => {
   const parsed = Number(replaceValue(value, "u32"));
-  if (isNaN(parsed)) throw new Error("u32 parsing failed");
+  if (isNaN(parsed)) throw apiError("u32 parsing failed");
   return parsed;
 };
 
 const u64 = (value: string): number => {
   const parsed = Number(replaceValue(value, "u64"));
-  if (isNaN(parsed)) throw new Error("u64 parsing failed");
+  if (isNaN(parsed)) throw apiError("u64 parsing failed");
   return parsed;
 };
 
@@ -144,14 +144,14 @@ const match = (record: Record<string, unknown>): Match => {
   const { settings, power_ups } = parsed;
 
   const decodedId = decodeId(field(parsed.match_id));
-  if (!decodedId) throw new Error("Match parsing failed.");
+  if (!decodedId) throw apiError("Match parsing failed.");
 
   const powerUps: PowerUpProbabilities = Object.entries(power_ups).map(([k, prob]): PowerUpProbability => {
     const id = k.replace("pu_", "");
     const parsedId = powerUpIdSchema.parse(id);
     const parsedProb = parseInt(prob);
 
-    if (isNaN(parsedProb)) throw new Error("Power-up probabilities parsing failed.");
+    if (isNaN(parsedProb)) throw apiError("Power-up probabilities parsing failed.");
 
     return { id: parsedId, probability: parsedProb };
   });
@@ -180,7 +180,7 @@ const matchSummary = (record: Record<string, unknown>): MatchSummary => {
   const parsed = matchSummaryLeoSchema.parse(record);
 
   const decodedId = decodeId(field(parsed.match_id));
-  if (!decodedId) throw new Error("Match summary parsing failed.");
+  if (!decodedId) throw apiError("Match summary parsing failed.");
 
   const tmpRanking: Ranking = ["", "", "", "", "", "", "", "", "", ""];
 
@@ -188,13 +188,13 @@ const matchSummary = (record: Record<string, unknown>): MatchSummary => {
     if (!id) return;
 
     const standing = parseInt(k.replace("p_", "")) - 1;
-    if (isNaN(standing)) throw new Error("Ranking parsing failed.");
+    if (isNaN(standing)) throw apiError("Ranking parsing failed.");
 
     const parsedField = field(id);
     if (!parsedField) return;
 
     const playerId = decodeId(parsedField);
-    if (!playerId) throw new Error("Ranking parsing failed.");
+    if (!playerId) throw apiError("Ranking parsing failed.");
 
     tmpRanking[standing] = playerId;
   });
@@ -216,7 +216,7 @@ const dice = (record: Record<string, unknown>): Dice => {
   const parsed = diceLeoSchema.parse(record);
 
   const decodedId = decodeId(field(parsed.match_id));
-  if (!decodedId) throw new Error("Dice parsing failed.");
+  if (!decodedId) throw apiError("Dice parsing failed.");
 
   const res: Dice = {
     _nonce: replaceValue(parsed._nonce),
@@ -234,7 +234,7 @@ const powerUp = (record: Record<string, unknown>): PowerUp => {
   const parsed = powerUpLeoSchema.parse(record);
 
   const decodedId = decodeId(field(parsed.match_id));
-  if (!decodedId) throw new Error("Power-up parsing failed.");
+  if (!decodedId) throw apiError("Power-up parsing failed.");
 
   const res: PowerUp = {
     _nonce: replaceValue(parsed._nonce),

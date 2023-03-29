@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import { ZodTypeAny } from "zod";
+import { StatusCodes } from "../../types";
 import { logger } from "../../utils";
 
 interface ValidateSchemas {
@@ -17,6 +18,10 @@ export const validate =
       next();
     } catch (error) {
       logger.error("Validation error:", error);
-      res.status(400).send(error);
+      const payload = {
+        message: error,
+        code: StatusCodes.BAD_REQUEST,
+      };
+      res.status(StatusCodes.BAD_REQUEST).send(payload);
     }
   };
