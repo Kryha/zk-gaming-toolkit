@@ -13,7 +13,6 @@ spec:
     spec:
       containers:
         - name: zk-gaming-tk
-          imagePullPolicy: Always
           resources:
             requests:
               cpu: 940m

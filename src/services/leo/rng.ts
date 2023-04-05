@@ -1,13 +1,13 @@
 import { join } from "path";
 
-import { env } from "../../constants";
+import { programNames } from "../../constants";
 import { LeoAddress, RandomNumber, LeoPrivateKey, LeoViewKey } from "../../types";
 import { leoParse } from "../../utils";
 import { contractsPath, parseOutput, zkRun } from "./util";
 
 const contractPath = join(contractsPath, "rng");
 
-const appName = env.RNG;
+const appName = programNames.RNG;
 
 const getRandomNumber = async (
   privateKey: LeoPrivateKey,

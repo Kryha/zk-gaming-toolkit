@@ -21,18 +21,6 @@ COPY tsconfig.json ./tsconfig.json
 
 COPY src/ ./src/
 
-# TODO: build and publish programs to snarkos
-# COPY contracts/ ./contracts/
-
-# RUN rm -rf contracts/**/outputs/
-# RUN rm -rf contracts/**/inputs/
-
-# RUN cd contracts/boloney_match && leo build
-# RUN cd contracts/boloney_match_summary && leo build
-# RUN cd contracts/dice && leo build
-# RUN cd contracts/power_up && leo build
-# RUN cd contracts/rng && leo build
-
 RUN yarn
 RUN yarn build
 

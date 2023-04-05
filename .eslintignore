@@ -7,3 +7,6 @@ coverage/
 
 # lint config *.js
 !.*.js
+
+# scripts
+deployPrograms.js

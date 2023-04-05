@@ -1,0 +1,36 @@
+ARG ZK_GAMING_ALEO
+
+FROM $ZK_GAMING_ALEO as build
+
+ARG APP_NAME
+ENV APP_NAME $APP_NAME
+
+ARG PRIVATE_KEY
+ENV PRIVATE_KEY $PRIVATE_KEY
+
+ARG BUILD_ID
+ENV BUILD_ID $BUILD_ID
+
+ARG FEE
+ENV FEE $FEE
+
+ENV UNIQUE_NAME ${APP_NAME}_${BUILD_ID}
+
+WORKDIR /usr/main/
+
+COPY contracts/$APP_NAME ./contracts/$APP_NAME
+
+WORKDIR /usr/main/contracts/$APP_NAME
+
+RUN rm -rf outputs/
+RUN rm -rf inputs/
+RUN rm -rf build/
+
+RUN leo build
+
+RUN sed -i "s/$APP_NAME/$UNIQUE_NAME/g" build/main.aleo
+RUN sed -i "s/$APP_NAME/$UNIQUE_NAME/g" build/program.json
+
+WORKDIR /usr/main/deployment/contracts/
+
+RUN cargo run --release -- $UNIQUE_NAME $PRIVATE_KEY $FEE

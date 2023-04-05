@@ -5,9 +5,31 @@ pool:
   vmImage: "ubuntu-latest"
 
 variables:
-  - group: GoogleCloudPlatform
+  - group: aleo-program-ids
+  - name: aleoProgramIdsGroupId
+    value: 10
+  - name: devOpsOrg
+    value: $(System.TeamFoundationCollectionUri)
+  - name: devOpsProject
+    value: $(System.TeamProject)
   - name: commitHash
     value: $(Build.SourceVersion)
+  - name: buildId
+    value: $(Build.BuildId)
+  - name: privateKey
+    value: $(PRIVATE_KEY)
+  - name: boloneyMatchUpdated
+    value: "False"
+  - name: boloneyMatchSummaryUpdated
+    value: "False"
+  - name: diceUpdated
+    value: "False"
+  - name: powerUpUpdated
+    value: "False"
+  - name: rngUpdated
+    value: "False"
+  - name: hashChainUpdated
+    value: "False"
   - name: dockerRegistryUrl
     value: $(DOCKER_REGISTRY_URL)
   - name: vmProject
@@ -18,9 +40,164 @@ variables:
     value: $(containerServiceAccountName)@$(vmProject).iam.gserviceaccount.com
 
 stages:
+  - stage: build_and_deploy_leo_programs
+    displayName: Build and deploy Leo programs
+    dependsOn: []
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    jobs:
+      - job: check_programs
+        displayName: Check for updated programs and set the flags
+        steps:
+          - script: ./check_programs.sh
+            displayName: Check for updated programs
+
+      - job: build_boloney_match
+        displayName: Build Boloney match
+        condition: and(succeeded(), eq(variables['boloneyMatchUpdated'], 'True'))
+        steps:
+          - script: docker build -f Dockerfile.program .
+            displayName: Boloney match Docker build
+            env:
+              APP_NAME: boloney_match
+              PRIVATE_KEY: $(privateKey)
+              BUILD_ID: $(buildId)
+              FEE: 600000
+          - script: echo "##vso[task.setvariable variable=boloneyMatchVersion]$(buildId)"
+            displayName: Update boloney match version locally
+          - script: |
+              az pipelines variable-group variable update \
+                --group-id $(aleoProgramIdsGroupId) \
+                --name boloneyMatchVersion \
+                --org $(devOpsOrg) \
+                --project $(devOpsProject) \
+                --value $(boloneyMatchVersion)
+            displayName: Update boloney match version in variable group
+            env:
+              AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
+
+      - job: build_boloney_match_summary
+        displayName: Build Boloney match summary
+        condition: and(succeeded(), eq(variables['boloneyMatchSummaryUpdated'], 'True'))
+        steps:
+          - script: docker build -f Dockerfile.program .
+            displayName: Boloney match summary Docker build
+            env:
+              APP_NAME: boloney_match_summary
+              PRIVATE_KEY: $(privateKey)
+              BUILD_ID: $(buildId)
+              FEE: 600000
+          - script: echo "##vso[task.setvariable variable=boloneyMatchSummaryVersion]$(buildId)"
+            displayName: Update boloney match summary version locally
+          - script: |
+              az pipelines variable-group variable update \
+                --group-id $(aleoProgramIdsGroupId) \
+                --name boloneyMatchSummaryVersion \
+                --org $(devOpsOrg) \
+                --project $(devOpsProject) \
+                --value $(boloneyMatchSummaryVersion)
+            displayName: Update boloney match summary version in variable group
+            env:
+              AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
+
+      - job: build_dice
+        displayName: Build Dice
+        condition: and(succeeded(), eq(variables['diceUpdated'], 'True'))
+        steps:
+          - script: docker build -f Dockerfile.program .
+            displayName: Dice Docker build
+            env:
+              APP_NAME: dice
+              PRIVATE_KEY: $(privateKey)
+              BUILD_ID: $(buildId)
+              FEE: 2400000
+          - script: echo "##vso[task.setvariable variable=diceVersion]$(buildId)"
+            displayName: Update dice version locally
+          - script: |
+              az pipelines variable-group variable update \
+                --group-id $(aleoProgramIdsGroupId) \
+                --name diceVersion \
+                --org $(devOpsOrg) \
+                --project $(devOpsProject) \
+                --value $(diceVersion)
+            displayName: Update dice version in variable group
+            env:
+              AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
+
+      - job: build_power_up
+        displayName: Build Power-up
+        condition: and(succeeded(), eq(variables['powerUpUpdated'], 'True'))
+        steps:
+          - script: docker build -f Dockerfile.program .
+            displayName: Power-up Docker build
+            env:
+              APP_NAME: power_up
+              PRIVATE_KEY: $(privateKey)
+              BUILD_ID: $(buildId)
+              FEE: 2400000
+          - script: echo "##vso[task.setvariable variable=powerUpVersion]$(buildId)"
+            displayName: Update power-up version locally
+          - script: |
+              az pipelines variable-group variable update \
+                --group-id $(aleoProgramIdsGroupId) \
+                --name powerUpVersion \
+                --org $(devOpsOrg) \
+                --project $(devOpsProject) \
+                --value $(powerUpVersion)
+            displayName: Update power-up version in variable group
+            env:
+              AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
+
+      - job: build_rng
+        displayName: Build RNG
+        condition: and(succeeded(), eq(variables['rngUpdated'], 'True'))
+        steps:
+          - script: docker build -f Dockerfile.program .
+            displayName: RNG Docker build
+            env:
+              APP_NAME: rng
+              PRIVATE_KEY: $(privateKey)
+              BUILD_ID: $(buildId)
+              FEE: 600000
+          - script: echo "##vso[task.setvariable variable=rngVersion]$(buildId)"
+            displayName: Update RNG version locally
+          - script: |
+              az pipelines variable-group variable update \
+                --group-id $(aleoProgramIdsGroupId) \
+                --name rngVersion \
+                --org $(devOpsOrg) \
+                --project $(devOpsProject) \
+                --value $(rngVersion)
+            displayName: Update RNG version in variable group
+            env:
+              AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
+
+      - job: build_hash_chain
+        displayName: Build Hash chain
+        condition: and(succeeded(), eq(variables['hashChainUpdated'], 'True'))
+        steps:
+          - script: docker build -f Dockerfile.program .
+            displayName: Hash chain Docker build
+            env:
+              APP_NAME: hash_chain
+              PRIVATE_KEY: $(privateKey)
+              BUILD_ID: $(buildId)
+              FEE: 600000
+          - script: echo "##vso[task.setvariable variable=hashChainVersion]$(buildId)"
+            displayName: Update hash chain version locally
+          - script: |
+              az pipelines variable-group variable update \
+                --group-id $(aleoProgramIdsGroupId) \
+                --name hashChainVersion \
+                --org $(devOpsOrg) \
+                --project $(devOpsProject) \
+                --value $(hashChainVersion)
+            displayName: Update hash chain version in variable group
+            env:
+              AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
+
   - stage: build_and_deploy
     displayName: Build and Deploy
-    dependsOn: []
+    dependsOn: build_and_deploy_leo_programs
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     jobs:
       - job: build_and_deploy
@@ -48,6 +225,14 @@ stages:
               skaffold run --filename=skaffold.snarkos.yaml
             displayName: Build and push Aleo Docker images
             enabled: false
+          - script: |
+              sed 's/SEDSUBST_BOLONEY_MATCH_VERSION/"$(boloneyMatchVersion)"/g' deployment/staging/deployment.template.yaml > deployment/staging/deployment.yaml
+              sed -i 's/SEDSUBST_BOLONEY_MATCH_SUMMARY_VERSION/"$(boloneyMatchSummaryVersion)"/g' deployment/staging/deployment.yaml
+              sed -i 's/SEDSUBST_DICE_VERSION/"$(diceVersion)"/g' deployment/staging/deployment.yaml
+              sed -i 's/SEDSUBST_POWER_UP_VERSION/"$(powerUpVersion)"/g' deployment/staging/deployment.yaml
+              sed -i 's/SEDSUBST_RNG_VERSION/"$(rngVersion)"/g' deployment/staging/deployment.yaml
+              sed -i 's/SEDSUBST_HASH_CHAIN_VERSION/"$(hashChainVersion)"/g' deployment/staging/deployment.yaml
+            displayName: Setting program ids in Kubernetes deployment
           - script: |
               skaffold run --filename=skaffold.staging.yaml
             displayName: Build and push Toolkit Docker images

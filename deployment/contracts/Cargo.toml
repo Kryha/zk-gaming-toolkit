@@ -1,0 +1,10 @@
+[package]
+name = "contracts"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+aleo-rust = { git = "https://github.com/AleoHQ/aleo.git", version = "0.3.6" }
+snarkvm-console = "0.9.14"

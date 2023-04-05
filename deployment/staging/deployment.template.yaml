@@ -10,6 +10,7 @@ spec:
     spec:
       containers:
         - name: zk-gaming-tk
+          imagePullPolicy: Always
           image: eu.gcr.io/web3-335312/aleo/zk-gaming-tk:latest
           env:
             - name: POD_NAMESPACE
@@ -20,3 +21,15 @@ spec:
               value: https://backend.liars-dice.staging.kryha.dev
             - name: ZK_MODE
               value: snarkos_broadcast
+            - name: BOLONEY_MATCH_VERSION
+              value: SEDSUBST_BOLONEY_MATCH_VERSION
+            - name: BOLONEY_MATCH_SUMMARY_VERSION
+              value: SEDSUBST_BOLONEY_MATCH_SUMMARY_VERSION
+            - name: DICE_VERSION
+              value: SEDSUBST_DICE_VERSION
+            - name: POWER_UP_VERSION
+              value: SEDSUBST_POWER_UP_VERSION
+            - name: RNG_VERSION
+              value: SEDSUBST_RNG_VERSION
+            - name: HASH_CHAIN_VERSION
+              value: SEDSUBST_HASH_CHAIN_VERSION

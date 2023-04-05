@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+const transformVersion = (version?: string): string => (version ? `_${version}` : "");
+
 const envSchema = z.object({
   NODE_ENV: z.string().optional().default("development"),
   NODE_PATH: z.string(),
@@ -12,12 +14,12 @@ const envSchema = z.object({
 
   ZK_MODE: z.enum(["leo", "snarkos_display", "snarkos_broadcast"]).optional().default("leo"),
 
-  BOLONEY_MATCH: z.string().optional().default("boloney_match"),
-  BOLONEY_MATCH_SUMMARY: z.string().optional().default("boloney_match_summary"),
-  DICE: z.string().optional().default("dice"),
-  POWER_UP: z.string().optional().default("power_up"),
-  RNG: z.string().optional().default("rng"),
-  HASH_CHAIN: z.string().optional().default("hash_chain"),
+  BOLONEY_MATCH_VERSION: z.string().optional().transform(transformVersion),
+  BOLONEY_MATCH_SUMMARY_VERSION: z.string().optional().transform(transformVersion),
+  DICE_VERSION: z.string().optional().transform(transformVersion),
+  POWER_UP_VERSION: z.string().optional().transform(transformVersion),
+  RNG_VERSION: z.string().optional().transform(transformVersion),
+  HASH_CHAIN_VERSION: z.string().optional().transform(transformVersion),
 });
 
 export const env = envSchema.parse(process.env);
@@ -25,3 +27,12 @@ export const env = envSchema.parse(process.env);
 export const BASE_URL = `localhost:${env.PORT}`;
 
 export const DELETE_PAYLOAD = { message: "deleted" };
+
+export const programNames = {
+  BOLONEY_MATCH: "boloney_match" + env.BOLONEY_MATCH_VERSION,
+  BOLONEY_MATCH_SUMMARY: "boloney_match_summary" + env.BOLONEY_MATCH_SUMMARY_VERSION,
+  DICE: "dice" + env.DICE_VERSION,
+  POWER_UP: "power_up" + env.POWER_UP_VERSION,
+  RNG: "rng" + env.RNG_VERSION,
+  HASH_CHAIN: "hash_chain" + env.HASH_CHAIN_VERSION,
+};

@@ -1,13 +1,13 @@
 import { join } from "path";
 
-import { env } from "../../constants";
+import { programNames } from "../../constants";
 import { Dice, LeoAddress, leoAddressSchema, LeoPrivateKey, LeoViewKey, UUID } from "../../types";
 import { leoParse } from "../../utils";
 import { contractsPath, parseOutput, zkRun } from "./util";
 
 const contractPath = join(contractsPath, "dice");
 
-const appName = env.DICE;
+const appName = programNames.DICE;
 
 const createDice = async (
   privateKey: LeoPrivateKey,

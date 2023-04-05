@@ -1,13 +1,13 @@
 import { join } from "path";
 
-import { env } from "../../constants";
+import { programNames } from "../../constants";
 import { HashChainRecord, LeoAddress, leoAddressSchema, LeoPrivateKey, LeoViewKey } from "../../types";
 import { leoParse } from "../../utils";
 import { contractsPath, parseOutput, zkRun } from "./util";
 
 const contractPath = join(contractsPath, "hash_chain");
 
-const appName = env.HASH_CHAIN;
+const appName = programNames.HASH_CHAIN;
 
 const getHashChainRecord = async (
   privateKey: LeoPrivateKey,

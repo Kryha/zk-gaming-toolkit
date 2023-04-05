@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
         - name: zk-gaming-tk
-          image: "localhost:5000/aleo/zk-gaming-tk:latest"
+          image: zk-gaming-tk
           env:
             - name: POD_NAMESPACE
               valueFrom:

@@ -21,3 +21,9 @@ RUN cd snarkOS && cargo install --path .
 
 COPY resources.tar.gz /root/.aleo/resources.tar.gz
 RUN tar -xzvf /root/.aleo/resources.tar.gz -C /root/.aleo/
+
+WORKDIR /usr/main/
+
+COPY deployment/contracts/ deployment/contracts/
+
+RUN cd deployment/contracts/ && cargo build --release
