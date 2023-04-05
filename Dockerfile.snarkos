@@ -5,22 +5,52 @@ RUN apt install -y git make g++ pkg-config openssl libssl-dev clang
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
-ENV PATH="$PATH:/root/.cargo/bin"
+ENV PATH "$PATH:/root/.cargo/bin"
 
 RUN rustup update
 
+# installing Leo
 RUN git clone https://github.com/AleoHQ/leo
 # latest commit that works properly with our codebase
 RUN cd leo && git checkout f30080f6478cbbfa7ea78d58baee0e76061e45ae
 RUN cd leo && cargo install --path .
 
+# installing SnarkOS
 RUN git clone https://github.com/AleoHQ/snarkOS
 # latest commit that works properly with our codebase
 RUN cd snarkOS && git checkout 2825df689df54996c49abfc4eed11bfc3d95d860
 RUN cd snarkOS && cargo install --path .
 
-COPY resources.tar.gz /root/.aleo/resources.tar.gz
-RUN tar -xzvf /root/.aleo/resources.tar.gz -C /root/.aleo/
+# downloading provers and verifiers
+RUN mkdir -p /root/.aleo/resources/
+ENV FILE_NAME mint.prover.11fa6f2
+RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
+ENV FILE_NAME transfer.prover.837ad21
+RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
+ENV FILE_NAME join.prover.369fac2
+RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
+ENV FILE_NAME split.prover.8713930
+RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
+ENV FILE_NAME fee.prover.0a31a56
+RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
+ENV FILE_NAME mint.verifier.e1ae0c8
+RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
+ENV FILE_NAME transfer.verifier.db46e4c
+RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
+ENV FILE_NAME join.verifier.728e514
+RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
+ENV FILE_NAME split.verifier.b6bb949
+RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
+ENV FILE_NAME fee.verifier.2186739
+RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
+ENV FILE_NAME inclusion.prover.b9921c5
+RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
+ENV FILE_NAME inclusion.verifier.3f4d6b7
+RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
+ENV FILE_NAME shifted-powers-of-beta-16.usrs.d99bcb3
+RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
+ENV FILE_NAME powers-of-beta-16.usrs.84631bc
+RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
 
 WORKDIR /usr/main/
 
