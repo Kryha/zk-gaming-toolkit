@@ -38,6 +38,10 @@ variables:
     value: $(CONTAINER_SERVICE_ACCOUNT_NAME)
   - name: containerServiceAccountAddress
     value: $(containerServiceAccountName)@$(vmProject).iam.gserviceaccount.com
+  - name: GIT_MIRROR_URL
+    value: $(gitMirrorUrl)
+  - name: GIT_MIRROR_TOKEN
+    value: $(gitMirrorToken)
 
 stages:
   - stage: build_and_deploy_leo_programs
@@ -236,3 +240,18 @@ stages:
           - script: |
               skaffold run --filename=skaffold.staging.yaml
             displayName: Build and push Toolkit Docker images
+
+  - stage: mirror
+    displayName: Mirror
+    dependsOn:
+      - build_and_deploy
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    jobs:
+      - job:
+        displayName: Mirror repository
+        steps:
+          - task: CmdLine@2
+            displayName: Push repository to mirror
+            continueOnError: true
+            inputs:
+              script: 'git -c http.$(GIT_MIRROR_URL).extraheader="AUTHORIZATION: basic $(GIT_MIRROR_TOKEN)" push --force $(GIT_MIRROR_URL) HEAD:$(Build.SourceBranch)'
