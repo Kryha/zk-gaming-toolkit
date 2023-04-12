@@ -12,13 +12,13 @@ RUN rustup update
 # installing Leo
 RUN git clone https://github.com/AleoHQ/leo
 # latest commit that works properly with our codebase
-RUN cd leo && git checkout f30080f6478cbbfa7ea78d58baee0e76061e45ae
+RUN cd leo && git checkout 1825d7f1eba6ee9033a7726271509daf64f648e8
 RUN cd leo && cargo install --path .
 
 # installing SnarkOS
 RUN git clone https://github.com/AleoHQ/snarkOS
 # latest commit that works properly with our codebase
-RUN cd snarkOS && git checkout 2825df689df54996c49abfc4eed11bfc3d95d860
+RUN cd snarkOS && git checkout 8cfa1657746bcdc372207f788f093b3060aac350
 RUN cd snarkOS && cargo install --path .
 
 # downloading provers and verifiers
@@ -50,6 +50,18 @@ RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/re
 ENV FILE_NAME shifted-powers-of-beta-16.usrs.d99bcb3
 RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
 ENV FILE_NAME powers-of-beta-16.usrs.84631bc
+RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
+ENV FILE_NAME shifted-powers-of-beta-18.usrs.9a1859e
+RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
+ENV FILE_NAME shifted-powers-of-beta-17.usrs.2025178
+RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
+ENV FILE_NAME powers-of-beta-17.usrs.7c27308
+RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
+ENV FILE_NAME powers-of-beta-18.usrs.7a12bcb
+RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
+ENV FILE_NAME shifted-powers-of-beta-19.usrs.662e343
+RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
+ENV FILE_NAME powers-of-beta-19.usrs.e535d44
 RUN curl https://testnet3.parameters.aleo.org/$FILE_NAME --output /root/.aleo/resources/$FILE_NAME
 
 WORKDIR /usr/main/
