@@ -2,7 +2,7 @@ import "source-map-support/register";
 
 import { createServer } from "http";
 
-import { env } from "./constants";
+import { env, programNames } from "./constants";
 import { app, initExpressApp } from "./services";
 import { logger } from "./utils";
 
@@ -25,6 +25,7 @@ const startup = async (): Promise<void> => {
 
   logger.info("🪄  Initialising Express App...");
   logger.info(`ZK Mode: ${env.ZK_MODE}`);
+  logger.info(`Program Names: ${JSON.stringify(programNames)}`);
 
   initExpressApp();
 

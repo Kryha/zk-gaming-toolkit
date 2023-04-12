@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const transformVersion = (version?: string): string => (version ? `_${version}` : "");
+const transformVersion = (version?: string): string => (version && version !== "0" ? `_${version}` : "");
 
 const envSchema = z.object({
   NODE_ENV: z.string().optional().default("development"),

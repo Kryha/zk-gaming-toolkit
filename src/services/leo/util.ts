@@ -37,7 +37,7 @@ import {
   LeoRecord,
   LeoViewKey,
 } from "../../types";
-import { apiError, attemptFetch, decodeId } from "../../utils";
+import { apiError, attemptFetch, decodeId, logger } from "../../utils";
 
 export const execute = promisify(exec);
 
@@ -334,6 +334,8 @@ const snarkOsExecute = async ({
 
   const cmd = `snarkos developer execute ${appName}.aleo ${transition} ${stringedParams} --private-key ${privateKey} --query "https://vm.aleo.org/api" ${broadcastOrDisplay}`;
   const { stdout } = await execute(cmd);
+
+  logger.info(stdout);
 
   let tx: Record<string, unknown>;
   if (env.ZK_MODE === "snarkos_broadcast") {
