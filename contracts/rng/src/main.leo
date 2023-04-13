@@ -1,4 +1,3 @@
-// The 'rng' program.
 program rng.aleo {
     record RandomNumberRecord {
         owner: address,

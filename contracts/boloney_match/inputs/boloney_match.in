@@ -1,6 +1,6 @@
 // The program input for match_settings/src/main.leo
 [create_match]
-owner: address = aleo1z9rkh2xecmpnx9jxkvnyq08mfeddrsrccny0j2hgw4yfhnxpxyqqp42329;
+owner: address = aleo17h4ceqrzeud7d5ukhyax00uw6846dz25p8ksm6qgjgr0eax8huxsyteapp;
 match_id: field = 12345678998765432123456789098765field;
 settings: Settings = Settings {
     player_amount: 7u8,

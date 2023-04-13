@@ -1,12 +1,12 @@
 // The program input for power_up/src/main.leo
 [create_power_up]
-owner: address = aleo1p4ye54p6n5cfdyzmy6fcs583mmwrghdxl8upeuew4w8uqmhqdqxq3e4tfl;
+owner: address = aleo17h4ceqrzeud7d5ukhyax00uw6846dz25p8ksm6qgjgr0eax8huxsyteapp;
 match_id: field = 1232645117386081880141384189810367033551field;
 power_up_id: u8 = 1u8;
 
 [burn_power_up]
 power_up: PowerUp = PowerUp {
-  owner: aleo1p4ye54p6n5cfdyzmy6fcs583mmwrghdxl8upeuew4w8uqmhqdqxq3e4tfl,
+  owner: aleo17h4ceqrzeud7d5ukhyax00uw6846dz25p8ksm6qgjgr0eax8huxsyteapp,
   gates: 0u64,
   match_id: 1232645117386081880141384189810367033551field,
   power_up_id: 1u8,
@@ -16,7 +16,7 @@ power_up: PowerUp = PowerUp {
 [transfer_power_up]
 receiver: address = aleo1l5rt6uaw3v0rge8hdkqq462chjftrtv6p6q4ekp3zun3wvj7eszqpvudm4;
 power_up: PowerUp = PowerUp {
-  owner: aleo1p4ye54p6n5cfdyzmy6fcs583mmwrghdxl8upeuew4w8uqmhqdqxq3e4tfl,
+  owner: aleo17h4ceqrzeud7d5ukhyax00uw6846dz25p8ksm6qgjgr0eax8huxsyteapp,
   gates: 0u64,
   match_id: 1232645117386081880141384189810367033551field,
   power_up_id: 1u8,
@@ -25,7 +25,7 @@ power_up: PowerUp = PowerUp {
 
 [use_birds_eye]
 power_up: PowerUp = PowerUp {
-  owner: aleo1p4ye54p6n5cfdyzmy6fcs583mmwrghdxl8upeuew4w8uqmhqdqxq3e4tfl,
+  owner: aleo17h4ceqrzeud7d5ukhyax00uw6846dz25p8ksm6qgjgr0eax8huxsyteapp,
   gates: 0u64,
   match_id: 1232645117386081880141384189810367033551field,
   power_up_id: 2u8,

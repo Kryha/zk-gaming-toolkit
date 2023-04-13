@@ -84,18 +84,19 @@ If the pods are running correctly, the API should be accessible at <http://zk-ga
 
 ## Submitting a PR
 
-If your PR contains any changes to the Leo programs, make sure to perform the following actions before completing it so that the programs are correctly deployed to the testnet:
+> ⚠️ These steps can only be completed by maintainers that have access to the wallet.
 
-1. Tap the [Aleo faucet](https://twitter.com/AleoFaucet) by tweeting `@AleoFaucet
- send 10 credits to aleo178vq84yvu4kq2cg9ssedhpz4wgtnfq8nrhca3tpqjs3324p3gsrq7yt8u3`. Be sure to specify this exact address and amount of credits!
-2. After a bit, the faucet should reply to your tweet with a URL. Wait for the tweet before proceeding with the next step.
-3. Complete your PR and the pipeline should automatically deploy the new programs to the testnet using the credits you've just obtained. Just be patient... Like, [very patient](https://youtu.be/xNjyG8S4_kI)...
+If a PR contains any changes to the Leo programs, make sure to perform the following actions before completing it so that the programs are correctly deployed to the testnet:
+
+1. Navigate [here](https://demo.leo.app/faucet) and give some credits to the Kryha Aleo account.
+2. Wait for the transaction to complete. Don't close the browser tab!
+3. Complete the PR and the pipeline should automatically deploy the new programs to the testnet using the newly obtained credits. Just be patient... Like, [very patient](https://youtu.be/xNjyG8S4_kI)... Deployment through the pipeline takes about 8 minutes per program.
 
 ## Adding a new Leo program
 
 When creating a new Leo program, the pipeline has to be updated in order for the program to be deployed to the testnet.
 
-Let's assume the name of our program is `cool_program`. For it to be properly deployed, open `check_programs.sh` and edit it as follows:
+Let's assume the name of our program is `cool_program`. For it to be properly deployed, open `azure-pipelines.yaml` and add the following case to the `run_check_script` job:
 
 ```sh
 files=$(git diff HEAD HEAD~ --name-only)
@@ -103,48 +104,48 @@ files=$(git diff HEAD HEAD~ --name-only)
 while IFS= read -r name; do
     # previous cases are omitted here
     ...
-    elif [[ $name == ^contracts/cool_program/* ]]; then
-        echo "##vso[task.setvariable variable=coolProgram]True"
+    elif [[ $name =~ ^contracts/cool_program/* ]]; then
+        echo "##vso[task.setvariable variable=coolProgramUpdated;isoutput=true]True"
     fi
 done <<<"$files"
 ```
 
-Then, in `azure-pipelines.yaml` define a new variable:
+Then, in `build_and_deploy_leo_programs_stage` define a new variable:
 
 ```yaml
 variables:
     # previous variables omitted
     ...
-    - name: coolProgramUpdated
-      value: "False"
+    coolProgramUpdated: $[stageDependencies.check_updated_programs.run_check_script.outputs['UpdatedPrograms.coolProgramUpdated']]
 ```
 
-In the same file, under the `build_and_deploy_leo_programs` stage, add a new job:zzx
+In `build_and_deploy_leo_programs_job` job, after all the previously defined steps, add these new steps:
 
 ```yaml
-- job: build_cool_program
-    displayName: Build cool program
-    condition: and(succeeded(), eq(variables['coolProgramUpdated'], 'True'))
-    steps:
-        - script: docker build -f Dockerfile.program .
-          displayName: Cool program Docker build
-          env:
-              APP_NAME: cool_program
-              PRIVATE_KEY: $(privateKey)
-              BUILD_ID: $(buildId)
-              FEE: 600000
-        - script: echo "##vso[task.setvariable variable=coolProgramVersion]$(buildId)"
-          displayName: Update cool program version locally
-        - script: |
-            az pipelines variable-group variable update \
-            --group-id $(aleoProgramIdsGroupId) \
-            --name coolProgramVersion \
-            --org $(devOpsOrg) \
-            --project $(devOpsProject) \
-            --value $(coolProgramVersion)
-        displayName: Update cool program version in variable group
-        env:
-            AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
+          - script: |
+              docker build -f Dockerfile.program . \
+                --build-arg APP_NAME=cool_program \
+                --build-arg PRIVATE_KEY=$(privateKey) \
+                --build-arg BUILD_ID=$(buildId) \
+                --build-arg FEE=600000 \
+                --build-arg ZK_GAMING_ALEO="eu.gcr.io/web3-335312/aleo/zk-gaming-snarkos:latest"
+            displayName: Cool Program Docker build
+            condition: and(succeeded(), eq(variables['coolProgramUpdated'], 'True'))
+            retryCountOnTaskFailure: 3
+          - script: echo "##vso[task.setvariable variable=coolProgramVersion;isoutput=true]$(buildId)"
+            displayName: Update Cool Program version locally
+            condition: and(succeeded(), eq(variables['coolProgramUpdated'], 'True'))
+          - script: |
+              az pipelines variable-group variable update \
+                --group-id $(aleoProgramIdsGroupId) \
+                --name coolProgramVersion \
+                --org $(devOpsOrg) \
+                --project $(devOpsProject) \
+                --value $(buildId)
+            displayName: Update Cool Program version in variable group
+            condition: and(succeeded(), eq(variables['coolProgramUpdated'], 'True'))
+            env:
+              SYSTEM_ACCESSTOKEN: $(System.AccessToken)
 ```
 
 The version variable has to be added to the pipeline variable group. For that, contact marius@kryha.io.

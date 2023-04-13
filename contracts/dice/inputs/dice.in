@@ -1,12 +1,12 @@
 // The program input for dice/src/main.leo
 [create_dice]
-owner: address = aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30;
+owner: address = aleo17h4ceqrzeud7d5ukhyax00uw6846dz25p8ksm6qgjgr0eax8huxsyteapp;
 match_id: field = 1232645117386081880141384189810367033551field;
 dice_amount: u32 = 2u32;
 
 [increment_dice_amount]
 dice: Dice = Dice {
-  owner: aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30,
+  owner: aleo17h4ceqrzeud7d5ukhyax00uw6846dz25p8ksm6qgjgr0eax8huxsyteapp,
   gates: 0u64,
   match_id: 1232645117386081880141384189810367033551field,
   face_amount: 6u8,
@@ -17,7 +17,7 @@ dice: Dice = Dice {
 // Valid Decrement
 [decrement_dice_amount]
 dice: Dice = Dice {
-  owner: aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30,
+  owner: aleo17h4ceqrzeud7d5ukhyax00uw6846dz25p8ksm6qgjgr0eax8huxsyteapp,
   gates: 0u64,
   match_id: 1232645117386081880141384189810367033551field,
   face_amount: 6u8,
@@ -28,7 +28,7 @@ dice: Dice = Dice {
 // Invalid decrement test input should not fail anyway
 // [decrement_dice_amount]
 // dice: Dice = Dice {
-//   owner: aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30,
+//   owner: aleo17h4ceqrzeud7d5ukhyax00uw6846dz25p8ksm6qgjgr0eax8huxsyteapp,
 //   gates: 0u64,
 //   match_id: 12345678998765432123456789098765field,
 //   face_amount: 6u8,
@@ -40,7 +40,7 @@ dice: Dice = Dice {
 
 [burn_dice]
 dice: Dice = Dice {
-  owner: aleo1858u2692n6rykxpsy2sxh42fdm0gm562k650z43lkv8wjywfsqxq9u6p30,
+  owner: aleo17h4ceqrzeud7d5ukhyax00uw6846dz25p8ksm6qgjgr0eax8huxsyteapp,
   gates: 0u64,
   match_id: 1232645117386081880141384189810367033551field,
   face_amount: 6u8,

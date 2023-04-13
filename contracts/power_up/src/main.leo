@@ -1,4 +1,3 @@
-// The 'power_up' program.
 /**
  * Power-ups are matched to their ID in the following way:
  * 1. Grill

@@ -1,4 +1,3 @@
-// The 'hash_chain' program.
 program hash_chain.aleo {
     struct HashChain {
         hash_1: field,

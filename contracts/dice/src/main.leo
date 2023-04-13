@@ -42,7 +42,7 @@ program dice.aleo {
             dice_amount: updated_dice_amount
         };
     }
-    
+
     /* Alternative Dice Implementation with mapping instead of records */
     // On-chain storage of `dice` map,
     // with `address` as the key,

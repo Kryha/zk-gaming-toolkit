@@ -1,6 +1,6 @@
 // The program input for rng/src/main.leo
 [get_random_number]
-owner: address = aleo1ujwpr6tmmep26ayx6qaqy44h2d3zfwyh6k989dsnaqm4pkntzgysqyvrkd;
+owner: address = aleo17h4ceqrzeud7d5ukhyax00uw6846dz25p8ksm6qgjgr0eax8huxsyteapp;
 seed: u64 = 8900911306653247496u64;
 min: u64 = 1u64;
 max: u64 = 6u64;

@@ -1,4 +1,4 @@
 // The program input for hash_chain/src/main.leo
 [create_hash_chain_record]
-owner: address = aleo1hgmgzgsg5k3fmvjk2m7lh8r8vm8v0cf9uqvzasl5mzupk7ld3g8qp09zmw;
+owner: address = aleo17h4ceqrzeud7d5ukhyax00uw6846dz25p8ksm6qgjgr0eax8huxsyteapp;
 seed: u64 = 42u64;

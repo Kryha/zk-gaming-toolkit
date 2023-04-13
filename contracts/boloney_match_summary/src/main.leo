@@ -1,4 +1,3 @@
-// The 'boloney_match_summary' program.
 program boloney_match_summary.aleo {
     // Declared as fild but represents the user ID parsed as numerical values
     struct Ranking {
