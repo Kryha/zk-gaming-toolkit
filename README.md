@@ -10,7 +10,7 @@ There are 2 main ways to run the API: locally or inside an isolated Minikube con
 
 Before running the API locally, make sure to install the following software:
 
-- [Node.js](https://nodejs.org/en)
+- [Node.js](https://nodejs.org/en) version 18.16.0 LTS
 - [Yarn](https://yarnpkg.com/getting-started/install)
 - [Aleo](https://github.com/AleoHQ/aleo#2-build-guide)
 - [Leo](https://github.com/AleoHQ/leo#2-build-guide)
