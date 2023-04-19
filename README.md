@@ -150,6 +150,17 @@ In `build_and_deploy_leo_programs_job` job, after all the previously defined ste
 
 The version variable has to be added to the pipeline variable group. For that, contact marius@kryha.io.
 
+## Updating Leo and SnarkOS versions
+
+Since both Leo and SnarkOS are currently in active development and some changes may break the build, we manually set the commit hash in `Dockerfile.snarkos` to the latest versions that work properly with the toolkit. If you wish to update to a newer version you should:
+
+1. `git pull` the newest Leo or SnarkOS code and run `cargo install --path .` to install the new versions locally.
+2. Make sure the programs build and run correctly with the updated CLI tools.
+3. Run the toolkit locally with `yarn start` and make sure the endpoints work as expected.
+4. Run `git log` in the Leo or SnarkOS repo and copy the `HEAD` commit hash.
+5. Open `Dockerfile.snarkos` and set the proper commit hash to the pasted value.
+6. Run the toolkit through `skaffold run` and make sure it works properly.
+
 ## Contribute
 
 TODO: Explain how other users and developers can contribute to make your code better.

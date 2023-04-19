@@ -1,4 +1,4 @@
-FROM node:16-bullseye as build
+FROM node:18-bullseye as build
 
 RUN apt update
 RUN apt install -y git make g++ pkg-config openssl libssl-dev clang
@@ -12,13 +12,13 @@ RUN rustup update
 # installing Leo
 RUN git clone https://github.com/AleoHQ/leo
 # latest commit that works properly with our codebase
-RUN cd leo && git checkout 1825d7f1eba6ee9033a7726271509daf64f648e8
+RUN cd leo && git checkout 1c05df35297089f07ab5f5ad24dc48b6a820695f
 RUN cd leo && cargo install --path .
 
 # installing SnarkOS
 RUN git clone https://github.com/AleoHQ/snarkOS
 # latest commit that works properly with our codebase
-RUN cd snarkOS && git checkout 8cfa1657746bcdc372207f788f093b3060aac350
+RUN cd snarkOS && git checkout 8ad729748ff07cc417341538f59504f602ec2cd8
 RUN cd snarkOS && cargo install --path .
 
 # downloading provers and verifiers
