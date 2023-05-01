@@ -1,6 +1,8 @@
 import { RequestHandler } from "express";
 
+import { core } from "../../core";
 import { leo } from "../../services";
+import { logger } from "../../utils";
 
 interface RandomController {
   generateNumber: RequestHandler;
@@ -14,8 +16,16 @@ export const randomController: RandomController = {
     res.send(value);
   },
   generateHashChainRecord: async (req, res) => {
-    const { owner, seed, privateKey, viewKey } = req.body;
-    const value = await leo.hashChain.getHashChainRecord(privateKey, viewKey, owner, seed);
-    res.send(value);
+    const { owner, privateKey, viewKey } = req.body;
+
+    const { seed, hashChain } = core.hashChain.generate();
+
+    // TODO: add re-attempt for a few times if it fails
+    leo.hashChain
+      .createHashChainRecord(privateKey, viewKey, owner, seed, hashChain)
+      .then(() => logger.info(`Hash chain record creation succeeded for account ${owner}`))
+      .catch(() => logger.error(`Hash chain record creation failed for account ${owner}`));
+
+    res.send({ seed, hashChain });
   },
 };

@@ -1,5 +1,6 @@
 import axios, { type AxiosResponse } from "axios";
 
+import { apiError } from "./error";
 import { wait } from "./time";
 
 export const attemptFetch = async (url: string, attempts = 50): Promise<AxiosResponse> => {
@@ -14,7 +15,7 @@ export const attemptFetch = async (url: string, attempts = 50): Promise<AxiosRes
     }
   }
 
-  if (!res) throw new Error(`Failed to fetch ${url}.`);
+  if (!res) throw apiError(`Failed to fetch ${url}.`);
 
   return res;
 };

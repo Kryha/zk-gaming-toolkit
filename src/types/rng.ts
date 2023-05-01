@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { HASH_CHAIN_LENGTH } from "../constants";
 import { leoAddressSchema, leoFieldSchema, leoU64Schema, leoGroupSchema } from "./leo";
 
 export const randomNumberSchemaLeo = z.object({
@@ -61,7 +62,7 @@ export const hashChainRecordLeoSchema = z.object({
 });
 export type HashChainRecordLeo = z.infer<typeof hashChainRecordLeoSchema>;
 
-export const hashChainSchema = z.array(z.string()).length(32);
+export const hashChainSchema = z.array(z.string()).length(HASH_CHAIN_LENGTH);
 export type HashChain = z.infer<typeof hashChainSchema>;
 
 export const hashChainRecordSchema = z.object({

@@ -1,4 +1,38 @@
 // The program input for hash_chain/src/main.leo
 [create_hash_chain_record]
 owner: address = aleo17h4ceqrzeud7d5ukhyax00uw6846dz25p8ksm6qgjgr0eax8huxsyteapp;
-seed: u64 = 42u64;
+seed: u64 = 559803u64;
+hash_chain: HashChain = HashChain {
+    hash_1: 4912087590100652field,
+    hash_2: 3754244923351871field,
+    hash_3: 8288199329766339field,
+    hash_4: 2481522406525980field,
+    hash_5: 2291856558014787field,
+    hash_6: 6729029982842392field,
+    hash_7: 8180325890758353field,
+    hash_8: 7145749329782816field,
+    hash_9: 7775794374700404field,
+    hash_10: 5564220324772743field,
+    hash_11: 3459223467541231field,
+    hash_12: 891129989071617field,
+    hash_13: 6510377168080275field,
+    hash_14: 2270120291939836field,
+    hash_15: 6434972163413554field,
+    hash_16: 8681324882724463field,
+    hash_17: 6269989232972340field,
+    hash_18: 1240106729674886field,
+    hash_19: 3901352915526763field,
+    hash_20: 8942511187727506field,
+    hash_21: 3484057372861864field,
+    hash_22: 499600846176389field,
+    hash_23: 3732779697554717field,
+    hash_24: 4892259516827276field,
+    hash_25: 4728455516384547field,
+    hash_26: 5922877268517295field,
+    hash_27: 4465901760512525field,
+    hash_28: 617504042037299field,
+    hash_29: 7353552952717782field,
+    hash_30: 8934734128187814field,
+    hash_31: 4350532564415180field,
+    hash_32: 1629061044102842field
+};

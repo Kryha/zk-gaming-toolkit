@@ -4,6 +4,8 @@ import {
   DiceDataLeo,
   DiceLeo,
   diceLeoSchema,
+  HashChain,
+  HashChainLeo,
   LeoField,
   leoFieldSchema,
   LeoU32,
@@ -187,6 +189,17 @@ const powerUp = (payload: PowerUp): PowerUpLeo => {
   return powerUpLeoSchema.parse(res);
 };
 
+const hashChain = (payload: HashChain): HashChainLeo => {
+  if (payload.length !== 32) throw apiError(`Hash chain must contain 32 elements, found ${payload.length}`);
+
+  const res = payload.reduce((chain, hash, i) => {
+    const key = ("hash_" + (i + 1)) as keyof HashChainLeo;
+    return { ...chain, [key]: hash + "field" };
+  }, {} as HashChainLeo);
+
+  return res;
+};
+
 export const leoParse = {
   field,
   id,
@@ -200,4 +213,5 @@ export const leoParse = {
   dice,
   diceData,
   powerUp,
+  hashChain,
 };

@@ -56,7 +56,6 @@ describe("POST /random/hash-chain-record", () => {
       privateKey: "APrivateKey1zkp3WTnfDxUchbLeHqwGrgdkTNieykUP72UPNmv4uQngjwf",
       viewKey: "AViewKey1fvqnzQ9nYfFMAkhjdcz5UEtDD1JjpbtG8kMXBLJKAHbd",
       owner: "aleo178vq84yvu4kq2cg9ssedhpz4wgtnfq8nrhca3tpqjs3324p3gsrq7yt8u3",
-      seed: 42,
     });
 
     expect(res.statusCode).toBe(200);

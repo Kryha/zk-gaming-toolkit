@@ -99,7 +99,7 @@ stages:
                 --build-arg APP_NAME=boloney_match \
                 --build-arg PRIVATE_KEY=$(privateKey) \
                 --build-arg BUILD_ID=$(buildId) \
-                --build-arg FEE=600000 \
+                --build-arg FEE=5000000 \
                 --build-arg ZK_GAMING_ALEO="eu.gcr.io/web3-335312/aleo/zk-gaming-snarkos:latest"
             displayName: Boloney match Docker build
             condition: and(succeeded(), eq(variables['boloneyMatchUpdated'], 'True'))
@@ -124,7 +124,7 @@ stages:
               --build-arg APP_NAME=boloney_match_summary \
               --build-arg PRIVATE_KEY=$(privateKey) \
               --build-arg BUILD_ID=$(buildId) \
-              --build-arg FEE=600000 \
+              --build-arg FEE=5000000 \
               --build-arg ZK_GAMING_ALEO="eu.gcr.io/web3-335312/aleo/zk-gaming-snarkos:latest"
             displayName: Boloney match summary Docker build
             condition: and(succeeded(), eq(variables['boloneyMatchSummaryUpdated'], 'True'))
@@ -149,7 +149,7 @@ stages:
                 --build-arg APP_NAME=dice \
                 --build-arg PRIVATE_KEY=$(privateKey) \
                 --build-arg BUILD_ID=$(buildId) \
-                --build-arg FEE=2400000 \
+                --build-arg FEE=16000000 \
                 --build-arg ZK_GAMING_ALEO="eu.gcr.io/web3-335312/aleo/zk-gaming-snarkos:latest"
             displayName: Dice Docker build
             condition: and(succeeded(), eq(variables['diceUpdated'], 'True'))
@@ -174,7 +174,7 @@ stages:
                 --build-arg APP_NAME=power_up \
                 --build-arg PRIVATE_KEY=$(privateKey) \
                 --build-arg BUILD_ID=$(buildId) \
-                --build-arg FEE=2400000 \
+                --build-arg FEE=15000000 \
                 --build-arg ZK_GAMING_ALEO="eu.gcr.io/web3-335312/aleo/zk-gaming-snarkos:latest"
             displayName: Power-up Docker build
             condition: and(succeeded(), eq(variables['powerUpUpdated'], 'True'))
@@ -199,7 +199,7 @@ stages:
                 --build-arg APP_NAME=rng \
                 --build-arg PRIVATE_KEY=$(privateKey) \
                 --build-arg BUILD_ID=$(buildId) \
-                --build-arg FEE=600000 \
+                --build-arg FEE=5000000 \
                 --build-arg ZK_GAMING_ALEO="eu.gcr.io/web3-335312/aleo/zk-gaming-snarkos:latest"
             displayName: RNG Docker build
             condition: and(succeeded(), eq(variables['rngUpdated'], 'True'))
@@ -224,7 +224,7 @@ stages:
                 --build-arg APP_NAME=hash_chain \
                 --build-arg PRIVATE_KEY=$(privateKey) \
                 --build-arg BUILD_ID=$(buildId) \
-                --build-arg FEE=600000 \
+                --build-arg FEE=5000000 \
                 --build-arg ZK_GAMING_ALEO="eu.gcr.io/web3-335312/aleo/zk-gaming-snarkos:latest"
             displayName: Hash chain Docker build
             condition: and(succeeded(), eq(variables['hashChainUpdated'], 'True'))
@@ -249,7 +249,7 @@ stages:
                 --build-arg APP_NAME=power_up_2a \
                 --build-arg PRIVATE_KEY=$(privateKey) \
                 --build-arg BUILD_ID=$(buildId) \
-                --build-arg FEE=2400000 \
+                --build-arg FEE=5000000 \
                 --build-arg ZK_GAMING_ALEO="eu.gcr.io/web3-335312/aleo/zk-gaming-snarkos:latest"
             displayName: Power-up 2 Docker build
             condition: and(succeeded(), eq(variables['powerUp2Updated'], 'True'))
@@ -304,6 +304,7 @@ stages:
               sed -i 's/SEDSUBST_BOLONEY_MATCH_SUMMARY_VERSION/"$(boloneyMatchSummaryVersion)"/g' deployment/staging/deployment.yaml
               sed -i 's/SEDSUBST_DICE_VERSION/"$(diceVersion)"/g' deployment/staging/deployment.yaml
               sed -i 's/SEDSUBST_POWER_UP_VERSION/"$(powerUpVersion)"/g' deployment/staging/deployment.yaml
+              sed -i 's/SEDSUBST_POWER_UP_2_VERSION/"$(powerUp2Version)"/g' deployment/staging/deployment.yaml
               sed -i 's/SEDSUBST_RNG_VERSION/"$(rngVersion)"/g' deployment/staging/deployment.yaml
               sed -i 's/SEDSUBST_HASH_CHAIN_VERSION/"$(hashChainVersion)"/g' deployment/staging/deployment.yaml
             displayName: Setting program ids in Kubernetes deployment

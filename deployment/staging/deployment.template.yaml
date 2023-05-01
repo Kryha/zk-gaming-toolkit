@@ -18,7 +18,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: CORS_ORIGINS
-              value: https://backend.liars-dice.staging.kryha.dev
+              value: https://backend.boloney.staging.kryha.dev,https://api.boloney.staging.kryha.dev,https://boloney.staging.kryha.dev,https://boloney.io
             - name: ZK_MODE
               value: snarkos_broadcast
             - name: BOLONEY_MATCH_VERSION
@@ -29,6 +29,8 @@ spec:
               value: SEDSUBST_DICE_VERSION
             - name: POWER_UP_VERSION
               value: SEDSUBST_POWER_UP_VERSION
+            - name: POWER_UP_2_VERSION
+              value: SEDSUBST_POWER_UP_2_VERSION
             - name: RNG_VERSION
               value: SEDSUBST_RNG_VERSION
             - name: HASH_CHAIN_VERSION

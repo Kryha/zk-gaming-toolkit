@@ -12,13 +12,13 @@ RUN rustup update
 # installing Leo
 RUN git clone https://github.com/AleoHQ/leo
 # latest commit that works properly with our codebase
-RUN cd leo && git checkout 1c05df35297089f07ab5f5ad24dc48b6a820695f
+RUN cd leo && git checkout 595fc13f4e6a9114381de0c1bfe6be86ca0e7cac
 RUN cd leo && cargo install --path .
 
 # installing SnarkOS
 RUN git clone https://github.com/AleoHQ/snarkOS
 # latest commit that works properly with our codebase
-RUN cd snarkOS && git checkout 8ad729748ff07cc417341538f59504f602ec2cd8
+RUN cd snarkOS && git checkout 82dc2926d8c5e5e014c1a304907d7e4c7128a7e4
 RUN cd snarkOS && cargo install --path .
 
 # downloading provers and verifiers

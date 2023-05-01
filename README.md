@@ -16,6 +16,12 @@ Before running the API locally, make sure to install the following software:
 - [Leo](https://github.com/AleoHQ/leo#2-build-guide)
 - [SnarkOS](https://github.com/AleoHQ/snarkOS#22-installation)
 
+Build all the programs locally by running:
+
+```bash
+./build_local_programs.sh
+```
+
 To run the API, run the following from the project root directory:
 
 ```bash

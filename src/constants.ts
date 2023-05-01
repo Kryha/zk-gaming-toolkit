@@ -38,3 +38,6 @@ export const programNames = {
   POWER_UP: "power_up" + env.POWER_UP_VERSION,
   POWER_UP_2: "power_up_2a" + env.POWER_UP_2_VERSION,
 };
+
+export const HASH_MAX_RANGE = 999999;
+export const HASH_CHAIN_LENGTH = 32;

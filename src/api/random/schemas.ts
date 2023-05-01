@@ -18,7 +18,6 @@ export const schemas = {
       privateKey: leoPrivateKeySchema,
       viewKey: leoViewKeySchema,
       owner: leoAddressSchema,
-      seed: z.number(),
     }),
   },
 };

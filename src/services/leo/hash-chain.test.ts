@@ -1,3 +1,4 @@
+import { core } from "../../core";
 import { hashChain } from "./hash-chain";
 
 jest.setTimeout(600000);
@@ -11,9 +12,11 @@ describe("Hash Chain Service", () => {
   };
 
   it("generates a 32 length hash chain record", async () => {
-    const { owner, seed, privateKey, viewKey } = hashChainBody;
+    const { owner, privateKey, viewKey } = hashChainBody;
 
-    const res = await hashChain.getHashChainRecord(privateKey, viewKey, owner, seed);
+    const { seed, hashChain: hash } = core.hashChain.generate();
+
+    const res = await hashChain.createHashChainRecord(privateKey, viewKey, owner, seed, hash);
 
     expect(res.owner).toBe(owner);
     expect(res.gates).toBeDefined();
