@@ -26,6 +26,8 @@ variables:
     value: $(CONTAINER_SERVICE_ACCOUNT_NAME)
   - name: containerServiceAccountAddress
     value: $(containerServiceAccountName)@$(vmProject).iam.gserviceaccount.com
+  - name: runAleoDeployments
+    value: $(RUN_ALEO_DEPLOYMENTS)
   - name: GIT_MIRROR_URL
     value: $(gitMirrorUrl)
   - name: GIT_MIRROR_TOKEN
@@ -34,7 +36,7 @@ variables:
 stages:
   - stage: check_updated_programs
     displayName: Check updated programs that have to be deployed
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), eq(variables['runAleoDeployments'], 'True'))
     jobs:
       - job: run_check_script
         displayName: Running script to check updated programs
@@ -50,6 +52,8 @@ stages:
                       echo "##vso[task.setvariable variable=boloneyMatchUpdated;isoutput=true]True"
                   elif [[ $name =~ ^contracts/dice/* ]]; then
                       echo "##vso[task.setvariable variable=diceUpdated;isoutput=true]True"
+                  elif [[ $name =~ ^contracts/power_up_2a/* ]]; then
+                      echo "##vso[task.setvariable variable=powerUp2Updated;isoutput=true]True"
                   elif [[ $name =~ ^contracts/power_up/* ]]; then
                       echo "##vso[task.setvariable variable=powerUpUpdated;isoutput=true]True"
                   elif [[ $name =~ ^contracts/rng/* ]]; then
@@ -71,6 +75,7 @@ stages:
       powerUpUpdated: $[stageDependencies.check_updated_programs.run_check_script.outputs['UpdatedPrograms.powerUpUpdated']]
       rngUpdated: $[stageDependencies.check_updated_programs.run_check_script.outputs['UpdatedPrograms.rngUpdated']]
       hashChainUpdated: $[stageDependencies.check_updated_programs.run_check_script.outputs['UpdatedPrograms.hashChainUpdated']]
+      powerUp2Updated: $[stageDependencies.check_updated_programs.run_check_script.outputs['UpdatedPrograms.powerUp2Updated']]
     jobs:
       - job: build_and_deploy_leo_programs_job
         displayName: Build and deploy programs
@@ -239,10 +244,35 @@ stages:
             env:
               SYSTEM_ACCESSTOKEN: $(System.AccessToken)
 
+          - script: |
+              docker build -f Dockerfile.program . \
+                --build-arg APP_NAME=power_up_2a \
+                --build-arg PRIVATE_KEY=$(privateKey) \
+                --build-arg BUILD_ID=$(buildId) \
+                --build-arg FEE=2400000 \
+                --build-arg ZK_GAMING_ALEO="eu.gcr.io/web3-335312/aleo/zk-gaming-snarkos:latest"
+            displayName: Power-up 2 Docker build
+            condition: and(succeeded(), eq(variables['powerUp2Updated'], 'True'))
+            retryCountOnTaskFailure: 3
+          - script: echo "##vso[task.setvariable variable=powerUp2Version;isoutput=true]$(buildId)"
+            displayName: Update power-up 2 version locally
+            condition: and(succeeded(), eq(variables['powerUp2Updated'], 'True'))
+          - script: |
+              az pipelines variable-group variable update \
+                --group-id $(aleoProgramIdsGroupId) \
+                --name powerUp2Version \
+                --org $(devOpsOrg) \
+                --project $(devOpsProject) \
+                --value $(buildId)
+            displayName: Update power-up 2 version in variable group
+            condition: and(succeeded(), eq(variables['powerUp2Updated'], 'True'))
+            env:
+              SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+
   - stage: build_and_deploy
     displayName: Build and Deploy
     dependsOn: build_and_deploy_leo_programs_stage
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    condition: and(or(succeeded(), ne(variables['runAleoDeployments'], 'True')), ne(variables['Build.Reason'], 'PullRequest'))
     jobs:
       - job: build_and_deploy
         displayName: Build Docker images and deploy through Kubernetes

@@ -5,9 +5,8 @@ import { DiceData, LeoAddress, leoAddressSchema, LeoPrivateKey, LeoViewKey, Powe
 import { leoParse } from "../../utils";
 import { contractsPath, parseOutput, zkRun } from "./util";
 
-const contractPath = join(contractsPath, "power_up");
-
-const appName = programNames.POWER_UP;
+const powerUpContractPath = join(contractsPath, "power_up");
+const powerUp2ContractPath = join(contractsPath, "power_up_2a");
 
 const createPowerUp = async (
   privateKey: LeoPrivateKey,
@@ -24,7 +23,14 @@ const createPowerUp = async (
   const transition = "create_power_up";
   const params = [owner, matchIdParam, powerUpIdParam];
 
-  const record = await zkRun({ privateKey, viewKey, appName, contractPath, transition, params });
+  const record = await zkRun({
+    privateKey,
+    viewKey,
+    appName: programNames.POWER_UP,
+    contractPath: powerUpContractPath,
+    transition,
+    params,
+  });
 
   return parseOutput.powerUp(record);
 };
@@ -36,7 +42,14 @@ const burnPowerUp = async (privateKey: LeoPrivateKey, viewKey: LeoViewKey, power
   const transition = "burn_power_up";
   const params = [powerUpParam];
 
-  await zkRun({ privateKey, viewKey, appName, contractPath, transition, params });
+  await zkRun({
+    privateKey,
+    viewKey,
+    appName: programNames.POWER_UP,
+    contractPath: powerUpContractPath,
+    transition,
+    params,
+  });
 };
 
 const transferPowerUp = async (
@@ -53,7 +66,14 @@ const transferPowerUp = async (
   const transition = "transfer_power_up";
   const params = [receiver, powerUpParam];
 
-  const record = await zkRun({ privateKey, viewKey, appName, contractPath, transition, params });
+  const record = await zkRun({
+    privateKey,
+    viewKey,
+    appName: programNames.POWER_UP,
+    contractPath: powerUpContractPath,
+    transition,
+    params,
+  });
 
   return parseOutput.powerUp(record);
 };
@@ -65,10 +85,17 @@ const useBirdsEye = async (privateKey: LeoPrivateKey, viewKey: LeoViewKey, power
   const leoDiceData = leoParse.diceData(diceData);
   const diceDataParam = leoParse.stringifyLeoCmdParam(leoDiceData);
 
-  const transition = "use_birds_eye";
+  const transition = "use";
   const params = [powerUpParam, diceDataParam];
 
-  const record = await zkRun({ privateKey, viewKey, appName, contractPath, transition, params });
+  const record = await zkRun({
+    privateKey,
+    viewKey,
+    appName: programNames.POWER_UP_2,
+    contractPath: powerUp2ContractPath,
+    transition,
+    params,
+  });
 
   return parseOutput.sum(record);
 };
