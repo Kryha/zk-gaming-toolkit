@@ -9,7 +9,7 @@ const envSchema = z.object({
   CORS_ORIGINS: z
     .string()
     .optional()
-    .default("http://localhost:3000,http://localhost:3001")
+    .default("http://localhost:3000,http://localhost:3001,http://frontend.localhost,http://api.localhost,http://backend.localhost")
     .transform((val) => val.split(",")),
 
   ZK_MODE: z.enum(["leo", "snarkos_display", "snarkos_broadcast"]).optional().default("leo"),

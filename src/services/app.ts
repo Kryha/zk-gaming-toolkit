@@ -60,10 +60,10 @@ export const initExpressApp = () => {
   app.use(
     cors({
       origin: function (origin, callback) {
-        // allow requests with no origin
-        // (like mobile apps or curl requests)
-        if (!origin || env.NODE_ENV === "development") return callback(null, true);
-        return callback(null, env.CORS_ORIGINS);
+        const isOriginAllowed = origin && env.CORS_ORIGINS.includes(origin);
+
+        if (env.NODE_ENV === "development" || isOriginAllowed) return callback(null, true);
+        return callback(new Error("Not allowed by CORS policy."));
       },
       credentials: true,
     })
