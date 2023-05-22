@@ -2,6 +2,8 @@
 
 Game development API that allows interaction with the Aleo Zero-Knowledge platform.
 
+Check [Boloney!](https://github.com/Kryha/boloney) the first game built with ZK Gaming Toolkit.
+
 ## Getting Started
 
 There are 2 main ways to run the API: locally or inside an isolated Minikube container.
@@ -128,30 +130,30 @@ variables:
 In `build_and_deploy_leo_programs_job` job, after all the previously defined steps, add these new steps:
 
 ```yaml
-          - script: |
-              docker build -f Dockerfile.program . \
-                --build-arg APP_NAME=cool_program \
-                --build-arg PRIVATE_KEY=$(privateKey) \
-                --build-arg BUILD_ID=$(buildId) \
-                --build-arg FEE=600000 \
-                --build-arg ZK_GAMING_ALEO="eu.gcr.io/web3-335312/aleo/zk-gaming-snarkos:latest"
-            displayName: Cool Program Docker build
-            condition: and(succeeded(), eq(variables['coolProgramUpdated'], 'True'))
-            retryCountOnTaskFailure: 3
-          - script: echo "##vso[task.setvariable variable=coolProgramVersion;isoutput=true]$(buildId)"
-            displayName: Update Cool Program version locally
-            condition: and(succeeded(), eq(variables['coolProgramUpdated'], 'True'))
-          - script: |
-              az pipelines variable-group variable update \
-                --group-id $(aleoProgramIdsGroupId) \
-                --name coolProgramVersion \
-                --org $(devOpsOrg) \
-                --project $(devOpsProject) \
-                --value $(buildId)
-            displayName: Update Cool Program version in variable group
-            condition: and(succeeded(), eq(variables['coolProgramUpdated'], 'True'))
-            env:
-              SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+- script: |
+    docker build -f Dockerfile.program . \
+      --build-arg APP_NAME=cool_program \
+      --build-arg PRIVATE_KEY=$(privateKey) \
+      --build-arg BUILD_ID=$(buildId) \
+      --build-arg FEE=600000 \
+      --build-arg ZK_GAMING_ALEO="eu.gcr.io/web3-335312/aleo/zk-gaming-snarkos:latest"
+  displayName: Cool Program Docker build
+  condition: and(succeeded(), eq(variables['coolProgramUpdated'], 'True'))
+  retryCountOnTaskFailure: 3
+- script: echo "##vso[task.setvariable variable=coolProgramVersion;isoutput=true]$(buildId)"
+  displayName: Update Cool Program version locally
+  condition: and(succeeded(), eq(variables['coolProgramUpdated'], 'True'))
+- script: |
+    az pipelines variable-group variable update \
+      --group-id $(aleoProgramIdsGroupId) \
+      --name coolProgramVersion \
+      --org $(devOpsOrg) \
+      --project $(devOpsProject) \
+      --value $(buildId)
+  displayName: Update Cool Program version in variable group
+  condition: and(succeeded(), eq(variables['coolProgramUpdated'], 'True'))
+  env:
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
 ```
 
 The version variable has to be added to the pipeline variable group. For that, contact marius@kryha.io.
