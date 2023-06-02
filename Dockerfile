@@ -1,6 +1,4 @@
-ARG ZK_GAMING_ALEO
-
-FROM $ZK_GAMING_ALEO as build
+FROM node:18-alpine as build
 
 WORKDIR /usr/main/
 

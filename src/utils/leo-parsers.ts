@@ -1,3 +1,4 @@
+import { env } from "../constants";
 import {
   Dice,
   DiceData,
@@ -32,7 +33,8 @@ import { encodeId } from "./id";
 const stringifyLeoCmdParam = (value: unknown): string => {
   // if Leo will ever introduce strings, this will have to be updated
   const res = JSON.stringify(value).replaceAll('"', "");
-  return `"${res}"`;
+
+  return env.ZK_MODE === "leo" ? `"${res}"` : `${res}`;
 };
 
 const privateField = (value: string) => value + ".private";

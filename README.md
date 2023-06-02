@@ -17,6 +17,23 @@ Before running the API locally, make sure to install the following software:
 - [Aleo](https://github.com/AleoHQ/aleo#2-build-guide)
 - [Leo](https://github.com/AleoHQ/leo#2-build-guide)
 - [SnarkOS](https://github.com/AleoHQ/snarkOS#22-installation)
+- Aleo development server - run `cargo install aleo-development-server`
+
+Run a local SnarkOS beacon node:
+
+```sh
+snarkos start --nodisplay --dev 0 --beacon "APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH"
+```
+
+> ⚠️ Do not change the private key, since the app is configured to use that in develop.
+
+Open another terminal window and run Aleo development server:
+
+```sh
+aleo-develop start -p http://127.0.0.1:3030
+```
+
+> ⚠️ Make sure to specify that local address. If no address is specified, the dev server will connect to the public testnet and you usually don't want that when developing.
 
 Build all the programs locally by running:
 
@@ -24,15 +41,33 @@ Build all the programs locally by running:
 ./build_local_programs.sh
 ```
 
-To run the API, run the following from the project root directory:
+The first time you run the API, make sure to deploy the programs as well:
+
+```sh
+DEPLOY_PROGRAMS=true DEPLOY_PRIVATE_KEY=APrivateKey1zkp8CZNn3yeCseEtxuVPbDCwSyhGW6yZKUYKfgXmcpoGPWH yarn start
+```
+
+Pay very close attention to the application and development server logs.
+
+After all the programs have been deployed to the network, the API should be accessible at <http://localhost:5001>
+
+Unless you reset the network, you don't need to re-deploy the programs, so the following time you want to run the API locally, just run:
 
 ```bash
 yarn start
 ```
 
-The API should be accessible at <http://localhost:5001>
+If you wish to reset your network, stop the beacon process and then run:
+
+```sh
+snarkos clean --dev 0
+```
+
+> ⚠️ After you reset the local network, you will have to re-deploy your programs.
 
 ### Running with Minikube
+
+> ⚠️ It is highly discouraged to use this method unless you are working on deployment or you know what you are doing. When you are running the API through minikube, the app will connect to the public testnet and that is not ideal for development.
 
 Before running the API with Minikube, make sure to install the following software:
 
@@ -70,8 +105,6 @@ skaffold run
 ```
 
 This will build the API and deploy it on the minikube cluster.
-
-The first build will take some time, in the meantime you can [make the most of it and spend it in a useful way](https://theuselessweb.com/).
 
 To check the status of your pods, run:
 
@@ -156,7 +189,7 @@ In `build_and_deploy_leo_programs_job` job, after all the previously defined ste
     SYSTEM_ACCESSTOKEN: $(System.AccessToken)
 ```
 
-The version variable has to be added to the pipeline variable group. For that, contact marius@kryha.io.
+The version variable has to be added to the pipeline variable group. For that, contact <marius@kryha.io>.
 
 ## Updating Leo and SnarkOS versions
 
@@ -168,7 +201,3 @@ Since both Leo and SnarkOS are currently in active development and some changes 
 4. Run `git log` in the Leo or SnarkOS repo and copy the `HEAD` commit hash.
 5. Open `Dockerfile.snarkos` and set the proper commit hash to the pasted value.
 6. Run the toolkit through `skaffold run` and make sure it works properly.
-
-## Contribute
-
-TODO: Explain how other users and developers can contribute to make your code better.

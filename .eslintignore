@@ -10,3 +10,4 @@ coverage/
 
 # scripts
 deployPrograms.js
+src/aleo-sdk

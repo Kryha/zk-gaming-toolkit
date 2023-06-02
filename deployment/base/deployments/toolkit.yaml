@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zk-gaming-tk
+spec:
+  selector:
+    matchLabels:
+      app: zk-gaming-tk
+  template:
+    metadata:
+      labels:
+        app: zk-gaming-tk
+    spec:
+      containers:
+        - name: zk-gaming-tk
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 1024Mi
+          ports:
+            - containerPort: 5001
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: DEVELOPMENT_SERVER_URL
+              value: https://dev-server.staging.kryha.dev

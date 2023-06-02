@@ -5,6 +5,13 @@ __metadata:
   version: 6
   cacheKey: 8
 
+"@aleohq/wasm@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "@aleohq/wasm@npm:0.4.0"
+  checksum: 8f2e9c1c973b31193f1c5372690f159d3ea177e5095b81431d62b836f555ca8dfd7649d14f41f2606f2f2e1f4f31081ff1dd1be62b26f56c52a8abd3fe3761b4
+  languageName: node
+  linkType: hard
+
 "@ampproject/remapping@npm:^2.1.0":
   version: 2.2.0
   resolution: "@ampproject/remapping@npm:2.2.0"
@@ -6025,6 +6032,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "zkgaming-toolkit@workspace:."
   dependencies:
+    "@aleohq/wasm": ^0.4.0
     "@types/cookie-parser": ^1.4.3
     "@types/cors": ^2.8.12
     "@types/express": ^4.17.13

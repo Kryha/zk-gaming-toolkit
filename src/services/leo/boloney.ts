@@ -1,6 +1,6 @@
 import { join } from "path";
 
-import { programNames } from "../../constants";
+import { FEE, programNames } from "../../constants";
 import {
   LeoAddress,
   leoAddressSchema,
@@ -39,7 +39,15 @@ const createMatch = async (
   const transition = "create_match";
   const params = [owner, matchIdParam, settingsParam, powerUpsParam];
 
-  const record = await zkRun({ privateKey, viewKey, appName: programNames.BOLONEY_MATCH, contractPath: matchPath, transition, params });
+  const record = await zkRun({
+    privateKey,
+    viewKey,
+    appName: programNames.BOLONEY_MATCH,
+    contractPath: matchPath,
+    transition,
+    params,
+    fee: FEE,
+  });
 
   return parseOutput.match(record);
 };
@@ -68,6 +76,7 @@ const createMatchSummary = async (
     contractPath: summaryPath,
     transition,
     params,
+    fee: FEE,
   });
 
   return parseOutput.matchSummary(record);

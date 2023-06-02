@@ -3,7 +3,7 @@ import "source-map-support/register";
 import { createServer } from "http";
 
 import { env, programNames } from "./constants";
-import { app, initExpressApp } from "./services";
+import { app, initExpressApp, deployPrograms } from "./services";
 import { logger } from "./utils";
 
 const server = createServer(app);
@@ -23,9 +23,13 @@ const startup = async (): Promise<void> => {
   process.on("SIGTERM", shutdown);
   process.on("SIGINT", shutdown);
 
-  logger.info("🪄  Initialising Express App...");
+  logger.info(`🪄  Initialising Express App [${env.NODE_ENV}]...`);
   logger.info(`ZK Mode: ${env.ZK_MODE}`);
   logger.info(`Program Names: ${JSON.stringify(programNames)}`);
+
+  if (env.DEPLOY_PROGRAMS) {
+    await deployPrograms();
+  }
 
   initExpressApp();
 

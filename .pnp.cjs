@@ -33,6 +33,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {\
           "packageLocation": "./",\
           "packageDependencies": [\
+            ["@aleohq/wasm", "npm:0.4.0"],\
             ["@types/cookie-parser", "npm:1.4.3"],\
             ["@types/cors", "npm:2.8.12"],\
             ["@types/express", "npm:4.17.13"],\
@@ -64,6 +65,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["zod", "npm:3.18.0"]\
           ],\
           "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@aleohq/wasm", [\
+        ["npm:0.4.0", {\
+          "packageLocation": "./.yarn/cache/@aleohq-wasm-npm-0.4.0-d6ae71d23f-8f2e9c1c97.zip/node_modules/@aleohq/wasm/",\
+          "packageDependencies": [\
+            ["@aleohq/wasm", "npm:0.4.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@ampproject/remapping", [\
@@ -7499,6 +7509,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["zkgaming-toolkit", "workspace:."],\
+            ["@aleohq/wasm", "npm:0.4.0"],\
             ["@types/cookie-parser", "npm:1.4.3"],\
             ["@types/cors", "npm:2.8.12"],\
             ["@types/express", "npm:4.17.13"],\

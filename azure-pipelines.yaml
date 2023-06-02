@@ -300,13 +300,13 @@ stages:
             displayName: Build and push Aleo Docker images
             enabled: false
           - script: |
-              sed 's/SEDSUBST_BOLONEY_MATCH_VERSION/"$(boloneyMatchVersion)"/g' deployment/staging/deployment.template.yaml > deployment/staging/deployment.yaml
-              sed -i 's/SEDSUBST_BOLONEY_MATCH_SUMMARY_VERSION/"$(boloneyMatchSummaryVersion)"/g' deployment/staging/deployment.yaml
-              sed -i 's/SEDSUBST_DICE_VERSION/"$(diceVersion)"/g' deployment/staging/deployment.yaml
-              sed -i 's/SEDSUBST_POWER_UP_VERSION/"$(powerUpVersion)"/g' deployment/staging/deployment.yaml
-              sed -i 's/SEDSUBST_POWER_UP_2_VERSION/"$(powerUp2Version)"/g' deployment/staging/deployment.yaml
-              sed -i 's/SEDSUBST_RNG_VERSION/"$(rngVersion)"/g' deployment/staging/deployment.yaml
-              sed -i 's/SEDSUBST_HASH_CHAIN_VERSION/"$(hashChainVersion)"/g' deployment/staging/deployment.yaml
+              sed 's/SEDSUBST_BOLONEY_MATCH_VERSION/"$(boloneyMatchVersion)"/g' deployment/staging/deployments/toolkit.template.yaml > deployment/staging/deployments/toolkit.yaml
+              sed -i 's/SEDSUBST_BOLONEY_MATCH_SUMMARY_VERSION/"$(boloneyMatchSummaryVersion)"/g' deployment/staging/deployments/toolkit.yaml
+              sed -i 's/SEDSUBST_DICE_VERSION/"$(diceVersion)"/g' deployment/staging/deployments/toolkit.yaml
+              sed -i 's/SEDSUBST_POWER_UP_VERSION/"$(powerUpVersion)"/g' deployment/staging/deployments/toolkit.yaml
+              sed -i 's/SEDSUBST_POWER_UP_2_VERSION/"$(powerUp2Version)"/g' deployment/staging/deployments/toolkit.yaml
+              sed -i 's/SEDSUBST_RNG_VERSION/"$(rngVersion)"/g' deployment/staging/deployments/toolkit.yaml
+              sed -i 's/SEDSUBST_HASH_CHAIN_VERSION/"$(hashChainVersion)"/g' deployment/staging/deployments/toolkit.yaml
             displayName: Setting program ids in Kubernetes deployment
           - script: |
               skaffold run --filename=skaffold.staging.yaml

@@ -1,8 +1,8 @@
 bases:
   - ../base
 resources:
-  - namespace.yaml
-  - ingress.yaml
+  - namespaces/toolkit.yaml
+  - ingresses/toolkit.yaml
 patchesStrategicMerge:
-  - deployment.yaml
+  - deployments/toolkit.yaml
 namespace: zk-gaming-tk-staging

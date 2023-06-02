@@ -8,13 +8,7 @@ build:
   local:
     concurrency: 0
   artifacts:
-    - image: zk-gaming-snarkos
-      docker:
-        dockerfile: Dockerfile.snarkos
     - image: zk-gaming-tk
-      requires:
-        - image: zk-gaming-snarkos
-          alias: ZK_GAMING_ALEO
       docker:
         dockerfile: Dockerfile
 manifests:

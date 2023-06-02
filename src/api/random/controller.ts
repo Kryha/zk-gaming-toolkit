@@ -20,11 +20,13 @@ export const randomController: RandomController = {
 
     const { seed, hashChain } = core.hashChain.generate();
 
-    // TODO: add re-attempt for a few times if it fails
     leo.hashChain
       .createHashChainRecord(privateKey, viewKey, owner, seed, hashChain)
       .then(() => logger.info(`Hash chain record creation succeeded for account ${owner}`))
-      .catch(() => logger.error(`Hash chain record creation failed for account ${owner}`));
+      .catch((err) => {
+        logger.error(`Hash chain record creation failed for account ${owner}`);
+        logger.error(err);
+      });
 
     res.send({ seed, hashChain });
   },

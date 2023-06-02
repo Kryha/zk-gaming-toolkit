@@ -1,6 +1,6 @@
 import { join } from "path";
 
-import { programNames } from "../../constants";
+import { FEE, programNames } from "../../constants";
 import { Dice, LeoAddress, leoAddressSchema, LeoPrivateKey, LeoViewKey, UUID } from "../../types";
 import { leoParse } from "../../utils";
 import { contractsPath, parseOutput, zkRun } from "./util";
@@ -24,7 +24,7 @@ const createDice = async (
   const transition = "create_dice";
   const params = [owner, matchIdParam, diceAmountParam];
 
-  const record = await zkRun({ privateKey, viewKey, appName, contractPath, transition, params });
+  const record = await zkRun({ privateKey, viewKey, appName, contractPath, transition, params, fee: FEE });
 
   return parseOutput.dice(record);
 };
@@ -36,7 +36,7 @@ const burnDice = async (privateKey: LeoPrivateKey, viewKey: LeoViewKey, dice: Di
   const transition = "burn_dice";
   const params = [diceParam];
 
-  await zkRun({ privateKey, viewKey, appName, contractPath, transition, params });
+  await zkRun({ privateKey, viewKey, appName, contractPath, transition, params, fee: FEE });
 };
 
 const incrementDiceAmount = async (privateKey: LeoPrivateKey, viewKey: LeoViewKey, dice: Dice): Promise<Dice> => {
@@ -46,7 +46,7 @@ const incrementDiceAmount = async (privateKey: LeoPrivateKey, viewKey: LeoViewKe
   const transition = "increment_dice_amount";
   const params = [diceParam];
 
-  const record = await zkRun({ privateKey, viewKey, appName, contractPath, transition, params });
+  const record = await zkRun({ privateKey, viewKey, appName, contractPath, transition, params, fee: FEE });
 
   return parseOutput.dice(record);
 };
@@ -58,7 +58,7 @@ const decrementDiceAmount = async (privateKey: LeoPrivateKey, viewKey: LeoViewKe
   const transition = "decrement_dice_amount";
   const params = [diceParam];
 
-  const record = await zkRun({ privateKey, viewKey, appName, contractPath, transition, params });
+  const record = await zkRun({ privateKey, viewKey, appName, contractPath, transition, params, fee: FEE });
 
   return parseOutput.dice(record);
 };

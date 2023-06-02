@@ -1,6 +1,6 @@
 import { join } from "path";
 
-import { programNames } from "../../constants";
+import { FEE, programNames } from "../../constants";
 import { DiceData, LeoAddress, leoAddressSchema, LeoPrivateKey, LeoViewKey, PowerUp, PowerUpId, Sum, UUID } from "../../types";
 import { leoParse } from "../../utils";
 import { contractsPath, parseOutput, zkRun } from "./util";
@@ -30,6 +30,7 @@ const createPowerUp = async (
     contractPath: powerUpContractPath,
     transition,
     params,
+    fee: FEE,
   });
 
   return parseOutput.powerUp(record);
@@ -49,6 +50,7 @@ const burnPowerUp = async (privateKey: LeoPrivateKey, viewKey: LeoViewKey, power
     contractPath: powerUpContractPath,
     transition,
     params,
+    fee: FEE,
   });
 };
 
@@ -73,11 +75,13 @@ const transferPowerUp = async (
     contractPath: powerUpContractPath,
     transition,
     params,
+    fee: FEE,
   });
 
   return parseOutput.powerUp(record);
 };
 
+// TODO: investigate why this is getting error 500 from execution
 const useBirdsEye = async (privateKey: LeoPrivateKey, viewKey: LeoViewKey, powerUp: PowerUp, diceData: DiceData): Promise<Sum> => {
   const leoPowerUp = leoParse.powerUp(powerUp);
   const powerUpParam = leoParse.stringifyLeoCmdParam(leoPowerUp);
@@ -95,6 +99,7 @@ const useBirdsEye = async (privateKey: LeoPrivateKey, viewKey: LeoViewKey, power
     contractPath: powerUp2ContractPath,
     transition,
     params,
+    fee: FEE,
   });
 
   return parseOutput.sum(record);

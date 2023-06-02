@@ -62,8 +62,8 @@ export const initExpressApp = () => {
       origin: function (origin, callback) {
         const isOriginAllowed = origin && env.CORS_ORIGINS.includes(origin);
 
-        if (env.NODE_ENV === "development" || isOriginAllowed) return callback(null, true);
-        return callback(new Error("Not allowed by CORS policy."));
+        if (!origin || env.NODE_ENV === "development" || isOriginAllowed) return callback(null, true);
+        return callback(new Error(`Origin ${origin} is not allowed by CORS policy.`));
       },
       credentials: true,
     })

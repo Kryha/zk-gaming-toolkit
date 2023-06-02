@@ -1,6 +1,6 @@
 import { join } from "path";
 
-import { programNames } from "../../constants";
+import { FEE, programNames } from "../../constants";
 import { HashChain, HashChainRecord, LeoAddress, leoAddressSchema, LeoPrivateKey, LeoViewKey } from "../../types";
 import { leoParse } from "../../utils";
 import { contractsPath, parseOutput, zkRun } from "./util";
@@ -24,7 +24,7 @@ const createHashChainRecord = async (
   const transition = "create_hash_chain_record";
   const params = [owner, initialSeed, leoHashChain];
 
-  const record = await zkRun({ privateKey, viewKey, appName, contractPath, transition, params });
+  const record = await zkRun({ privateKey, viewKey, appName, contractPath, transition, params, fee: FEE });
 
   return parseOutput.hashChainRecord(record);
 };

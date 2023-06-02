@@ -1,6 +1,6 @@
 import { join } from "path";
 
-import { programNames } from "../../constants";
+import { FEE, programNames } from "../../constants";
 import { LeoAddress, RandomNumber, LeoPrivateKey, LeoViewKey } from "../../types";
 import { leoParse } from "../../utils";
 import { contractsPath, parseOutput, zkRun } from "./util";
@@ -24,7 +24,7 @@ const getRandomNumber = async (
   const transition = "get_random_number";
   const params = [owner, initialSeed, minAmount, maxAmount];
 
-  const record = await zkRun({ privateKey, viewKey, appName, contractPath, transition, params });
+  const record = await zkRun({ privateKey, viewKey, appName, contractPath, transition, params, fee: FEE });
 
   return parseOutput.randomNumber(record);
 };

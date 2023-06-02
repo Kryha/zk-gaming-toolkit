@@ -20,7 +20,7 @@ spec:
             - name: CORS_ORIGINS
               value: https://backend.boloney.staging.kryha.dev,https://api.boloney.staging.kryha.dev,https://boloney.staging.kryha.dev,https://boloney.io
             - name: ZK_MODE
-              value: snarkos_broadcast
+              value: testnet_public
             - name: BOLONEY_MATCH_VERSION
               value: SEDSUBST_BOLONEY_MATCH_VERSION
             - name: BOLONEY_MATCH_SUMMARY_VERSION
@@ -35,3 +35,5 @@ spec:
               value: SEDSUBST_RNG_VERSION
             - name: HASH_CHAIN_VERSION
               value: SEDSUBST_HASH_CHAIN_VERSION
+            - name: NODE_ENV
+              value: staging

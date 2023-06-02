@@ -7,23 +7,14 @@ spec:
     matchLabels:
       app: zk-gaming-tk
   template:
-    metadata:
-      labels:
-        app: zk-gaming-tk
     spec:
       containers:
         - name: zk-gaming-tk
-          resources:
-            requests:
-              cpu: 940m
-              memory: 2048Mi
-            limits:
-              cpu: 3760m
-              memory: 4096Mi
-          ports:
-            - containerPort: 5001
+          image: zk-gaming-tk
           env:
             - name: POD_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+            - name: ZK_MODE
+              value: testnet_public
