@@ -316,7 +316,7 @@ stages:
     displayName: Mirror
     dependsOn:
       - build_and_deploy
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    condition: ne(variables['Build.Reason'], 'PullRequest')
     jobs:
       - job:
         displayName: Mirror repository
